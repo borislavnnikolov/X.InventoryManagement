@@ -1,6 +1,6 @@
 package bg.sit.xinventorymanagement;
 
-import bg.sit.business.pojo.User;
+import bg.sit.business.entities.User;
 import bg.sit.business.services.UsersService;
 import java.net.URL;
 import java.util.ResourceBundle;

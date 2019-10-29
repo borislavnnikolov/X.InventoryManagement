@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bg.sit.business.pojo;
+package bg.sit.business.entities;
 
 import bg.sit.business.enums.RoleType;
 import javax.persistence.Column;

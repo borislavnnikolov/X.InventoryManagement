@@ -5,7 +5,7 @@
  */
 package bg.sit.business;
 
-import bg.sit.business.pojo.User;
+import bg.sit.business.entities.User;
 import com.fasterxml.classmate.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

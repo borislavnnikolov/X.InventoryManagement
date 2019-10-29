@@ -6,7 +6,7 @@
 package bg.sit.business.services;
 
 import bg.sit.business.HibernateUtil;
-import bg.sit.business.pojo.User;
+import bg.sit.business.entities.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
