@@ -1,25 +1,30 @@
-package bg.sit.xinventorymanagement;
+package bg.sit.ui;
 
+import bg.sit.ui.utils.ScreenUtil;
+import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("JavaFX and Maven");
+
+        stage.setTitle("X.Inventory.Management");
         stage.setScene(scene);
+        ScreenUtil.setStage(scene);
         stage.show();
+        configureScreenUtil();
+        ScreenUtil.activate("login");
     }
 
     /**
@@ -32,6 +37,11 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void configureScreenUtil() throws IOException {
+        ScreenUtil.addScreen("login", (Pane) FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
+        ScreenUtil.addScreen("main", (Pane) FXMLLoader.load(getClass().getResource("/fxml/Main.fxml")));
     }
 
 }
