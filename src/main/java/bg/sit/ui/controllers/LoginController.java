@@ -5,8 +5,6 @@
  */
 package bg.sit.ui.controllers;
 
-import bg.sit.ui.utils.ScreenUtil;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -46,6 +44,5 @@ public class LoginController implements Initializable {
     protected void handleLoginButton(ActionEvent action) {
         // TODO: Validate username and password
         // TODO: Login if credentials are ok, and proceed to main scene
-        ScreenUtil.activate("main");
     }
 }
