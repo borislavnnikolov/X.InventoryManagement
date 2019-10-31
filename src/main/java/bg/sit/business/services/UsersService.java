@@ -169,6 +169,7 @@ public class UsersService extends BaseService {
         return isSuccessfull;
     }
     
+    // Force delete user from database, once deleted it cannot be reverted
     public boolean forceDeleteUser(int userID) {
         Session session = null;
         Transaction transaction = null;
