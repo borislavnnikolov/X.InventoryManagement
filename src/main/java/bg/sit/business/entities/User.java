@@ -9,6 +9,7 @@ import bg.sit.business.enums.RoleType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,28 +21,29 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
 
-    @Id @GeneratedValue 
-    @Column(name = "ID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
     private int id;
-    
-    @Column(name = "Name")
+
+    @Column(name = "Name", nullable = false)
     private String name;
-    
-    @Column(name = "Username")
+
+    @Column(name = "Username", unique = true, nullable = false)
     private String username;
-    
-    @Column(name = "password")
+
+    @Column(name = "password", nullable = false)
     private String password;
-    
-    @Column(name = "RoleType")
+
+    @Column(name = "RoleType", nullable = false)
     private RoleType roleType;
 
-    @Column(name = "IsDeleted")
+    @Column(name = "IsDeleted", nullable = false)
     private boolean isDeleted;
 
     public User() {
     }
-    
+
     public int getId() {
         return id;
     }
