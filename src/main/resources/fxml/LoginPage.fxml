@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.LoginPageController">
+   <children>
+      <TextField fx:id="txtUsernameField" alignment="CENTER" layoutX="189.0" layoutY="118.0" promptText="Username">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="txtPasswordField" alignment="CENTER" layoutX="189.0" layoutY="181.0" promptText="Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </PasswordField>
+      <Button alignment="CENTER" layoutX="267.0" layoutY="276.0" mnemonicParsing="false" onAction="#btnLogin" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblStatus" alignment="CENTER" layoutX="188.0" layoutY="66.0" prefHeight="27.0" prefWidth="224.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="RED" />
+                  <Stop color="#d70d0d" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Label>
+   </children>
+</AnchorPane>
