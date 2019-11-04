@@ -5,9 +5,12 @@
  */
 package bg.sit.business.services;
 
+import bg.sit.business.entities.Customer;
 import bg.sit.business.entities.User;
 import bg.sit.business.enums.RoleType;
+import java.util.Collection;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -18,18 +21,18 @@ import org.hibernate.query.Query;
  */
 public class UsersService extends BaseService {
 
-    // Get all users from database
+    // Get all users from database without the current logged user
     public List<User> getUsers() {
         Session session = null;
         List<User> users = null;
         try {
             session = sessionFactory.openSession();
-            String hql = "FROM User WHERE isDeleted = false";
+            String hql = "SELECT u FROM User u WHERE u.isDeleted = false";
             users = session.createQuery(hql).list();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return users;
@@ -51,7 +54,7 @@ public class UsersService extends BaseService {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return isLoginSuccessfull;
@@ -71,7 +74,6 @@ public class UsersService extends BaseService {
             newUser.setUsername(username);
             newUser.setPassword(password);
             newUser.setRoleType(roleType);
-
             session.save(newUser);
             transaction.commit();
         } catch (Exception e) {
@@ -79,25 +81,32 @@ public class UsersService extends BaseService {
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            newUser = null;
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return newUser;
     }
 
-    // Get user from database by userID
-    public User getUserByID(int userID) {
+    // Get user from database by userID, hasToIncludeCustomers arguments intizializes customers because it has lazy loading
+    public User getUserByID(int userID, boolean hasToIncludeCustomers) {
         Session session = null;
         User foundUser = null;
         try {
             session = sessionFactory.openSession();
-            String hql = "FROM User WHERE id = :userID AND isDeleted = false";
-            foundUser = (User) session.createQuery(hql, User.class).setParameter("userID", userID).getSingleResult();
+            foundUser = session.get(User.class, userID);
+
+            if (hasToIncludeCustomers) {
+                Collection<Customer> customers = foundUser.getCustomers();
+                Hibernate.initialize(customers);
+            }
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return foundUser;
@@ -137,7 +146,7 @@ public class UsersService extends BaseService {
                 transaction.rollback();
             }
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return user;
@@ -148,7 +157,7 @@ public class UsersService extends BaseService {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
-        
+
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -163,18 +172,18 @@ public class UsersService extends BaseService {
                 transaction.rollback();
             }
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return isSuccessfull;
     }
-    
+
     // Force delete user from database, once deleted it cannot be reverted
     public boolean forceDeleteUser(int userID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
-        
+
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -188,7 +197,7 @@ public class UsersService extends BaseService {
                 transaction.rollback();
             }
         } finally {
-            sessionFactory.close();
+            session.close();
         }
 
         return isSuccessfull;

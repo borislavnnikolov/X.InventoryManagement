@@ -6,24 +6,31 @@
 package bg.sit.business.entities;
 
 import bg.sit.business.enums.RoleType;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Dell
  */
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"UserID", "Username"}))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = false)
+    @Column(name = "UserID", unique = true, nullable = false)
     private int id;
 
     @Column(name = "Name", nullable = false)
@@ -32,11 +39,18 @@ public class User {
     @Column(name = "Username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "Password", nullable = false)
     private String password;
 
     @Column(name = "RoleType", nullable = false)
     private RoleType roleType;
+
+    @OneToMany
+    @JoinTable(name = "customers",
+            joinColumns = @JoinColumn(name = "CustomerID", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "UserID", nullable = false)
+    )
+    private Collection<Customer> customers = new ArrayList<Customer>();
 
     @Column(name = "IsDeleted", nullable = false)
     private boolean isDeleted;
@@ -82,6 +96,14 @@ public class User {
 
     public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
+    }
+
+    public Collection<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Collection<Customer> customers) {
+        this.customers = customers;
     }
 
     public boolean isIsDeleted() {

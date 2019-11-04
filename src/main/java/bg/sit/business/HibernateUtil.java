@@ -5,8 +5,6 @@
  */
 package bg.sit.business;
 
-import bg.sit.business.entities.User;
-import com.fasterxml.classmate.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -17,22 +15,21 @@ import org.hibernate.cfg.Configuration;
  * @author Dell
  */
 public class HibernateUtil {
-    
-    private static SessionFactory buildSessionFactory() {
-	try {
 
-		return new Configuration()
-                        .configure()
-                        .addAnnotatedClass(User.class)
-                        .buildSessionFactory();
-			
-	} catch (Throwable ex) {
-	
-		System.err.println("Initial SessionFactory creation failed." + ex);
-		throw new ExceptionInInitializerError(ex);
-	}
-}
-    
+    private static SessionFactory buildSessionFactory() {
+        try {
+
+            return new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+
+        } catch (Throwable ex) {
+
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
     public static SessionFactory getSessionFactory() {
         return buildSessionFactory();
     }

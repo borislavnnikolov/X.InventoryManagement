@@ -14,7 +14,7 @@ import org.hibernate.SessionFactory;
  */
 public class BaseService {
 
-    protected final SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     public BaseService() {
         this.sessionFactory = HibernateUtil.getSessionFactory();
