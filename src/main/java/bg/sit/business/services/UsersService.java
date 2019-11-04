@@ -112,6 +112,30 @@ public class UsersService extends BaseService {
         return foundUser;
     }
 
+    // Get user by username
+    public User getUserByUsername(String username, boolean hasToIncludeCustomers) {
+        Session session = null;
+        User foundUser = null;
+        try {
+            session = sessionFactory.openSession();
+            username = username.toLowerCase();
+            String hql = "FROM User AS u WHERE u.isDeleted = false AND LOWER(u.username) = :username";
+            foundUser = (User) session.createQuery(hql).setParameter("username", username).getSingleResult();
+
+            if (hasToIncludeCustomers) {
+                Collection<Customer> customers = foundUser.getCustomers();
+                Hibernate.initialize(customers);
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return foundUser;
+    }
+
     // Update user by userID in database
     public User updateUser(int userID, String name, String username, String password, RoleType roleType) {
         Session session = null;

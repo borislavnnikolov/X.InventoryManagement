@@ -17,15 +17,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Dell
  */
 @Entity
-@Table(name = "users",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"UserID", "Username"}))
+@Table(name = "users")
 public class User {
 
     @Id
