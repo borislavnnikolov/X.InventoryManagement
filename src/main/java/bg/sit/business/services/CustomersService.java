@@ -7,8 +7,10 @@ package bg.sit.business.services;
 
 import bg.sit.business.entities.Customer;
 import bg.sit.business.entities.User;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -41,5 +43,145 @@ public class CustomersService extends BaseService {
         }
 
         return newCustomer;
+    }
+
+    // Get all customers for specific user
+    public List<Customer> getCustomers(int userID) {
+        Session session = null;
+        Transaction transaction = null;
+        List<Customer> customers = null;
+        try {
+            session = sessionFactory.openSession();
+
+            String hql = "FROM Customer AS c WHERE c.isDeleted = false";
+            if (userID > 0) {
+                hql = "SELECT c FROM Customer as c INNER JOIN c.user AS u WHERE c.isDeleted = false AND u.id = :userID";
+            }
+
+            Query q = session.createQuery(hql, Customer.class);
+
+            if (userID > 0) {
+                q.setParameter("userID", userID);
+            }
+
+            customers = q.list();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return customers;
+    }
+
+    // Get all customers
+    public List<Customer> getCustomers() {
+        return this.getCustomers(-1);
+    }
+
+    // Update customer by customerID
+    public Customer updateCustomer(int customerID, String name, String location, String phone, int userID) {
+        Session session = null;
+        Transaction transaction = null;
+        Customer editCustomer = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            editCustomer = (Customer) session.createQuery("FROM Customer AS c WHERE c.isDeleted = false AND c.id = :customerID").setParameter("customerID", customerID).getSingleResult();
+
+            if (editCustomer == null) {
+                throw new Exception("editCustomer is null! (CustomersService -> updateCustomer)");
+            }
+
+            User newUser = null;
+            User oldUser = null;
+
+            if (userID > 0) {
+                newUser = session.get(User.class, userID);
+                oldUser = editCustomer.getUser();
+                oldUser.removeCustomer(editCustomer);
+                newUser.addCustomer(editCustomer);
+            }
+
+            if (name != null && !name.equals("")) {
+                editCustomer.setName(name);
+            }
+
+            if (location != null && !location.equals("")) {
+                editCustomer.setLocation(location);
+            }
+
+            if (phone != null && !phone.equals("")) {
+                editCustomer.setPhone(phone);
+            }
+
+            session.saveOrUpdate(editCustomer);
+            transaction.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return editCustomer;
+    }
+
+    // Soft delete customer by customerID
+    public boolean deleteCustomer(int customerID) {
+        Session session = null;
+        Transaction transaction = null;
+        boolean isSuccessfull = false;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Customer customer = session.find(Customer.class, customerID);
+            customer.setIsDeleted(true);
+            session.save(customer);
+            transaction.commit();
+            isSuccessfull = true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return isSuccessfull;
+    }
+
+    // Force delete customer by customerID from database, once deleted it cannot be reverted
+    public boolean forceDeleteCustomer(int customerID) {
+        Session session = null;
+        Transaction transaction = null;
+        boolean isSuccessfull = false;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Customer customer = session.find(Customer.class, customerID);
+            session.delete(customer);
+            transaction.commit();
+            isSuccessfull = true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return isSuccessfull;
     }
 }

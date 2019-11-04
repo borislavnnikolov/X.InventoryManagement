@@ -162,7 +162,7 @@ public class UsersService extends BaseService {
                 user.setRoleType(roleType);
             }
 
-            session.save(user);
+            session.saveOrUpdate(user);
             transaction.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());

@@ -8,13 +8,12 @@ package bg.sit.business.entities;
 import bg.sit.business.enums.RoleType;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -43,11 +42,7 @@ public class User {
     @Column(name = "RoleType", nullable = false)
     private RoleType roleType;
 
-    @OneToMany
-    @JoinTable(name = "customers",
-            joinColumns = @JoinColumn(name = "CustomerID", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "UserID", nullable = false)
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Customer> customers = new ArrayList<Customer>();
 
     @Column(name = "IsDeleted", nullable = false)
@@ -102,6 +97,15 @@ public class User {
 
     public void setCustomers(Collection<Customer> customers) {
         this.customers = customers;
+    }
+
+    public void addCustomer(Customer customer) {
+        this.customers.add(customer);
+        customer.setUser(this);
+    }
+
+    public void removeCustomer(Customer customer) {
+        this.customers.remove(customer);
     }
 
     public boolean isIsDeleted() {
