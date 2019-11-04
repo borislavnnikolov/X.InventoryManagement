@@ -1,11 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.MainController">
-    
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.MainPageController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="150.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Products" prefWidth="133.0" text="Продукти">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Clients" prefWidth="133.0" text="Клиенти">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Cards" prefWidth="133.0" text="Картони">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Reference" prefHeight="39.0" prefWidth="133.0" text="Справки">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Users" prefHeight="39.0" prefWidth="133.0" text="Потребители">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="150.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="39.0" stroke="BLACK" strokeType="INSIDE" width="457.0" />
+            <Button layoutX="387.0" layoutY="7.0" mnemonicParsing="false" onAction="#Exit" text="Изход" />
+            <Button layoutX="317.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" text="Logout" />
+            <Label fx:id="UserName" layoutX="22.0" layoutY="6.0" prefHeight="27.0" prefWidth="316.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="24.0" layoutY="107.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="107.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="26.0" layoutY="242.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="241.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
+            <Text layoutX="45.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо продукти" wrappingWidth="133.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="264.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо клиенти" wrappingWidth="122.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="55.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо картони" wrappingWidth="133.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="250.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо потребители" wrappingWidth="162.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="40.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/products.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="45.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/card.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="257.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="264.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/Clients.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="N_Products" layoutX="111.0" layoutY="165.0" prefHeight="27.0" prefWidth="70.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="N_Cards" layoutX="111.0" layoutY="283.0" prefWidth="70.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="N_Users" layoutX="323.0" layoutY="283.0" prefWidth="70.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="N_Clients" layoutX="325.0" layoutY="152.0" prefWidth="70.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
