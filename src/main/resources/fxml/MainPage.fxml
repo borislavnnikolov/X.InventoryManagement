@@ -47,7 +47,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Page_Users" prefHeight="39.0" prefWidth="133.0" text="Потребители">
+            <Button fx:id="btnUser" alignment="CENTER" mnemonicParsing="false" onAction="#Page_Users" prefHeight="39.0" prefWidth="133.0" text="Потребители">
                <font>
                   <Font size="18.0" />
                </font>

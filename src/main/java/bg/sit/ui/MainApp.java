@@ -17,6 +17,7 @@ public class MainApp extends Application {
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
             primaryStage.setTitle("X.Inventory.Management");
             primaryStage.setScene(scene);
+            primaryStage.resizableProperty().setValue(false);
             primaryStage.show();
 
         } catch (Exception e) {
