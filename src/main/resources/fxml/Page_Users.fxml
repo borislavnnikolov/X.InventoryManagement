@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.Page_UsersController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="397.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.Page_UsersController">
    <children>
-      <VBox alignment="CENTER" layoutY="-2.0" prefHeight="405.0" prefWidth="150.0" style="-fx-border-color: black;">
+      <VBox alignment="CENTER" layoutY="3.0" prefHeight="405.0" prefWidth="150.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefWidth="133.0" text="Обратно">
                <font>
@@ -26,25 +26,40 @@
       </VBox>
       <AnchorPane layoutX="150.0" layoutY="5.0" prefHeight="400.0" prefWidth="450.0">
          <children>
-            <TableView fx:id="table" layoutX="3.0" layoutY="186.0" prefHeight="200.0" prefWidth="443.0">
+            <TableView fx:id="table" layoutX="3.0" layoutY="130.0" prefHeight="266.0" prefWidth="443.0">
               <columns>
-                  <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="Username" />
-                <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
-                <TableColumn fx:id="Role_Type" prefWidth="79.0" text="Role_Type" />
-                  <TableColumn fx:id="isDeleted" prefWidth="71.0" text="IsDeleted" />
+                  <TableColumn fx:id="nameColumn" prefWidth="113.0" text="Име" />
+                  <TableColumn fx:id="usernameColumn" prefWidth="151.0" text="Потребителско име" />
+                <TableColumn fx:id="passwordColumn" prefWidth="118.0" text="Парола" />
+                <TableColumn fx:id="Role_Type" prefWidth="60.0" text="Роля" />
               </columns>
             </TableView>
-            <TextField fx:id="txtID" alignment="CENTER" layoutX="30.0" layoutY="14.0" promptText="ID" />
-            <TextField fx:id="txtName" alignment="CENTER" layoutX="251.0" layoutY="14.0" promptText="Name" />
-            <TextField fx:id="txtUserName" alignment="CENTER" layoutX="30.0" layoutY="55.0" promptText="Username" />
-            <TextField fx:id="txtPassword" alignment="CENTER" layoutX="251.0" layoutY="55.0" promptText="Password" />
-            <Button layoutX="76.0" layoutY="142.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="51.0" text="ADD" />
-            <Button layoutX="196.0" layoutY="142.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Edit" />
-            <Button layoutX="323.0" layoutY="142.0" mnemonicParsing="false" onAction="#DELETE" text="Delete" />
-            <ComboBox fx:id="ComboBoxRoleType" layoutX="30.0" layoutY="102.0" prefWidth="150.0" promptText="RoleType" />
-            <ComboBox fx:id="ComboBoxDelete" layoutX="251.0" layoutY="102.0" prefHeight="25.0" prefWidth="149.0" promptText="Delete" />
+            <TextField fx:id="txtPassword" alignment="CENTER" layoutX="31.0" layoutY="55.0" promptText="Парола" />
+            <Button fx:id="btnAdd1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="71.0" text="Добави" />
+            <Button fx:id="btnDelete1" layoutX="150.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Изтрий" />
+            <ComboBox fx:id="ComboBoxRoleType" layoutX="271.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="Избери Роля" />
+            <ComboBox fx:id="ComboBoxDelete" layoutX="152.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери---" />
+            <Button fx:id="btnBackEdit" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
+            <Button fx:id="ADD" layoutX="31.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="103.0" text="Добави">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="EDIT" layoutX="175.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnEDIT" prefHeight="39.0" prefWidth="103.0" text="Промени">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="DELETE" layoutX="310.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="103.0" text="Изтрий">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <TextField fx:id="txtUserName" alignment="CENTER" layoutX="271.0" layoutY="14.0" promptText="Потребителско име" />
+            <TextField fx:id="txtName" alignment="CENTER" layoutX="31.0" layoutY="14.0" promptText="Име" />
+            <Button fx:id="btnBackDel" layoutX="227.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
+            <Button fx:id="btnEdit1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="71.0" text="Промени" />
+            <Button fx:id="btnBackAdd" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
          </children>
       </AnchorPane>
    </children>

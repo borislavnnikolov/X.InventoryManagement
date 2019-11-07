@@ -43,7 +43,7 @@ public class LoginPageController implements Initializable {
         usersService = new UsersService();
         if (usersService.login(txtUsernameField.getText(), txtPasswordField.getText())) {
             SessionHelper.setCurrentUser(usersService.getUserByUsername(txtUsernameField.getText(), true));
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage1.fxml"));
             rootPane.getChildren().setAll(pane);
 
         } else {

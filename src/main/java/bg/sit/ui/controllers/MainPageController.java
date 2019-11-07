@@ -21,6 +21,8 @@ public class MainPageController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
+    private AnchorPane rootPaneAll;
+    @FXML
     private Label UserName;
     @FXML
     private Label N_Products;
@@ -37,7 +39,6 @@ public class MainPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         userService = new UsersService();
         SessionHelper.getCurrentUser();
-        UserName.setText(SessionHelper.getCurrentUser().getName());
         if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
             btnUser.setVisible(true);
         } else {
@@ -68,14 +69,5 @@ public class MainPageController implements Initializable {
     public void Page_Users(ActionEvent event) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/Page_Users.fxml"));
         rootPane.getChildren().setAll(pane);
-    }
-
-    public void LogOut(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/LoginPage.fxml"));
-        rootPane.getChildren().setAll(pane);
-    }
-
-    public void Exit(ActionEvent event) throws IOException {
-        System.exit(0);
     }
 }

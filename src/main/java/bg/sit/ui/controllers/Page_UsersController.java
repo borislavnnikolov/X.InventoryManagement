@@ -11,6 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,8 +28,8 @@ public class Page_UsersController implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private TableView<User> table;
-    @FXML
-    private TableColumn<User, Integer> idColumn;
+    //@FXML
+    //private TableColumn<User, Integer> idColumn;
     @FXML
     private TableColumn<User, String> nameColumn;
     @FXML
@@ -39,25 +42,103 @@ public class Page_UsersController implements Initializable {
     private ComboBox<String> ComboBoxRoleType;
     @FXML
     private ComboBox<String> ComboBoxDelete;
+    /*@FXML
+    private TextField txtIDedit;
     @FXML
-    private TextField txtID;
+    private TextField txtIDdelete;*/
     @FXML
     private TextField txtName;
     @FXML
     private TextField txtUserName;
     @FXML
     private TextField txtPassword;
+    @FXML
+    private Button btnAdd1;
+    @FXML
+    private Button ADD;
+    @FXML
+    private Button btnDelete1;
+    @FXML
+    private Button DELETE;
+    @FXML
+    private Button btnEdit1;
+    @FXML
+    private Button EDIT;
+    @FXML
+    private Button btnBackAdd;
+    @FXML
+    private Button btnBackEdit;
+    @FXML
+    private Button btnBackDel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTable();
-        ComboBoxRoleType.setItems(FXCollections.observableArrayList("ADMIN", "MOL", "NONE"));
-        ComboBoxDelete.setItems(FXCollections.observableArrayList("Soft_Delete", "Force_Delete"));
+        setVisability();
+        ComboBoxRoleType.setItems(FXCollections.observableArrayList("АДМИН", "МОЛ", "NONE"));
+        ComboBoxDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
+    }
 
+    public void btnADD(ActionEvent event) throws IOException {
+        ADD.setVisible(false);
+        EDIT.setVisible(false);
+        DELETE.setVisible(false);
+        txtName.setVisible(true);
+        txtUserName.setVisible(true);
+        txtPassword.setVisible(true);
+        ComboBoxRoleType.setVisible(true);
+        btnBackAdd.setVisible(true);
+        btnAdd1.setVisible(true);
+    }
+
+    public void btnEDIT(ActionEvent event) throws IOException {
+        ADD.setVisible(false);
+        EDIT.setVisible(false);
+        DELETE.setVisible(false);
+        // txtIDedit.setVisible(true);
+        txtName.setVisible(true);
+        txtUserName.setVisible(true);
+        txtPassword.setVisible(true);
+        ComboBoxRoleType.setVisible(true);
+        btnBackEdit.setVisible(true);
+        btnEdit1.setVisible(true);
+    }
+
+    public void btnDELETE(ActionEvent event) throws IOException {
+        ADD.setVisible(false);
+        EDIT.setVisible(false);
+        DELETE.setVisible(false);
+        ComboBoxDelete.setVisible(true);
+        // txtIDdelete.setVisible(true);
+        btnBackDel.setVisible(true);
+        btnDelete1.setVisible(true);
+    }
+
+    public void btnBack(ActionEvent event) throws IOException {
+        setVisability();
+    }
+
+    private void setVisability() {
+        //txtIDedit.setVisible(false);
+        //txtIDdelete.setVisible(false);
+        txtName.setVisible(false);
+        txtUserName.setVisible(false);
+        txtPassword.setVisible(false);
+        btnAdd1.setVisible(false);
+        ADD.setVisible(true);
+        btnDelete1.setVisible(false);
+        DELETE.setVisible(true);
+        btnEdit1.setVisible(false);
+        EDIT.setVisible(true);
+        btnBackAdd.setVisible(false);
+        btnBackEdit.setVisible(false);
+        btnBackDel.setVisible(false);
+        ComboBoxRoleType.setVisible(false);
+        ComboBoxDelete.setVisible(false);
     }
 
     private void initTable() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
+        //idColumn.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
@@ -77,6 +158,7 @@ public class Page_UsersController implements Initializable {
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
         userService = new UsersService();
+        User user = table.getSelectionModel().getSelectedItem();
         if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
             userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
         } else {
@@ -86,15 +168,46 @@ public class Page_UsersController implements Initializable {
         setTable();
     }
 
-    public void DELETE(ActionEvent event) throws IOException {
-        clearForm();
-        userService = new UsersService();
-        if (ComboBoxDelete.getValue() == "Force_Delete") {
-            userService.forceDeleteUser(Integer.parseInt(txtID.getText()));
+    public void EDIT(ActionEvent event) throws IOException {
+        User user = table.getSelectionModel().getSelectedItem();
+        if (user != null) {
+            userService = new UsersService();
+            // User user = table.getSelectionModel().getSelectedItem();
+            if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
+                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
+            } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
+                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
+            } else {
+                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.NONE);
+            }
         } else {
-            userService.deleteUser(Integer.parseInt(txtID.getText()));
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Опс...");
+            alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
+            alert.showAndWait();
         }
+        clearForm();
+        setTable();
+    }
 
+    public void DELETE(ActionEvent event) throws IOException {
+
+        User user = table.getSelectionModel().getSelectedItem();
+        if (user != null) {
+            userService = new UsersService();
+            if (ComboBoxDelete.getValue() == "Принудително изтриване") {
+
+                userService.forceDeleteUser(user.getId());
+            } else {
+                userService.forceDeleteUser(user.getId());
+            }
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Опс...");
+            alert.setHeaderText("Моля, посочете потребителя който искате да изтриете.");
+            alert.showAndWait();
+        }
+        clearForm();
         setTable();
     }
 

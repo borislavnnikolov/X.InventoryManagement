@@ -59,59 +59,31 @@
       </VBox>
       <AnchorPane layoutX="150.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="39.0" stroke="BLACK" strokeType="INSIDE" width="457.0" />
-            <Button layoutX="387.0" layoutY="7.0" mnemonicParsing="false" onAction="#Exit" text="Изход" />
-            <Button layoutX="317.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" text="Logout" />
-            <Label fx:id="UserName" layoutX="22.0" layoutY="6.0" prefHeight="27.0" prefWidth="316.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="24.0" layoutY="107.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="107.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="26.0" layoutY="242.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="241.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
             <Text layoutX="45.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо продукти" wrappingWidth="133.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="107.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
             <Text layoutX="264.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо клиенти" wrappingWidth="122.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="26.0" layoutY="242.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
             <Text layoutX="55.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо картони" wrappingWidth="133.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="241.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
             <Text layoutX="250.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо потребители" wrappingWidth="162.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="40.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../../Desktop/products.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="45.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../../Desktop/card.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="257.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../../Desktop/users.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="264.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../../Desktop/Clients.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="N_Products" layoutX="111.0" layoutY="165.0" prefHeight="27.0" prefWidth="70.0">
+            <Label fx:id="N_Products" layoutX="111.0" layoutY="152.0" prefHeight="27.0" prefWidth="70.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -131,6 +103,26 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="40.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/products.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="264.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/Clients.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="257.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/users.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="45.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../Desktop/card.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
