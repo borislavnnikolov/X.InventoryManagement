@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 public class MainPageController implements Initializable {
 
     UsersService userService;
-
     @FXML
     private AnchorPane rootPane;
     @FXML

@@ -28,8 +28,6 @@ public class Page_UsersController implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private TableView<User> table;
-    //@FXML
-    //private TableColumn<User, Integer> idColumn;
     @FXML
     private TableColumn<User, String> nameColumn;
     @FXML
@@ -42,10 +40,6 @@ public class Page_UsersController implements Initializable {
     private ComboBox<String> ComboBoxRoleType;
     @FXML
     private ComboBox<String> ComboBoxDelete;
-    /*@FXML
-    private TextField txtIDedit;
-    @FXML
-    private TextField txtIDdelete;*/
     @FXML
     private TextField txtName;
     @FXML
@@ -95,7 +89,6 @@ public class Page_UsersController implements Initializable {
         ADD.setVisible(false);
         EDIT.setVisible(false);
         DELETE.setVisible(false);
-        // txtIDedit.setVisible(true);
         txtName.setVisible(true);
         txtUserName.setVisible(true);
         txtPassword.setVisible(true);
@@ -109,7 +102,7 @@ public class Page_UsersController implements Initializable {
         EDIT.setVisible(false);
         DELETE.setVisible(false);
         ComboBoxDelete.setVisible(true);
-        // txtIDdelete.setVisible(true);
+
         btnBackDel.setVisible(true);
         btnDelete1.setVisible(true);
     }
@@ -119,8 +112,7 @@ public class Page_UsersController implements Initializable {
     }
 
     private void setVisability() {
-        //txtIDedit.setVisible(false);
-        //txtIDdelete.setVisible(false);
+
         txtName.setVisible(false);
         txtUserName.setVisible(false);
         txtPassword.setVisible(false);
@@ -138,7 +130,6 @@ public class Page_UsersController implements Initializable {
     }
 
     private void initTable() {
-        //idColumn.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
@@ -172,7 +163,6 @@ public class Page_UsersController implements Initializable {
         User user = table.getSelectionModel().getSelectedItem();
         if (user != null) {
             userService = new UsersService();
-            // User user = table.getSelectionModel().getSelectedItem();
             if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
                 userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
             } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
