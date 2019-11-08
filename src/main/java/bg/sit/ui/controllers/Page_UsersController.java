@@ -69,7 +69,7 @@ public class Page_UsersController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setTable();
         setVisability();
-        ComboBoxRoleType.setItems(FXCollections.observableArrayList("АДМИН", "МОЛ", "NONE"));
+        ComboBoxRoleType.setItems(FXCollections.observableArrayList("ADMIN", "MOL", "NONE"));
         ComboBoxDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
@@ -102,7 +102,6 @@ public class Page_UsersController implements Initializable {
         EDIT.setVisible(false);
         DELETE.setVisible(false);
         ComboBoxDelete.setVisible(true);
-
         btnBackDel.setVisible(true);
         btnDelete1.setVisible(true);
     }
@@ -112,7 +111,6 @@ public class Page_UsersController implements Initializable {
     }
 
     private void setVisability() {
-
         txtName.setVisible(false);
         txtUserName.setVisible(false);
         txtPassword.setVisible(false);

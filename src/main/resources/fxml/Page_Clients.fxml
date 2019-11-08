@@ -2,14 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.Page_ClientsController">
    <children>
-      <VBox alignment="CENTER" layoutY="-2.0" prefHeight="405.0" prefWidth="150.0" style="-fx-border-color: black;">
+      <VBox alignment="CENTER" layoutY="-2.0" prefHeight="405.0" prefWidth="150.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefWidth="133.0" text="Обратно">
                <font>
@@ -23,11 +26,38 @@
       </VBox>
       <AnchorPane layoutX="150.0" layoutY="5.0" prefHeight="400.0" prefWidth="450.0">
          <children>
-            <Text layoutX="137.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AZ SUM PAGE_Clients">
+            <TableView fx:id="table" layoutX="3.0" layoutY="186.0" prefHeight="213.0" prefWidth="444.0">
+              <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="168.0" text="Име" />
+                <TableColumn fx:id="locationColumn" prefWidth="112.0" text="Локация" />
+                  <TableColumn fx:id="phoneColumn" prefWidth="163.0" text="Номер" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnADD1" layoutX="116.0" layoutY="126.0" mnemonicParsing="false" onAction="#ADD" text="Добавяне" />
+            <TextField fx:id="txtName" alignment="CENTER" layoutX="45.0" layoutY="34.0" promptText="Име" />
+            <TextField fx:id="txtLocation" alignment="CENTER" layoutX="250.0" layoutY="34.0" promptText="Локация" />
+            <TextField fx:id="txtPhone" alignment="CENTER" layoutX="151.0" layoutY="76.0" promptText="Номер" />
+            <Button fx:id="btnBackEDIT" layoutX="265.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="70.0" text="Назад" />
+            <Button fx:id="btnEDIT1" layoutX="116.0" layoutY="126.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="70.0" text="Промяна" />
+            <Button fx:id="btnBackDEL" layoutX="246.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="70.0" text="Назад" />
+            <Button fx:id="btnDELETE1" layoutX="137.0" layoutY="126.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="77.0" text="Изтриване" />
+            <ComboBox fx:id="ComboBoxDel" layoutX="135.0" layoutY="76.0" prefHeight="25.0" prefWidth="182.0" />
+            <Button fx:id="btnADD" layoutX="25.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="115.0" text="Добавяне">
                <font>
                   <Font size="18.0" />
                </font>
-            </Text>
+            </Button>
+            <Button fx:id="btnEDIT" layoutX="168.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnEDIT" prefHeight="39.0" prefWidth="115.0" text="Промяна">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDELETE" layoutX="315.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="115.0" text="Изтриване">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBackADD" layoutX="239.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="77.0" text="Назад" />
          </children>
       </AnchorPane>
    </children>
