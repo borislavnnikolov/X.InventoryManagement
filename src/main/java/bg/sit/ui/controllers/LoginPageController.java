@@ -2,6 +2,7 @@ package bg.sit.ui.controllers;
 
 import bg.sit.business.services.UsersService;
 import bg.sit.session.SessionHelper;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,13 +27,15 @@ public class LoginPageController implements Initializable {
     private Label lblStatus;
     @FXML
     private Button btnLogin;
+    @FXML
+    private Button btnEXIT;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnLogin.setDefaultButton(true);
     }
 
-    public void btnLogin(ActionEvent event) throws Exception {
+    public void btnLogin(ActionEvent event) throws IOException {
         usersService = new UsersService();
         if (usersService.login(txtUsernameField.getText(), txtPasswordField.getText())) {
             SessionHelper.setCurrentUser(usersService.getUserByUsername(txtUsernameField.getText(), true));
@@ -42,6 +45,10 @@ public class LoginPageController implements Initializable {
         } else {
             lblStatus.setText("Login Failed");
         }
+    }
+
+    public void EXIT(ActionEvent event) throws IOException {
+        System.exit(0);
     }
 
 }

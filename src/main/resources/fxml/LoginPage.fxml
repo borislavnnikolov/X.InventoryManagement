@@ -21,7 +21,7 @@
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <Button alignment="CENTER" defaultButton="true" layoutX="265.0" layoutY="275.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="39.0" prefWidth="70.0" text="Влез">
+      <Button fx:id="btnLogin" alignment="CENTER" defaultButton="true" layoutX="189.0" layoutY="265.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="39.0" prefWidth="78.0" text="Влез">
          <font>
             <Font size="18.0" />
          </font>
@@ -39,5 +39,10 @@
             </RadialGradient>
          </textFill>
       </Label>
+      <Button fx:id="btnEXIT" alignment="CENTER" cancelButton="true" layoutX="334.0" layoutY="265.0" mnemonicParsing="false" onAction="#EXIT" prefHeight="39.0" prefWidth="78.0" text="Изход">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
