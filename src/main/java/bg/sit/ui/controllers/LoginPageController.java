@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -23,10 +24,12 @@ public class LoginPageController implements Initializable {
     private TextField txtPasswordField;
     @FXML
     private Label lblStatus;
+    @FXML
+    private Button btnLogin;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        btnLogin.setDefaultButton(true);
     }
 
     public void btnLogin(ActionEvent event) throws Exception {
