@@ -5,6 +5,8 @@
  */
 package bg.sit.business.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author Dell
- */
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -44,6 +43,13 @@ public class Customer {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
+
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Collection<CustomerCard> customerCards = new ArrayList<>();
 
     public Customer() {
     }
@@ -94,5 +100,22 @@ public class Customer {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Collection<CustomerCard> getCustomerCards() {
+        return customerCards;
+    }
+
+    public void setCustomerCards(Collection<CustomerCard> customerCards) {
+        this.customerCards = customerCards;
+    }
+
+    public void addCustomerCard(CustomerCard customerCard) {
+        this.customerCards.add(customerCard);
+        customerCard.setCustomer(this);
+    }
+
+    public void removeCustomerCard(CustomerCard customerCard) {
+        this.customerCards.remove(customerCard);
     }
 }
