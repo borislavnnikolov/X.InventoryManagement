@@ -146,7 +146,7 @@ public class Page_ClientsController implements Initializable {
         Customer customer = table.getSelectionModel().getSelectedItem();
         if (customer != null) {
             customersService = new CustomersService();
-            customersService.updateCustomer(customer.getId(), txtName.getText(), txtLocation.getText(), txtPhone.getText(), SessionHelper.getCurrentUser().getId());
+            customersService.updateCustomer(customer.getId(), txtName.getText(), txtLocation.getText(), txtPhone.getText());
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");

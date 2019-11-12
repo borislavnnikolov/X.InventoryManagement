@@ -21,7 +21,7 @@ import org.hibernate.query.Query;
  */
 public class UsersService extends BaseService {
 
-    // Get all users from database without the current logged user
+    // Get all users from database
     public List<User> getUsers() {
         Session session = null;
         List<User> users = null;
@@ -90,18 +90,12 @@ public class UsersService extends BaseService {
         return newUser;
     }
 
-    // Get user from database by userID, hasToIncludeCustomers arguments intizializes customers because it has lazy loading
-    public User getUserByID(int userID, boolean hasToIncludeCustomers) {
+    public User getUserByID(int userID) {
         Session session = null;
         User foundUser = null;
         try {
             session = sessionFactory.openSession();
             foundUser = session.get(User.class, userID);
-
-            if (hasToIncludeCustomers) {
-                Collection<Customer> customers = foundUser.getCustomers();
-                Hibernate.initialize(customers);
-            }
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

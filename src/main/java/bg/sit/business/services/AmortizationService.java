@@ -5,33 +5,33 @@
  */
 package bg.sit.business.services;
 
-import bg.sit.business.entities.Customer;
+import bg.sit.business.entities.Amortization;
 import bg.sit.business.entities.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 /**
  *
  * @author Dell
  */
-public class CustomersService extends BaseService {
+public class AmortizationService extends BaseService {
 
-    // Add customer to the database
-    public Customer addCustomer(String name, String location, String phone, int userID) {
+    // Add amortization to the database
+    public Amortization addAmortization(String name, double price, int days, int repeatLimit, int userID) {
         Session session = null;
         Transaction transaction = null;
-        Customer newCustomer = null;
+        Amortization newAmortization = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            newCustomer = new Customer();
-            newCustomer.setName(name);
-            newCustomer.setLocation(location);
-            newCustomer.setPhone(phone);
-            newCustomer.setUser(session.get(User.class, userID));
-            session.save(newCustomer);
+            newAmortization = new Amortization();
+            newAmortization.setName(name);
+            newAmortization.setPrice(price);
+            newAmortization.setDays(days);
+            newAmortization.setRepeatLimit(repeatLimit);
+            newAmortization.setUser(session.get(User.class, userID));
+            session.save(newAmortization);
             transaction.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -42,30 +42,23 @@ public class CustomersService extends BaseService {
             session.close();
         }
 
-        return newCustomer;
+        return newAmortization;
     }
 
-    // Get all customers for specific user
-    public List<Customer> getCustomers(int userID) {
+    // Get all amortizations for specific user
+    public List<Amortization> getAmortizations(int userID) {
         Session session = null;
         Transaction transaction = null;
-        List<Customer> customers = null;
+        List<Amortization> amortizations = null;
         try {
             session = sessionFactory.openSession();
 
-            String hql = "FROM Customer AS c WHERE c.isDeleted = false";
+            String hql = "FROM Amortization AS a WHERE a.isDeleted = false";
             if (userID > 0) {
-                hql = "SELECT c FROM Customer as c INNER JOIN c.user AS u WHERE c.isDeleted = false AND u.id = :userID";
+                hql += " AND a.user.id = " + userID;
             }
 
-            Query q = session.createQuery(hql, Customer.class);
-
-            if (userID > 0) {
-                q.setParameter("userID", userID);
-            }
-
-            customers = q.list();
-
+            amortizations = session.createQuery(hql, Amortization.class).list();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if (transaction != null) {
@@ -75,42 +68,46 @@ public class CustomersService extends BaseService {
             session.close();
         }
 
-        return customers;
+        return amortizations;
     }
 
     // Get all customers
-    public List<Customer> getCustomers() {
-        return this.getCustomers(-1);
+    public List<Amortization> getAmortizations() {
+        return this.getAmortizations(-1);
     }
 
-    // Update customer by customerID
-    public Customer updateCustomer(int customerID, String name, String location, String phone) {
+    // Update amortization by amortizationID
+    public Amortization updateAmortization(int amortizationID, String name, double price, int days, int repeatLimit) {
         Session session = null;
         Transaction transaction = null;
-        Customer editCustomer = null;
+        Amortization editAmortization = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            editCustomer = (Customer) session.createQuery("FROM Customer AS c WHERE c.isDeleted = false AND c.id = :customerID").setParameter("customerID", customerID).getSingleResult();
+            editAmortization = (Amortization) session.createQuery("FROM Amortization AS a WHERE a.isDeleted = false AND a.id = :amortizationID").setParameter("amortizationID", amortizationID).getSingleResult();
 
-            if (editCustomer == null) {
-                throw new Exception("editCustomer is null! (CustomersService -> updateCustomer)");
+            if (editAmortization == null) {
+                throw new Exception("editAmortization is null! (AmortizationService -> updateAmortization)");
             }
 
             if (name != null && !name.equals("")) {
-                editCustomer.setName(name);
+                editAmortization.setName(name);
             }
 
-            if (location != null && !location.equals("")) {
-                editCustomer.setLocation(location);
+            if (price > 0) {
+                editAmortization.setPrice(price);
             }
 
-            if (phone != null && !phone.equals("")) {
-                editCustomer.setPhone(phone);
+            if (days > 0) {
+                editAmortization.setDays(days);
             }
 
-            session.saveOrUpdate(editCustomer);
+            if (repeatLimit >= 0) {
+                editAmortization.setRepeatLimit(repeatLimit);
+            }
+
+            session.saveOrUpdate(editAmortization);
             transaction.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -121,11 +118,11 @@ public class CustomersService extends BaseService {
             session.close();
         }
 
-        return editCustomer;
+        return editAmortization;
     }
 
-    // Soft delete customer by customerID
-    public boolean deleteCustomer(int customerID) {
+    // Soft delete amortization by amortizationID
+    public boolean deleteAmortization(int amortizationID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
@@ -133,9 +130,9 @@ public class CustomersService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Customer customer = session.find(Customer.class, customerID);
-            customer.setIsDeleted(true);
-            session.save(customer);
+            Amortization amortization = session.find(Amortization.class, amortizationID);
+            amortization.setIsDeleted(true);
+            session.save(amortization);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
@@ -150,8 +147,8 @@ public class CustomersService extends BaseService {
         return isSuccessfull;
     }
 
-    // Force delete customer by customerID from database, once deleted it cannot be reverted
-    public boolean forceDeleteCustomer(int customerID) {
+    // Force delete amortization by amortizationID from database, once deleted it cannot be reverted
+    public boolean forceDeleteAmortization(int amortizationID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
@@ -159,8 +156,8 @@ public class CustomersService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Customer customer = session.find(Customer.class, customerID);
-            session.delete(customer);
+            Amortization amortization = session.find(Amortization.class, amortizationID);
+            session.delete(amortization);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
