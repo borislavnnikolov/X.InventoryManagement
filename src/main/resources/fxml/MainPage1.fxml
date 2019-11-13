@@ -15,7 +15,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="474.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="25.0" prefWidth="50.0" text="Излез" />
+      <Button layoutX="453.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="25.0" prefWidth="71.0" text="Излез" />
       <AnchorPane fx:id="rootPane" layoutY="38.0" prefHeight="397.0" prefWidth="600.0" />
    </children>
 </AnchorPane>
