@@ -26,7 +26,7 @@
       </VBox>
       <AnchorPane layoutX="150.0" layoutY="5.0" prefHeight="400.0" prefWidth="450.0">
          <children>
-            <TableView fx:id="table" layoutX="3.0" layoutY="130.0" prefHeight="266.0" prefWidth="443.0">
+            <TableView fx:id="table" layoutX="3.0" layoutY="159.0" prefHeight="237.0" prefWidth="443.0">
               <columns>
                   <TableColumn fx:id="nameColumn" prefWidth="113.0" text="Име" />
                   <TableColumn fx:id="usernameColumn" prefWidth="151.0" text="Потребителско име" />

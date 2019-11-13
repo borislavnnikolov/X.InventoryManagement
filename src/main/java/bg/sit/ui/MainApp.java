@@ -11,16 +11,17 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
-
+    
     @Override
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginPage.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-
+            
             primaryStage.setTitle("X.Inventory.Management");
             primaryStage.setScene(scene);
+            primaryStage.resizableProperty().setValue(false);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent t) {
@@ -29,12 +30,12 @@ public class MainApp extends Application {
                 }
             });
             primaryStage.show();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public static void main(String[] args) {
         launch(args);
     }
