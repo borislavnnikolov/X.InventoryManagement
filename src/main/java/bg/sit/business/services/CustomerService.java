@@ -17,7 +17,7 @@ import org.hibernate.query.Query;
  *
  * @author Dell
  */
-public class CustomersService extends BaseService {
+public class CustomerService extends BaseService {
 
     // Add customer to the database
     public Customer addCustomer(String name, String location, String phone) {

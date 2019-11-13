@@ -2,7 +2,7 @@ package bg.sit.ui.controllers;
 
 import bg.sit.business.entities.User;
 import bg.sit.business.enums.RoleType;
-import bg.sit.business.services.UsersService;
+import bg.sit.business.services.UserService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class Page_UsersController implements Initializable {
 
-    UsersService userService;
+    UserService userService;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -136,7 +136,7 @@ public class Page_UsersController implements Initializable {
 
     private void setTable() {
         initTable();
-        userService = new UsersService();
+        userService = new UserService();
         table.getItems().addAll(FXCollections.observableArrayList(userService.getUsers()));
     }
 
@@ -146,7 +146,7 @@ public class Page_UsersController implements Initializable {
 
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
-        userService = new UsersService();
+        userService = new UserService();
         User user = table.getSelectionModel().getSelectedItem();
         if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
             userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
@@ -160,7 +160,7 @@ public class Page_UsersController implements Initializable {
     public void EDIT(ActionEvent event) throws IOException {
         User user = table.getSelectionModel().getSelectedItem();
         if (user != null) {
-            userService = new UsersService();
+            userService = new UserService();
             if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
                 userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
             } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
@@ -182,7 +182,7 @@ public class Page_UsersController implements Initializable {
 
         User user = table.getSelectionModel().getSelectedItem();
         if (user != null) {
-            userService = new UsersService();
+            userService = new UserService();
             if (ComboBoxDelete.getValue() == "Принудително изтриване") {
 
                 userService.forceDeleteUser(user.getId());

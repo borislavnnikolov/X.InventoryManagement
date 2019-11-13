@@ -19,7 +19,7 @@ import org.hibernate.query.Query;
  *
  * @author Dell
  */
-public class UsersService extends BaseService {
+public class UserService extends BaseService {
 
     // Get all users from database
     public List<User> getUsers() {
@@ -42,12 +42,12 @@ public class UsersService extends BaseService {
     public boolean login(String username, String password) {
         Session session = null;
         boolean isLoginSuccessfull = false;
-        username = username.toLowerCase();
+
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT CASE WHEN (COUNT(*) > 0) THEN TRUE ELSE FALSE END FROM User AS u WHERE u.username = :username AND LOWER(u.password) = :password AND u.isDeleted = false";
+            String hql = "SELECT CASE WHEN (COUNT(*) > 0) THEN TRUE ELSE FALSE END FROM User AS u WHERE LOWER(u.username) = :username AND u.password = :password AND u.isDeleted = false";
             Query query = session.createQuery(hql, Boolean.class);
-            query.setParameter("username", username);
+            query.setParameter("username", username.toLowerCase());
             query.setParameter("password", password);
             isLoginSuccessfull = (boolean) query.getSingleResult();
 

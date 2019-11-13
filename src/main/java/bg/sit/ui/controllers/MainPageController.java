@@ -1,7 +1,7 @@
 package bg.sit.ui.controllers;
 
 import bg.sit.business.enums.RoleType;
-import bg.sit.business.services.UsersService;
+import bg.sit.business.services.UserService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class MainPageController implements Initializable {
 
-    UsersService userService;
+    UserService userService;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -36,7 +36,7 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        userService = new UsersService();
+        userService = new UserService();
         SessionHelper.getCurrentUser();
         if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
             btnUser.setVisible(true);

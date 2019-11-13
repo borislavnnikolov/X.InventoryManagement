@@ -1,7 +1,7 @@
 package bg.sit.ui.controllers;
 
 import bg.sit.business.entities.Customer;
-import bg.sit.business.services.CustomersService;
+import bg.sit.business.services.CustomerService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +22,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class Page_ClientsController implements Initializable {
 
-    CustomersService customersService;
+    CustomerService customersService;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -127,7 +127,7 @@ public class Page_ClientsController implements Initializable {
 
     private void setTable() {
         initTable();
-        customersService = new CustomersService();
+        customersService = new CustomerService();
         table.getItems().addAll(FXCollections.observableArrayList(customersService.getCustomers()));
     }
 
@@ -137,7 +137,7 @@ public class Page_ClientsController implements Initializable {
 
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
-        customersService = new CustomersService();
+        customersService = new CustomerService();
         customersService.addCustomer(txtName.getText(), txtLocation.getText(), txtPhone.getText());
         setTable();
     }
@@ -145,7 +145,7 @@ public class Page_ClientsController implements Initializable {
     public void EDIT(ActionEvent event) throws IOException {
         Customer customer = table.getSelectionModel().getSelectedItem();
         if (customer != null) {
-            customersService = new CustomersService();
+            customersService = new CustomerService();
             customersService.updateCustomer(customer.getId(), txtName.getText(), txtLocation.getText(), txtPhone.getText());
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -161,7 +161,7 @@ public class Page_ClientsController implements Initializable {
 
         Customer customer = table.getSelectionModel().getSelectedItem();
         if (customer != null) {
-            customersService = new CustomersService();
+            customersService = new CustomerService();
             if (ComboBoxDel.getValue() == "Принудително изтриване") {
                 customersService.forceDeleteCustomer(customer.getId());
             } else {

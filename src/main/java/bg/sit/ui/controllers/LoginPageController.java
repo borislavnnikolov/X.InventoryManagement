@@ -1,6 +1,6 @@
 package bg.sit.ui.controllers;
 
-import bg.sit.business.services.UsersService;
+import bg.sit.business.services.UserService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class LoginPageController implements Initializable {
 
-    UsersService usersService;
+    UserService usersService;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -36,7 +36,7 @@ public class LoginPageController implements Initializable {
     }
 
     public void btnLogin(ActionEvent event) throws IOException {
-        usersService = new UsersService();
+        usersService = new UserService();
         if (usersService.login(txtUsernameField.getText(), txtPasswordField.getText())) {
             SessionHelper.setCurrentUser(usersService.getUserByUsername(txtUsernameField.getText(), true));
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage1.fxml"));
