@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "products")
@@ -21,12 +20,7 @@ public class Product {
     private int id;
 
     // Format [UserID]-[ProductTypeID]-[SEQUANCE]
-    @Column(name = "InventoryNumber", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventoryNumber_seq")
-    @GenericGenerator(
-            name = "inventoryNumber_seq",
-            strategy = "bg.sit.business.generators.InventoryNumberGenerator"
-    )
+    @Column(name = "InventoryNumber", unique = true, nullable = false)
     private String inventoryNumber;
 
     @Column(name = "Price", nullable = false)
