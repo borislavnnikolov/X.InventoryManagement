@@ -7,6 +7,7 @@ package bg.sit.business.services;
 
 import bg.sit.business.entities.Customer;
 import bg.sit.business.entities.User;
+import bg.sit.session.SessionHelper;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,7 +20,7 @@ import org.hibernate.query.Query;
 public class CustomersService extends BaseService {
 
     // Add customer to the database
-    public Customer addCustomer(String name, String location, String phone, int userID) {
+    public Customer addCustomer(String name, String location, String phone) {
         Session session = null;
         Transaction transaction = null;
         Customer newCustomer = null;
@@ -30,7 +31,7 @@ public class CustomersService extends BaseService {
             newCustomer.setName(name);
             newCustomer.setLocation(location);
             newCustomer.setPhone(phone);
-            newCustomer.setUser(session.get(User.class, userID));
+            newCustomer.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
             session.save(newCustomer);
             transaction.commit();
         } catch (Exception e) {

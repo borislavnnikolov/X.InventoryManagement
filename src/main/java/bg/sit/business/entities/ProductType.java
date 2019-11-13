@@ -34,6 +34,9 @@ public class ProductType {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productType")
     private Collection<Product> products = new ArrayList<Product>();
 
+    @Column(name = "IsDeleted", nullable = false)
+    private boolean isDeleted;
+
     public ProductType() {
     }
 
@@ -67,6 +70,14 @@ public class ProductType {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Collection<Product> getProducts() {

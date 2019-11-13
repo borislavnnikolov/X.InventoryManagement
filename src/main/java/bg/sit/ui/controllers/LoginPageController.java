@@ -1,7 +1,5 @@
 package bg.sit.ui.controllers;
 
-import bg.sit.business.entities.Amortization;
-import bg.sit.business.services.AmortizationService;
 import bg.sit.business.services.UsersService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
@@ -43,11 +41,6 @@ public class LoginPageController implements Initializable {
             SessionHelper.setCurrentUser(usersService.getUserByUsername(txtUsernameField.getText(), true));
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage1.fxml"));
             rootPane.getChildren().setAll(pane);
-            AmortizationService as = new AmortizationService();
-            for (Amortization amort : as.getAmortizations()) {
-                System.err.println(amort.getName());
-            }
-
         } else {
             lblStatus.setText("Login Failed");
         }

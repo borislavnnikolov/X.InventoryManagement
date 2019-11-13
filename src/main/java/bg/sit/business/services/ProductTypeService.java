@@ -5,9 +5,10 @@
  */
 package bg.sit.business.services;
 
-import bg.sit.business.entities.Amortization;
+import bg.sit.business.entities.ProductType;
 import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
+import java.awt.Color;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,23 +17,21 @@ import org.hibernate.Transaction;
  *
  * @author Dell
  */
-public class AmortizationService extends BaseService {
+public class ProductTypeService extends BaseService {
 
-    // Add amortization to the database
-    public Amortization addAmortization(String name, double price, int days, int repeatLimit) {
+    // Add product type to the database
+    public ProductType addProductType(String name, Color color) {
         Session session = null;
         Transaction transaction = null;
-        Amortization newAmortization = null;
+        ProductType newProductType = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            newAmortization = new Amortization();
-            newAmortization.setName(name);
-            newAmortization.setPrice(price);
-            newAmortization.setDays(days);
-            newAmortization.setRepeatLimit(repeatLimit);
-            newAmortization.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
-            session.save(newAmortization);
+            newProductType = new ProductType();
+            newProductType.setName(name);
+            newProductType.setColor(color);
+            newProductType.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            session.save(newProductType);
             transaction.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -43,23 +42,23 @@ public class AmortizationService extends BaseService {
             session.close();
         }
 
-        return newAmortization;
+        return newProductType;
     }
 
-    // Get all amortizations for specific user
-    public List<Amortization> getAmortizations(int userID) {
+    // Get all product types for specific user
+    public List<ProductType> getProductTypes(int userID) {
         Session session = null;
         Transaction transaction = null;
-        List<Amortization> amortizations = null;
+        List<ProductType> productTypes = null;
         try {
             session = sessionFactory.openSession();
 
-            String hql = "FROM Amortization AS a WHERE a.isDeleted = false";
+            String hql = "FROM ProductType AS pt WHERE pt.isDeleted = false";
             if (userID > 0) {
-                hql += " AND a.user.id = " + userID;
+                hql += " AND pt.user.id = " + userID;
             }
 
-            amortizations = session.createQuery(hql, Amortization.class).list();
+            productTypes = session.createQuery(hql, ProductType.class).list();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if (transaction != null) {
@@ -69,46 +68,38 @@ public class AmortizationService extends BaseService {
             session.close();
         }
 
-        return amortizations;
+        return productTypes;
     }
 
-    // Get all customers
-    public List<Amortization> getAmortizations() {
-        return this.getAmortizations(-1);
+    // Get all product types
+    public List<ProductType> getProductTypes() {
+        return this.getProductTypes(-1);
     }
 
-    // Update amortization by amortizationID
-    public Amortization updateAmortization(int amortizationID, String name, double price, int days, int repeatLimit) {
+    // Update product type by productTypeID
+    public ProductType updateProductType(int productTypeID, String name, Color color) {
         Session session = null;
         Transaction transaction = null;
-        Amortization editAmortization = null;
+        ProductType editProductType = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            editAmortization = (Amortization) session.createQuery("FROM Amortization AS a WHERE a.isDeleted = false AND a.id = :amortizationID").setParameter("amortizationID", amortizationID).getSingleResult();
+            editProductType = (ProductType) session.createQuery("FROM ProductType AS pt WHERE pt.isDeleted = false AND pt.id = :productTypeID").setParameter("productTypeID", productTypeID).getSingleResult();
 
-            if (editAmortization == null) {
-                throw new Exception("editAmortization is null! (AmortizationService -> updateAmortization)");
+            if (editProductType == null) {
+                throw new Exception("editProductType is null! (ProductTypeService -> updateProductType)");
             }
 
             if (name != null && !name.equals("")) {
-                editAmortization.setName(name);
+                editProductType.setName(name);
             }
 
-            if (price > 0) {
-                editAmortization.setPrice(price);
+            if (color != null) {
+                editProductType.setColor(color);
             }
 
-            if (days > 0) {
-                editAmortization.setDays(days);
-            }
-
-            if (repeatLimit >= 0) {
-                editAmortization.setRepeatLimit(repeatLimit);
-            }
-
-            session.saveOrUpdate(editAmortization);
+            session.saveOrUpdate(editProductType);
             transaction.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -119,11 +110,11 @@ public class AmortizationService extends BaseService {
             session.close();
         }
 
-        return editAmortization;
+        return editProductType;
     }
 
-    // Soft delete amortization by amortizationID
-    public boolean deleteAmortization(int amortizationID) {
+    // Soft delete product type by productTypeID
+    public boolean deleteProductType(int productTypeID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
@@ -131,9 +122,9 @@ public class AmortizationService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Amortization amortization = session.find(Amortization.class, amortizationID);
-            amortization.setIsDeleted(true);
-            session.save(amortization);
+            ProductType productType = session.find(ProductType.class, productTypeID);
+            productType.setIsDeleted(true);
+            session.save(productType);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
@@ -148,8 +139,8 @@ public class AmortizationService extends BaseService {
         return isSuccessfull;
     }
 
-    // Force delete amortization by amortizationID from database, once deleted it cannot be reverted
-    public boolean forceDeleteAmortization(int amortizationID) {
+    // Force delete product type by productTypeID from database, once deleted it cannot be reverted
+    public boolean forceDeleteProductType(int productTypeID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
@@ -157,8 +148,8 @@ public class AmortizationService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            Amortization amortization = session.find(Amortization.class, amortizationID);
-            session.delete(amortization);
+            ProductType productType = session.find(ProductType.class, productTypeID);
+            session.delete(productType);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {

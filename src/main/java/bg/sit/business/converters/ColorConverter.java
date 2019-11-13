@@ -12,7 +12,7 @@ import javax.persistence.Converter;
 @Converter
 public class ColorConverter implements AttributeConverter<Color, String> {
 
-    private static final String SEPARATOR = "\\|";
+    private static final String SEPARATOR = ",";
 
     /**
      * Convert Color object to a String with format red|green|blue|alpha

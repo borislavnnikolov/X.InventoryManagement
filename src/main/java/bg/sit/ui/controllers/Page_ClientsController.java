@@ -138,7 +138,7 @@ public class Page_ClientsController implements Initializable {
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
         customersService = new CustomersService();
-        customersService.addCustomer(txtName.getText(), txtLocation.getText(), txtPhone.getText(), SessionHelper.getCurrentUser().getId());
+        customersService.addCustomer(txtName.getText(), txtLocation.getText(), txtPhone.getText());
         setTable();
     }
 
