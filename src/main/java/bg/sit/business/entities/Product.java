@@ -19,7 +19,7 @@ public class Product {
     @Column(name = "ProductID", unique = true, nullable = false)
     private int id;
 
-    // Format [UserID]-[ProductTypeID]-[SEQUANCE]
+    // Format U[UserID]-PT[ProductTypeID]-[SEQUANCE]
     @Column(name = "InventoryNumber", unique = true, nullable = false)
     private String inventoryNumber;
 
@@ -37,12 +37,11 @@ public class Product {
 
     @OneToMany(
             mappedBy = "product",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     private Collection<CustomerCard> customerCards = new ArrayList<>();
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL,
+    @OneToOne(mappedBy = "product", cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY, optional = true)
     private DiscardedProduct discardedProduct;
 
@@ -50,11 +49,11 @@ public class Product {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ProductTypeID", nullable = false)
     private ProductType productType;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "AmortizationID", nullable = true)
     private Amortization amortization;
 

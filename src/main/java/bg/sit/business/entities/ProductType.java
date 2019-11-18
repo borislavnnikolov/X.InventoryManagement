@@ -27,11 +27,11 @@ public class ProductType {
     @Convert(converter = ColorConverter.class)
     private Color color;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productType")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "productType")
     private Collection<Product> products = new ArrayList<Product>();
 
     @Column(name = "IsDeleted", nullable = false)
