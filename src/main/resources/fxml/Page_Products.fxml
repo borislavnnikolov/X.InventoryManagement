@@ -18,7 +18,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefHeight="39.0" prefWidth="146.0" text="Продукти">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Product" prefHeight="39.0" prefWidth="146.0" text="Продукти">
                <font>
                   <Font size="18.0" />
                </font>
@@ -26,7 +26,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefHeight="39.0" prefWidth="146.0" text="Тип продукти">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#ProductType" prefHeight="39.0" prefWidth="146.0" text="Тип продукти">
                <font>
                   <Font size="18.0" />
                </font>
@@ -44,6 +44,6 @@
             </Button>
          </children>
       </VBox>
-      <AnchorPane layoutX="150.0" layoutY="5.0" prefHeight="400.0" prefWidth="450.0" />
+      <AnchorPane fx:id="SecondRootPane" layoutX="150.0" prefHeight="403.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

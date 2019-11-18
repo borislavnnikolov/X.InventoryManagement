@@ -9,13 +9,13 @@
 <AnchorPane id="AnchorPane" fx:id="rootPaneAll" prefHeight="428.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.MainPage1Controller">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="39.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Button layoutX="543.0" layoutY="7.0" mnemonicParsing="false" onAction="#Exit" text="Изход" />
+      <Button layoutX="508.0" layoutY="7.0" mnemonicParsing="false" onAction="#Exit" prefHeight="25.0" prefWidth="71.0" text="Изход" />
       <Label fx:id="UserName" layoutX="20.0" layoutY="6.0" prefHeight="27.0" prefWidth="450.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="453.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="25.0" prefWidth="71.0" text="Излез" />
+      <Button layoutX="415.0" layoutY="7.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="25.0" prefWidth="71.0" text="Излез" />
       <AnchorPane fx:id="rootPane" layoutY="38.0" prefHeight="397.0" prefWidth="600.0" />
    </children>
 </AnchorPane>

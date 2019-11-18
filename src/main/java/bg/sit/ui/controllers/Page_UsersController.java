@@ -22,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 public class Page_UsersController implements Initializable {
-
+    
     UserService userService;
     @FXML
     private AnchorPane rootPane;
@@ -64,7 +64,7 @@ public class Page_UsersController implements Initializable {
     private Button btnBackEdit;
     @FXML
     private Button btnBackDel;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTable();
@@ -72,7 +72,7 @@ public class Page_UsersController implements Initializable {
         ComboBoxRoleType.setItems(FXCollections.observableArrayList("ADMIN", "MOL", "NONE"));
         ComboBoxDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
-
+    
     public void btnADD(ActionEvent event) throws IOException {
         ADD.setVisible(false);
         EDIT.setVisible(false);
@@ -84,7 +84,7 @@ public class Page_UsersController implements Initializable {
         btnBackAdd.setVisible(true);
         btnAdd1.setVisible(true);
     }
-
+    
     public void btnEDIT(ActionEvent event) throws IOException {
         ADD.setVisible(false);
         EDIT.setVisible(false);
@@ -96,7 +96,7 @@ public class Page_UsersController implements Initializable {
         btnBackEdit.setVisible(true);
         btnEdit1.setVisible(true);
     }
-
+    
     public void btnDELETE(ActionEvent event) throws IOException {
         ADD.setVisible(false);
         EDIT.setVisible(false);
@@ -105,11 +105,11 @@ public class Page_UsersController implements Initializable {
         btnBackDel.setVisible(true);
         btnDelete1.setVisible(true);
     }
-
+    
     public void btnBack(ActionEvent event) throws IOException {
         setVisability();
     }
-
+    
     private void setVisability() {
         txtName.setVisible(false);
         txtUserName.setVisible(false);
@@ -126,24 +126,24 @@ public class Page_UsersController implements Initializable {
         ComboBoxRoleType.setVisible(false);
         ComboBoxDelete.setVisible(false);
     }
-
+    
     private void initTable() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
         Role_Type.setCellValueFactory(new PropertyValueFactory<User, RoleType>("roleType"));
     }
-
+    
     private void setTable() {
         initTable();
         userService = new UserService();
         table.getItems().addAll(FXCollections.observableArrayList(userService.getUsers()));
     }
-
+    
     private void clearForm() {
         table.getItems().clear();
     }
-
+    
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
         userService = new UserService();
@@ -153,10 +153,10 @@ public class Page_UsersController implements Initializable {
         } else {
             userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
         }
-
+        
         setTable();
     }
-
+    
     public void EDIT(ActionEvent event) throws IOException {
         User user = table.getSelectionModel().getSelectedItem();
         if (user != null) {
@@ -177,14 +177,14 @@ public class Page_UsersController implements Initializable {
         clearForm();
         setTable();
     }
-
+    
     public void DELETE(ActionEvent event) throws IOException {
-
+        
         User user = table.getSelectionModel().getSelectedItem();
         if (user != null) {
             userService = new UserService();
             if (ComboBoxDelete.getValue() == "Принудително изтриване") {
-
+                
                 userService.forceDeleteUser(user.getId());
             } else {
                 userService.forceDeleteUser(user.getId());
@@ -198,10 +198,10 @@ public class Page_UsersController implements Initializable {
         clearForm();
         setTable();
     }
-
+    
     public void GoBack(ActionEvent event) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-
+    
 }

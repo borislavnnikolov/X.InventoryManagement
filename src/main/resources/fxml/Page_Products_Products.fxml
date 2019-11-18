@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.Page_Products_ProductsController">
+   <children>
+      <TableView fx:id="table" layoutX="3.0" layoutY="218.0" prefHeight="178.0" prefWidth="443.0">
+         <columns>
+            <TableColumn fx:id="numColumn" prefWidth="37.0" text="№" />
+            <TableColumn fx:id="nameColumn" prefWidth="84.0" text="Име" />
+            <TableColumn fx:id="colorColumn" prefWidth="44.0" text="Цвят" />
+            <TableColumn fx:id="priceColumn" prefWidth="58.0" text="Цена" />
+            <TableColumn fx:id="typeColumn" prefWidth="35.0" text="Тип" />
+            <TableColumn fx:id="armortizationColumn" prefWidth="69.0" text="Армортизация" />
+            <TableColumn fx:id="brakColumn" prefWidth="59.0" text="Бракуван" />
+            <TableColumn fx:id="dateColumn" prefWidth="56.0" text="Закупен на" />
+         </columns>
+      </TableView>
+      <ComboBox fx:id="prType" layoutX="7.0" layoutY="68.0" prefHeight="25.0" prefWidth="174.0" promptText="Armortization" />
+      <ComboBox layoutX="7.0" layoutY="109.0" prefHeight="25.0" prefWidth="174.0" promptText="Brak" />
+      <TextField fx:id="txtPrice" alignment="CENTER" layoutX="251.0" layoutY="68.0" promptText="Cena" />
+      <Button layoutX="251.0" layoutY="109.0" mnemonicParsing="false" onAction="#ADD" text="add" />
+      <Button layoutX="348.0" layoutY="109.0" mnemonicParsing="false" onAction="#DELETE" text="nazad" />
+      <ComboBox fx:id="CBDelete" layoutX="139.0" layoutY="154.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери---" />
+   </children>
+</AnchorPane>
