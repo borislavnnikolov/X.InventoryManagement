@@ -8,14 +8,15 @@ package bg.sit.session;
 import bg.sit.business.entities.User;
 import java.util.Date;
 
-/**
- *
- * @author Dell
- */
 public class SessionHelper {
 
+    // This is the current logged used setted up on successfull login
     private static User currentUser;
+
+    // This is the limit which a product can be material active type
     private static double maLimit;
+
+    // This is the current date, can be changed for testing purposes
     private static Date currentDate = new Date();
 
     public static User getCurrentUser() {

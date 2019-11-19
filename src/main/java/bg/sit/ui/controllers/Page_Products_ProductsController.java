@@ -21,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 public class Page_Products_ProductsController implements Initializable {
 
@@ -48,7 +49,7 @@ public class Page_Products_ProductsController implements Initializable {
     @FXML
     private TableColumn<Product, Date> dateColumn;
     @FXML
-    private ComboBox<String> prType;
+    private ComboBox<ProductType> prType;
     @FXML
     private TextField txtPrice;
     @FXML
@@ -59,7 +60,7 @@ public class Page_Products_ProductsController implements Initializable {
         productTypeService = new ProductTypeService();
         productService = new ProductService();
         setTable();
-        prType.setItems(FXCollections.observableArrayList("асд", "дса", "евя"));
+        initProductTypeCombobox();
         CBDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
@@ -118,5 +119,33 @@ public class Page_Products_ProductsController implements Initializable {
         }
         clearForm();
         setTable();
+    }
+
+    private void initProductTypeCombobox() {
+        prType.setConverter(new StringConverter<ProductType>() {
+
+            @Override
+            public String toString(ProductType object) {
+                return object.getName();
+            }
+
+            @Override
+            public ProductType fromString(String string) {
+                for (ProductType pt : prType.getItems()) {
+                    if (pt.getName().equals(string)) {
+                        return pt;
+                    }
+                }
+
+                return null;
+            }
+        });
+
+        if (SessionHelper.getCurrentUser()
+                .getRoleType() == RoleType.ADMIN) {
+            prType.setItems(FXCollections.observableArrayList(productTypeService.getProductTypes()));
+        } else {
+            prType.setItems(FXCollections.observableArrayList(productTypeService.getProductTypes(SessionHelper.getCurrentUser().getId())));
+        }
     }
 }
