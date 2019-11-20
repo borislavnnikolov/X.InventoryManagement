@@ -34,7 +34,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefHeight="39.0" prefWidth="146.0" text="Армортизация">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#Amortization" prefHeight="39.0" prefWidth="146.0" text="Армортизация">
                <font>
                   <Font size="18.0" />
                </font>

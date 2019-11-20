@@ -1,12 +1,13 @@
 package bg.sit.ui.controllers;
 
+import bg.sit.business.entities.Amortization;
 import bg.sit.business.entities.Product;
 import bg.sit.business.entities.ProductType;
 import bg.sit.business.enums.RoleType;
+import bg.sit.business.services.AmortizationService;
 import bg.sit.business.services.ProductService;
 import bg.sit.business.services.ProductTypeService;
 import bg.sit.session.SessionHelper;
-import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -27,29 +28,30 @@ public class Page_Products_ProductsController implements Initializable {
 
     ProductService productService;
     ProductTypeService productTypeService;
+    AmortizationService amortizationService;
 
     @FXML
     private TableView<Product> table;
     @FXML
     private TableColumn<Product, String> numColumn;
-    //@FXML
-    //private TableColumn<Product, String> nameColumn;
     @FXML
-    private TableColumn<ProductType, String> nameColumn;
+    private TableColumn<Product, ProductType> nameColumn;
     @FXML
-    private TableColumn<Product, Color> colorColumn;
+    private TableColumn<Product, ProductType> colorColumn;
     @FXML
     private TableColumn<Product, Double> priceColumn;
     @FXML
     private TableColumn<Product, String> typeColumn;
     @FXML
-    private TableColumn<Product, String> armortizationColumn;
+    private TableColumn<Product, Amortization> amortizationColumn;
     @FXML
     private TableColumn<Product, Boolean> brakColumn;
     @FXML
     private TableColumn<Product, Date> dateColumn;
     @FXML
     private ComboBox<ProductType> prType;
+    @FXML
+    private ComboBox<Amortization> prAmortization;
     @FXML
     private TextField txtPrice;
     @FXML
@@ -59,20 +61,21 @@ public class Page_Products_ProductsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         productTypeService = new ProductTypeService();
         productService = new ProductService();
+        amortizationService = new AmortizationService();
         setTable();
         initProductTypeCombobox();
+        initAmortizationCombobox();
         CBDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
     private void initTable() {
         productTypeService = new ProductTypeService();
         numColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("inventoryNumber"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<ProductType, String>("name"));
-        //nameColumn.setCellValueFactory(new PropertyValueFactory<Product, List<ProductType>>(productTypeService.));
-        //colorColumn.setCellValueFactory(new PropertyValueFactory<Product, Color>("color"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, ProductType>("productType"));//tova izvajda informaciq za samoto property nz kak da go opravq ...
+        colorColumn.setCellValueFactory(new PropertyValueFactory<Product, ProductType>("productType"));//tova izvajda informaciq za samoto property nz kak da go opravq ...
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("isDMA"));
-        armortizationColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("amortization"));
+        amortizationColumn.setCellValueFactory(new PropertyValueFactory<Product, Amortization>("amortization"));//tova neraboti nz zashto 
         brakColumn.setCellValueFactory(new PropertyValueFactory<Product, Boolean>("isAvailable"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Product, Date>("dateCreated"));
     }
@@ -96,7 +99,7 @@ public class Page_Products_ProductsController implements Initializable {
         clearForm();
         int index = prType.getSelectionModel().getSelectedIndex();
         productService = new ProductService();
-        productService.addProduct(index, true, Integer.parseInt(txtPrice.getText()), 0);
+        productService.addProduct(index, true, Double.parseDouble(txtPrice.getText()), index);
         setTable();
     }
 
@@ -105,7 +108,7 @@ public class Page_Products_ProductsController implements Initializable {
         Product product = table.getSelectionModel().getSelectedItem();
         if (product != null) {
             productService = new ProductService();
-            if (CBDelete.getValue() == "Принудително изтриване") {
+            if (CBDelete.getValue().toString() == "Принудително изтриване") {
 
                 productService.forceDeleteProductType(product.getId());
             } else {
@@ -114,7 +117,7 @@ public class Page_Products_ProductsController implements Initializable {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете потребителя който искате да изтриете.");
+            alert.setHeaderText("Моля, посочете какво искате да изтриете..");
             alert.showAndWait();
         }
         clearForm();
@@ -141,11 +144,37 @@ public class Page_Products_ProductsController implements Initializable {
             }
         });
 
-        if (SessionHelper.getCurrentUser()
-                .getRoleType() == RoleType.ADMIN) {
+        if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
             prType.setItems(FXCollections.observableArrayList(productTypeService.getProductTypes()));
         } else {
             prType.setItems(FXCollections.observableArrayList(productTypeService.getProductTypes(SessionHelper.getCurrentUser().getId())));
+        }
+    }
+
+    private void initAmortizationCombobox() {
+        prAmortization.setConverter(new StringConverter<Amortization>() {
+
+            @Override
+            public String toString(Amortization object) {
+                return object.getName();
+            }
+
+            @Override
+            public Amortization fromString(String string) {
+                for (Amortization am : prAmortization.getItems()) {
+                    if (am.getName().equals(string)) {
+                        return am;
+                    }
+                }
+
+                return null;
+            }
+        });
+
+        if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
+            prAmortization.setItems(FXCollections.observableArrayList(amortizationService.getAmortizations()));
+        } else {
+            prAmortization.setItems(FXCollections.observableArrayList(amortizationService.getAmortizations(SessionHelper.getCurrentUser().getId())));
         }
     }
 }

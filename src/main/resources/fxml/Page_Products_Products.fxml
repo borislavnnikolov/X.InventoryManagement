@@ -16,13 +16,13 @@
             <TableColumn fx:id="colorColumn" prefWidth="44.0" text="Цвят" />
             <TableColumn fx:id="priceColumn" prefWidth="58.0" text="Цена" />
             <TableColumn fx:id="typeColumn" prefWidth="35.0" text="Тип" />
-            <TableColumn fx:id="armortizationColumn" prefWidth="69.0" text="Армортизация" />
+            <TableColumn fx:id="amortizationColumn" prefWidth="69.0" text="Армортизация" />
             <TableColumn fx:id="brakColumn" prefWidth="59.0" text="Бракуван" />
             <TableColumn fx:id="dateColumn" prefWidth="56.0" text="Закупен на" />
          </columns>
       </TableView>
-      <ComboBox fx:id="prType" layoutX="7.0" layoutY="68.0" prefHeight="25.0" prefWidth="174.0" promptText="Armortization" />
-      <ComboBox layoutX="7.0" layoutY="109.0" prefHeight="25.0" prefWidth="174.0" promptText="Brak" />
+      <ComboBox fx:id="prType" layoutX="7.0" layoutY="68.0" prefHeight="25.0" prefWidth="174.0" promptText="Продукти" />
+      <ComboBox fx:id="prAmortization" layoutX="7.0" layoutY="109.0" prefHeight="25.0" prefWidth="174.0" promptText="Армортизация" />
       <TextField fx:id="txtPrice" alignment="CENTER" layoutX="251.0" layoutY="68.0" promptText="Cena" />
       <Button layoutX="251.0" layoutY="109.0" mnemonicParsing="false" onAction="#ADD" text="add" />
       <Button layoutX="348.0" layoutY="109.0" mnemonicParsing="false" onAction="#DELETE" text="nazad" />

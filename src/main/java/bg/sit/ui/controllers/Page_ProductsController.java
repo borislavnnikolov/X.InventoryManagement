@@ -44,4 +44,9 @@ public class Page_ProductsController implements Initializable {
         SecondRootPane.getChildren().setAll(pane);
     }
 
+    public void Amortization(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/Page_Products_Amortization.fxml"));
+        SecondRootPane.getChildren().setAll(pane);
+    }
+
 }

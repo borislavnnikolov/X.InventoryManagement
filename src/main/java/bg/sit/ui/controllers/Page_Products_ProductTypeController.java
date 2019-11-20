@@ -39,12 +39,12 @@ public class Page_Products_ProductTypeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTable();
+        CBDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
     private void initTable() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<ProductType, String>("name"));
         colorColumn.setCellValueFactory(new PropertyValueFactory<ProductType, Color>("color"));
-        CBDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
     private void setTable() {
@@ -93,7 +93,7 @@ public class Page_Products_ProductTypeController implements Initializable {
         ProductType productType = table.getSelectionModel().getSelectedItem();
         if (productType != null) {
             productTypeService = new ProductTypeService();
-            if (CBDelete.getValue() == "Принудително изтриване") {
+            if (CBDelete.getValue().toString() == "Принудително изтриване") {
                 productTypeService.forceDeleteProductType(productType.getId());
             } else {
                 productTypeService.deleteProductType(productType.getId());
@@ -101,7 +101,7 @@ public class Page_Products_ProductTypeController implements Initializable {
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете потребителя който искате да изтриете.");
+            alert.setHeaderText("Моля, посочете какво искате да изтриете.");
             alert.showAndWait();
         }
         clearForm();
