@@ -8,10 +8,13 @@ import bg.sit.business.services.AmortizationService;
 import bg.sit.business.services.ProductService;
 import bg.sit.business.services.ProductTypeService;
 import bg.sit.session.SessionHelper;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 public class Page_Products_ProductsController implements Initializable {
@@ -35,17 +39,17 @@ public class Page_Products_ProductsController implements Initializable {
     @FXML
     private TableColumn<Product, String> numColumn;
     @FXML
-    private TableColumn<Product, ProductType> nameColumn;
+    private TableColumn<Product, String> nameColumn;
     @FXML
-    private TableColumn<Product, ProductType> colorColumn;
+    private TableColumn<Product, String> colorColumn;
     @FXML
     private TableColumn<Product, Double> priceColumn;
     @FXML
     private TableColumn<Product, String> typeColumn;
     @FXML
-    private TableColumn<Product, Amortization> amortizationColumn;
+    private TableColumn<Product, String> amortizationColumn;
     @FXML
-    private TableColumn<Product, Boolean> brakColumn;
+    private TableColumn<Product, String> brakColumn;
     @FXML
     private TableColumn<Product, Date> dateColumn;
     @FXML
@@ -71,12 +75,65 @@ public class Page_Products_ProductsController implements Initializable {
     private void initTable() {
         productTypeService = new ProductTypeService();
         numColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("inventoryNumber"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, ProductType>("productType"));//tova izvajda informaciq za samoto property nz kak da go opravq ...
-        colorColumn.setCellValueFactory(new PropertyValueFactory<Product, ProductType>("productType"));//tova izvajda informaciq za samoto property nz kak da go opravq ...
+
+        nameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
+
+            }
+        });
+
+        colorColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                Color color = param.getValue().getProductType().getColor();
+
+                return new SimpleObjectProperty<>(String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+            }
+        });
+
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("isDMA"));
-        amortizationColumn.setCellValueFactory(new PropertyValueFactory<Product, Amortization>("amortization"));//tova neraboti nz zashto 
-        brakColumn.setCellValueFactory(new PropertyValueFactory<Product, Boolean>("isAvailable"));
+
+        typeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                if (param.getValue().getIsDMA()) {
+                    return new SimpleObjectProperty<>("ДМА");
+
+                }
+                return new SimpleObjectProperty<>("МА");
+            }
+        });
+
+        amortizationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                Amortization amort = param.getValue().getAmortization();
+
+                if (amort == null) {
+                    return new SimpleObjectProperty<>("Няма");
+
+                }
+
+                return new SimpleObjectProperty<>(amort.getName()
+                );
+
+            }
+        });
+
+        brakColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                if (param.getValue().getDiscardedProduct() == null) {
+                    return new SimpleObjectProperty<>("Не");
+
+                } else {
+                    return new SimpleObjectProperty<>("Да");
+                }
+            }
+        });
+
         dateColumn.setCellValueFactory(new PropertyValueFactory<Product, Date>("dateCreated"));
     }
 
