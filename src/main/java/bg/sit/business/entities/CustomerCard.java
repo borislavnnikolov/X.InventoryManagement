@@ -15,12 +15,12 @@ public class CustomerCard {
     @EmbeddedId
     private ProductCustomerUserID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ProductID")
     @MapsId("productID")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CustomerID")
     @MapsId("customerID")
     private Customer customer;

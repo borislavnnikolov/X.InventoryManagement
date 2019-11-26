@@ -34,7 +34,7 @@ public class Amortization {
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "amortization")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "amortization", fetch = FetchType.EAGER)
     private Collection<Product> products = new ArrayList<Product>();
 
     @Column(name = "IsDeleted", nullable = false)

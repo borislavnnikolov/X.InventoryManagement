@@ -42,7 +42,7 @@ public class Product {
     private Collection<CustomerCard> customerCards = new ArrayList<>();
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY, optional = true)
+            fetch = FetchType.EAGER, optional = true)
     private DiscardedProduct discardedProduct;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -53,7 +53,7 @@ public class Product {
     @JoinColumn(name = "ProductTypeID", nullable = false)
     private ProductType productType;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "AmortizationID", nullable = true)
     private Amortization amortization;
 
