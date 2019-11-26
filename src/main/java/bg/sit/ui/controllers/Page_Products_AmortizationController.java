@@ -103,7 +103,7 @@ public class Page_Products_AmortizationController implements Initializable {
         Amortization amortization = table.getSelectionModel().getSelectedItem();
         if (amortization != null) {
 
-            if (CBDelete.getValue().toString() == "Принудително изтриване") {
+            if (CBDelete.getSelectionModel().getSelectedIndex() == 2) {
                 amortizationService.forceDeleteAmortization(amortization.getId());
             } else {
                 amortizationService.deleteAmortization(amortization.getId());

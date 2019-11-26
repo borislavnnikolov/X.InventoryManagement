@@ -154,9 +154,25 @@ public class Page_Products_ProductsController implements Initializable {
 
     public void ADD(ActionEvent event) throws IOException {
         clearForm();
-        int index = prType.getSelectionModel().getSelectedIndex();
         productService = new ProductService();
-        productService.addProduct(index, true, Double.parseDouble(txtPrice.getText()), index);
+        if (prType.getValue() != null && prAmortization.getValue() != null) {
+            int product = prType.getSelectionModel().getSelectedItem().getId();
+            int amortization = prAmortization.getSelectionModel().getSelectedItem().getId();
+            if (txtPrice.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Опс...");
+                alert.setHeaderText("Моля, напишете цена ...");
+                alert.showAndWait();
+            } else {
+                productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Опс...");
+            alert.setHeaderText("Моля, посочете продукт и амортизация..");
+            alert.showAndWait();
+        }
+
         setTable();
     }
 
@@ -165,7 +181,7 @@ public class Page_Products_ProductsController implements Initializable {
         Product product = table.getSelectionModel().getSelectedItem();
         if (product != null) {
             productService = new ProductService();
-            if (CBDelete.getValue().toString() == "Принудително изтриване") {
+            if (CBDelete.getSelectionModel().getSelectedIndex() == 2) {
 
                 productService.forceDeleteProductType(product.getId());
             } else {

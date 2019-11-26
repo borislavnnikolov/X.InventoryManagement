@@ -37,7 +37,7 @@
             <TextField fx:id="txtPassword" alignment="CENTER" layoutX="31.0" layoutY="55.0" promptText="Парола" />
             <Button fx:id="btnAdd1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="71.0" text="Добави" />
             <Button fx:id="btnDelete1" layoutX="150.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Изтрий" />
-            <ComboBox fx:id="ComboBoxRoleType" layoutX="271.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="Избери Роля" />
+            <ComboBox fx:id="ComboBoxRoleType" layoutX="271.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери Роля---" />
             <ComboBox fx:id="ComboBoxDelete" layoutX="152.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери---" />
             <Button fx:id="btnBackEdit" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
             <Button fx:id="ADD" layoutX="31.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="103.0" text="Добави">

@@ -37,11 +37,11 @@
             <TextField fx:id="txtName" alignment="CENTER" layoutX="45.0" layoutY="34.0" promptText="Име" />
             <TextField fx:id="txtLocation" alignment="CENTER" layoutX="250.0" layoutY="34.0" promptText="Локация" />
             <TextField fx:id="txtPhone" alignment="CENTER" layoutX="151.0" layoutY="76.0" promptText="Номер" />
-            <Button fx:id="btnBackEDIT" layoutX="265.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="70.0" text="Назад" />
+            <Button fx:id="btnBackEDIT" layoutX="265.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="77.0" text="Назад" />
             <Button fx:id="btnEDIT1" layoutX="116.0" layoutY="126.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="70.0" text="Промяна" />
             <Button fx:id="btnBackDEL" layoutX="246.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="70.0" text="Назад" />
             <Button fx:id="btnDELETE1" layoutX="137.0" layoutY="126.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="77.0" text="Изтриване" />
-            <ComboBox fx:id="ComboBoxDel" layoutX="135.0" layoutY="76.0" prefHeight="25.0" prefWidth="182.0" />
+            <ComboBox fx:id="ComboBoxDel" layoutX="135.0" layoutY="76.0" prefHeight="25.0" prefWidth="180.0" promptText="---Избери изтриване---" />
             <Button fx:id="btnADD" layoutX="25.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="115.0" text="Добавяне">
                <font>
                   <Font size="18.0" />

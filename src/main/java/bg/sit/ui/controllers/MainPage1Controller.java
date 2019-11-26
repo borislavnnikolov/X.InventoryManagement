@@ -25,7 +25,7 @@ public class MainPage1Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SessionHelper.getCurrentUser();
-        UserName.setText(SessionHelper.getCurrentUser().getName());
+        UserName.setText("Добре дошъл, " + SessionHelper.getCurrentUser().getName());
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml"));
             rootPane.getChildren().setAll(pane);

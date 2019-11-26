@@ -162,10 +162,10 @@ public class Page_ClientsController implements Initializable {
         Customer customer = table.getSelectionModel().getSelectedItem();
         if (customer != null) {
             customersService = new CustomerService();
-            if (ComboBoxDel.getValue() == "Принудително изтриване") {
+            if (ComboBoxDel.getSelectionModel().getSelectedIndex() == 2) {
                 customersService.forceDeleteCustomer(customer.getId());
             } else {
-                customersService.forceDeleteCustomer(customer.getId());
+                customersService.deleteCustomer(customer.getId());
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

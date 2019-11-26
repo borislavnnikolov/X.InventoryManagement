@@ -93,7 +93,7 @@ public class Page_Products_ProductTypeController implements Initializable {
         ProductType productType = table.getSelectionModel().getSelectedItem();
         if (productType != null) {
             productTypeService = new ProductTypeService();
-            if (CBDelete.getValue().toString() == "Принудително изтриване") {
+            if (CBDelete.getSelectionModel().getSelectedIndex() == 2) {
                 productTypeService.forceDeleteProductType(productType.getId());
             } else {
                 productTypeService.deleteProductType(productType.getId());

@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="439.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.LoginPageController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="428.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.LoginPageController">
    <children>
       <TextField fx:id="txtUsernameField" alignment="CENTER" layoutX="189.0" layoutY="118.0" promptText="Потребителско име">
          <font>
@@ -21,7 +21,7 @@
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <Button fx:id="btnLogin" alignment="CENTER" defaultButton="true" layoutX="189.0" layoutY="265.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="39.0" prefWidth="78.0" text="Влез">
+      <Button fx:id="btnLogin" alignment="CENTER" defaultButton="true" layoutX="189.0" layoutY="265.0" mnemonicParsing="false" onAction="#btnLogin" prefHeight="39.0" prefWidth="75.0" text="Влез">
          <font>
             <Font size="18.0" />
          </font>
@@ -39,7 +39,7 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <Button fx:id="btnEXIT" alignment="CENTER" cancelButton="true" layoutX="334.0" layoutY="265.0" mnemonicParsing="false" onAction="#EXIT" prefHeight="39.0" prefWidth="78.0" text="Изход">
+      <Button fx:id="btnEXIT" alignment="CENTER" cancelButton="true" layoutX="334.0" layoutY="265.0" mnemonicParsing="false" onAction="#EXIT" text="Изход">
          <font>
             <Font size="18.0" />
          </font>
