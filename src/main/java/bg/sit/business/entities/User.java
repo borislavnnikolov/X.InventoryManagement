@@ -16,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,11 +34,20 @@ public class User {
     private int id;
 
     @Column(name = "Name", nullable = false)
+    @NotNull
+    @NotEmpty(message = "Потребителското име не трябва да е празно!")
+    @Size(min = 3, max = 30, message = "Потребителското име трябва да е между {min} и {max} знака!")
     private String name;
 
+    @NotNull
+    @NotEmpty(message = "Потребителското име не трябва да е празно!")
+    @Size(min = 3, max = 30, message = "Потребителското име трябва да е между {min} и {max} знака!")
     @Column(name = "Username", unique = true, nullable = false)
     private String username;
 
+    @NotNull
+    @NotEmpty(message = "Паролата не трябва да е празна!")
+    @Size(min = 4, max = 30, message = "Паролата трябва да е между {min} и {max} знака!")
     @Column(name = "Password", nullable = false)
     private String password;
 

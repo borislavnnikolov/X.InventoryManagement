@@ -10,6 +10,9 @@ import bg.sit.business.entities.User;
 import bg.sit.business.enums.RoleType;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -74,6 +77,20 @@ public class UserService extends BaseService {
             newUser.setUsername(username);
             newUser.setPassword(password);
             newUser.setRoleType(roleType);
+
+            // Validate newly added user
+            Set<ConstraintViolation<User>> constraintViolations = validator.validate(newUser);
+
+            // Check if there are errors
+            if (constraintViolations.size() > 0) {
+                String errorMesages = "";
+                for (ConstraintViolation<User> next : constraintViolations) {
+                    errorMesages += next.getMessage() + "\n";
+                }
+
+                throw new ValidationException(errorMesages);
+            }
+
             session.save(newUser);
             transaction.commit();
         } catch (Exception e) {
