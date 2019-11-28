@@ -6,6 +6,8 @@
 package bg.sit.business.services;
 
 import bg.sit.business.entities.Customer;
+import bg.sit.business.entities.CustomerCard;
+import bg.sit.business.entities.Product;
 import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
 import java.util.List;
@@ -162,6 +164,74 @@ public class CustomerService extends BaseService {
             transaction = session.beginTransaction();
             Customer customer = session.find(Customer.class, customerID);
             session.delete(customer);
+            transaction.commit();
+            isSuccessfull = true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return isSuccessfull;
+    }
+
+    // Add customer card to the database
+    public CustomerCard addCustomerCard(int customerID, int productID) {
+        Session session = null;
+        Transaction transaction = null;
+        CustomerCard newCustomerCard = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            newCustomerCard = new CustomerCard();
+
+            Product chosenProduct = session.get(Product.class, productID);
+
+            if (chosenProduct == null) {
+                throw new Exception("chosenProduct is null. (CustomerService => addCustomerCard)");
+            }
+
+            newCustomerCard.setProduct(chosenProduct);
+
+            Customer chosenCustomer = session.get(Customer.class, customerID);
+
+            if (chosenCustomer == null) {
+                throw new Exception("chosenCustomer is null. (CustomerService => addCustomerCard)");
+            }
+
+            newCustomerCard.setCustomer(chosenCustomer);
+
+            newCustomerCard.setDateBorrowed(SessionHelper.getCurrentDate());
+            newCustomerCard.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            session.save(newCustomerCard);
+            transaction.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return newCustomerCard;
+    }
+
+    // Soft delete customer by customerID
+    public boolean removeCustomerCard(int customerID, int productID) {
+        Session session = null;
+        Transaction transaction = null;
+        boolean isSuccessfull = false;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            CustomerCard customer = session.createQuery("FROM CustomerCard WHERE isDeleted = false AND product.id = " + productID + " AND customer.id = " + customerID, CustomerCard.class).getSingleResult();
+            customer.setIsDeleted(true);
+            session.save(customer);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {

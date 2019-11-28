@@ -7,6 +7,7 @@ package bg.sit.business.services;
 
 import bg.sit.business.constants.Constants;
 import bg.sit.business.entities.Amortization;
+import bg.sit.business.entities.DiscardedProduct;
 import bg.sit.business.entities.Product;
 import bg.sit.business.entities.ProductType;
 import bg.sit.business.entities.User;
@@ -205,6 +206,71 @@ public class ProductService extends BaseService {
         }
 
         return isSuccessfull;
+    }
 
+    public DiscardedProduct discardProduct(int productID, String reason) {
+        Session session = null;
+        Transaction transaction = null;
+        DiscardedProduct newDiscardedProduct = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            newDiscardedProduct = new DiscardedProduct();
+            Product chosenProduct = session.get(Product.class, productID);
+
+            if (chosenProduct == null) {
+                throw new Exception("Could not find product with ID " + productID);
+            }
+
+            newDiscardedProduct.setProduct(chosenProduct);
+            newDiscardedProduct.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            newDiscardedProduct.setDateDiscarded(SessionHelper.getCurrentDate());
+            newDiscardedProduct.setReason(reason);
+
+            session.save(newDiscardedProduct);
+            transaction.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return newDiscardedProduct;
+    }
+
+    // Get all product for specific user inverted means all products but specified customer
+    public List<Product> getProductsByCustomer(int customerID, boolean inverted) {
+        Session session = null;
+        Transaction transaction = null;
+        List<Product> products = null;
+        try {
+            session = sessionFactory.openSession();
+
+            String hql = "FROM Product AS p WHERE p.isDeleted = false";
+            if (customerID > 0) {
+                hql += "AND ";
+
+                if (inverted) {
+                    hql += "NOT ";
+                }
+
+                hql += "p.customer.id = " + customerID;
+            }
+
+            products = session.createQuery(hql, Product.class).list();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return products;
     }
 }
