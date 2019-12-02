@@ -1,11 +1,13 @@
 package bg.sit.ui.controllers;
 
+import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.User;
 import bg.sit.business.enums.RoleType;
 import bg.sit.business.services.UserService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.validation.ConstraintViolation;
 
 public class Page_UsersController implements Initializable {
 
@@ -145,44 +148,56 @@ public class Page_UsersController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        clearForm();
-        userService = new UserService();
-        User user = table.getSelectionModel().getSelectedItem();
-        if (txtName.getText().isEmpty() && txtUserName.getText().isEmpty() && txtPassword.getText().isEmpty() && ComboBoxRoleType.getValue() == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, въведете валидни данни ...");
-            alert.showAndWait();
+
+        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validateValue(User.class, "username", txtUserName.getText());
+        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "password", txtPassword.getText()));
+        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "name", txtName.getText()));
+        //validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "roleType", ComboBoxRoleType.getValue()));
+
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
         } else {
+
+            clearForm();
+            userService = new UserService();
+            User user = table.getSelectionModel().getSelectedItem();
             if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
                 userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
             } else {
                 userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
             }
+            setTable();
         }
-
-        setTable();
     }
 
     public void EDIT(ActionEvent event) throws IOException {
-        User user = table.getSelectionModel().getSelectedItem();
-        if (user != null) {
-            userService = new UserService();
-            if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
-                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
-            } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
-                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
-            } else {
-                userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.NONE);
-            }
+        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validateValue(User.class, "username", txtUserName.getText());
+        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "password", txtPassword.getText()));
+        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "name", txtName.getText()));
+        //validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "roleType", ComboBoxRoleType.getValue()));
+
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
-            alert.showAndWait();
+            User user = table.getSelectionModel().getSelectedItem();
+            if (user != null) {
+                userService = new UserService();
+                if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
+                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
+                } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
+                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
+                } else {
+                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.NONE);
+                }
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Опс...");
+                alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
+                alert.showAndWait();
+            }
+            clearForm();
+            setTable();
         }
-        clearForm();
-        setTable();
     }
 
     public void DELETE(ActionEvent event) throws IOException {

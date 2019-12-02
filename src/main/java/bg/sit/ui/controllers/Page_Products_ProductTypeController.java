@@ -1,5 +1,6 @@
 package bg.sit.ui.controllers;
 
+import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.ProductType;
 import bg.sit.business.enums.RoleType;
 import bg.sit.business.services.ProductTypeService;
@@ -8,6 +9,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.validation.ConstraintViolation;
 
 public class Page_Products_ProductTypeController implements Initializable {
 
@@ -63,30 +66,42 @@ public class Page_Products_ProductTypeController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        clearForm();
-        productTypeService = new ProductTypeService();
-        javafx.scene.paint.Color fx = CPBox.getValue();
-        java.awt.Color awtColor = new java.awt.Color((float) fx.getRed(), (float) fx.getGreen(), (float) fx.getBlue(), (float) fx.getOpacity());
-        productTypeService.addProductType(txtName.getText(), awtColor);
-        setTable();
-    }
+        Set<ConstraintViolation<ProductType>> validations = ValidationUtil.getValidator().validateValue(ProductType.class, "name", txtName.getText());
 
-    public void EDIT(ActionEvent event) throws IOException {
-        ProductType productType = table.getSelectionModel().getSelectedItem();
-        if (productType != null) {
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
+        } else {
+            clearForm();
             productTypeService = new ProductTypeService();
             javafx.scene.paint.Color fx = CPBox.getValue();
             java.awt.Color awtColor = new java.awt.Color((float) fx.getRed(), (float) fx.getGreen(), (float) fx.getBlue(), (float) fx.getOpacity());
-            productTypeService.updateProductType(productType.getId(), txtName.getText(), awtColor);
-
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
-            alert.showAndWait();
+            productTypeService.addProductType(txtName.getText(), awtColor);
+            setTable();
         }
-        clearForm();
-        setTable();
+    }
+
+    public void EDIT(ActionEvent event) throws IOException {
+        Set<ConstraintViolation<ProductType>> validations = ValidationUtil.getValidator().validateValue(ProductType.class, "name", txtName.getText());
+
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
+        } else {
+            ProductType productType = table.getSelectionModel().getSelectedItem();
+            if (productType != null) {
+                productTypeService = new ProductTypeService();
+                javafx.scene.paint.Color fx = CPBox.getValue();
+                java.awt.Color awtColor = new java.awt.Color((float) fx.getRed(), (float) fx.getGreen(), (float) fx.getBlue(), (float) fx.getOpacity());
+                productTypeService.updateProductType(productType.getId(), txtName.getText(), awtColor);
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Опс...");
+                alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
+                alert.showAndWait();
+            }
+            clearForm();
+            setTable();
+        }
     }
 
     public void DELETE(ActionEvent event) throws IOException {                      //TODO

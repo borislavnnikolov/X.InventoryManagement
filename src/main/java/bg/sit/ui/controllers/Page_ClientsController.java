@@ -1,11 +1,13 @@
 package bg.sit.ui.controllers;
 
+import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.Customer;
 import bg.sit.business.services.CustomerService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.validation.ConstraintViolation;
 
 public class Page_ClientsController implements Initializable {
 
@@ -136,25 +139,39 @@ public class Page_ClientsController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        clearForm();
-        customersService = new CustomerService();
-        customersService.addCustomer(txtName.getText(), txtLocation.getText(), txtPhone.getText());
-        setTable();
+        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validateValue(Customer.class, "name", txtName.getText());
+        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "location", txtLocation.getText()));
+        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "phone", txtPhone.getText()));
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
+        } else {
+            clearForm();
+            customersService = new CustomerService();
+            customersService.addCustomer(txtName.getText(), txtLocation.getText(), txtPhone.getText());
+            setTable();
+        }
     }
 
     public void EDIT(ActionEvent event) throws IOException {
-        Customer customer = table.getSelectionModel().getSelectedItem();
-        if (customer != null) {
-            customersService = new CustomerService();
-            customersService.updateCustomer(customer.getId(), txtName.getText(), txtLocation.getText(), txtPhone.getText());
+        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validateValue(Customer.class, "name", txtName.getText());
+        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "location", txtLocation.getText()));
+        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "phone", txtPhone.getText()));
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
-            alert.showAndWait();
+            Customer customer = table.getSelectionModel().getSelectedItem();
+            if (customer != null) {
+                customersService = new CustomerService();
+                customersService.updateCustomer(customer.getId(), txtName.getText(), txtLocation.getText(), txtPhone.getText());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Опс...");
+                alert.setHeaderText("Моля, посочете потребителя който искате да промените.");
+                alert.showAndWait();
+            }
+            clearForm();
+            setTable();
         }
-        clearForm();
-        setTable();
     }
 
     public void DELETE(ActionEvent event) throws IOException {

@@ -18,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "customers")
@@ -28,12 +31,21 @@ public class Customer {
     @Column(name = "CustomerID", unique = true, nullable = false)
     private int id;
 
+    @NotNull
+    @NotEmpty(message = "Името не трябва да е празно!")
+    @Size(min = 2, max = 30, message = "Името трябва да е между {min} и {max} знака!")
     @Column(name = "Name", nullable = false)
     private String name;
 
+    @NotNull
+    @NotEmpty(message = "Местожителство не трябва да е празна!")
+    @Size(min = 2, max = 30, message = "Местожителството трябва да е между {min} и {max} знака!")
     @Column(name = "Location")
     private String location;
 
+    @NotNull
+    @NotEmpty(message = "Телефония номер не трябва да е празно!")
+    @Size(min = 5, max = 16, message = "Телефония номер трябва да е между {min} и {max} знака!")
     @Column(name = "Phone")
     private String phone;
 

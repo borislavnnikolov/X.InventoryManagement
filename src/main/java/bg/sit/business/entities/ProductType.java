@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "product_types")
@@ -20,6 +23,9 @@ public class ProductType {
     @Column(name = "ProductTypeID", unique = true, nullable = false)
     private int id;
 
+    @NotNull
+    @NotEmpty(message = "Името на продукта не трябва да е празно!")
+    @Size(min = 2, max = 30, message = "Името на продукта трябва да е между {min} и {max} знака!")
     @Column(name = "Name", nullable = false)
     private String name;
 

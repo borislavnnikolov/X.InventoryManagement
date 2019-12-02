@@ -33,10 +33,10 @@ public class User {
     @Column(name = "UserID", unique = true, nullable = false)
     private int id;
 
-    @Column(name = "Name", nullable = false)
     @NotNull
-    @NotEmpty(message = "Потребителското име не трябва да е празно!")
-    @Size(min = 3, max = 30, message = "Потребителското име трябва да е между {min} и {max} знака!")
+    @NotEmpty(message = "Името не трябва да е празно!")
+    @Size(min = 2, max = 30, message = "Името трябва да е между {min} и {max} знака!")
+    @Column(name = "Name", nullable = false)
     private String name;
 
     @NotNull
