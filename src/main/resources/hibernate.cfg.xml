@@ -9,7 +9,6 @@
         <property name="hibernate.connection.password">Tv0P1yhzwe</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">validate</property>
-        <property name="hibernate.transaction.auto_close_session">true</property>
         <mapping class="bg.sit.business.entities.User"/>
         <mapping class="bg.sit.business.entities.Customer"/>
         <mapping class="bg.sit.business.entities.Amortization"/>

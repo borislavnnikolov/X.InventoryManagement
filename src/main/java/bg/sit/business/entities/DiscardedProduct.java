@@ -17,7 +17,7 @@ public class DiscardedProduct {
     @Column(name = "DiscardedProductID", unique = true, nullable = false)
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "ProductID", nullable = false)
     private Product product;
 

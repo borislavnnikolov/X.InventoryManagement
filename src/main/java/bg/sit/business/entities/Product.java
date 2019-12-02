@@ -57,6 +57,9 @@ public class Product {
     @JoinColumn(name = "AmortizationID", nullable = true)
     private Amortization amortization;
 
+    @Column(name = "AmortizationRepeatedTimes", nullable = true)
+    private int amortizationRepeatedTimes;
+
     @Column(name = "IsDeleted", nullable = false)
     private boolean isDeleted;
 
@@ -141,6 +144,14 @@ public class Product {
 
     public void setAmortization(Amortization amortization) {
         this.amortization = amortization;
+    }
+
+    public int getAmortizationRepeatedTimes() {
+        return amortizationRepeatedTimes;
+    }
+
+    public void setAmortizationRepeatedTimes(int amortizationRepeatedTimes) {
+        this.amortizationRepeatedTimes = amortizationRepeatedTimes;
     }
 
     public boolean getIsDeleted() {
