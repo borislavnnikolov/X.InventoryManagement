@@ -19,6 +19,8 @@ public class SessionHelper {
     // This is the current date, can be changed for testing purposes
     private static Date currentDate = new Date();
 
+    private static int yearsBeforeDiscard = 5;
+
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -41,5 +43,13 @@ public class SessionHelper {
 
     public static void setCurrentDate(Date currentDate) {
         SessionHelper.currentDate = currentDate;
+    }
+
+    public static int getYearsBeforeDiscard() {
+        return yearsBeforeDiscard;
+    }
+
+    public static void setYearsBeforeDiscard(int yearsBeforeDiscard) {
+        SessionHelper.yearsBeforeDiscard = yearsBeforeDiscard;
     }
 }

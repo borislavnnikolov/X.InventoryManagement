@@ -3,11 +3,14 @@ package bg.sit.ui.controllers;
 import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.User;
 import bg.sit.business.services.UserService;
+import bg.sit.business.tasks.DiscardProductTask;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,6 +56,9 @@ public class LoginPageController implements Initializable {
                 SessionHelper.setCurrentUser(usersService.getUserByUsername(txtUsernameField.getText(), true));
                 AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/MainPage1.fxml"));
                 rootPane.getChildren().setAll(pane);
+
+                // Start tasks
+                startTasks();
             } else {
                 lblStatus.setText("Login Failed");
             }
@@ -61,6 +67,15 @@ public class LoginPageController implements Initializable {
 
     public void EXIT(ActionEvent event) throws IOException {
         System.exit(0);
+    }
+
+    private void startTasks() {
+        TimerTask timerTask = new DiscardProductTask();
+        //running timer task as daemon thread
+        Timer timer = new Timer(true);
+
+        // Repeat 
+        timer.scheduleAtFixedRate(timerTask, 0, 2 * 60 * 1000);
     }
 
 }

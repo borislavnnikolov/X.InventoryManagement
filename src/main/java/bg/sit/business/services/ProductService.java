@@ -12,6 +12,8 @@ import bg.sit.business.entities.Product;
 import bg.sit.business.entities.ProductType;
 import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -184,7 +186,7 @@ public class ProductService extends BaseService {
     }
 
     // Force delete product by productID from database, once deleted it cannot be reverted
-    public boolean forceDeleteProductType(int productID) {
+    public boolean forceDeleteProduct(int productID) {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
@@ -240,6 +242,31 @@ public class ProductService extends BaseService {
         }
 
         return newDiscardedProduct;
+    }
+
+    public Product getProductForDiscard() {
+        Session session = null;
+        Product productForDiscard = null;
+
+        try {
+            session = sessionFactory.openSession();
+
+            long time = SessionHelper.getCurrentDate().getTime() - Duration.ofDays(365 * SessionHelper.getYearsBeforeDiscard()).toMillis();
+            productForDiscard = (Product) session.createQuery("FROM Product AS p WHERE p.isDeleted = false AND p.discardedProduct IS NOT NULL AND p.dateCreated <= :time")
+                    .setParameter("time", new Timestamp(time))
+                    .setMaxResults(1)
+                    .getSingleResult();
+
+            if (productForDiscard == null) {
+                throw new Exception("productForDiscard is null! (ProductService -> getProductForDiscard)");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return productForDiscard;
     }
 
     // Get all product for specific user inverted means all products but specified customer

@@ -183,7 +183,7 @@ public class Page_Products_ProductsController implements Initializable {
             productService = new ProductService();
             if (CBDelete.getSelectionModel().getSelectedIndex() == 2) {
 
-                productService.forceDeleteProductType(product.getId());
+                productService.forceDeleteProduct(product.getId());
             } else {
                 productService.deleteProduct(product.getId());
             }
