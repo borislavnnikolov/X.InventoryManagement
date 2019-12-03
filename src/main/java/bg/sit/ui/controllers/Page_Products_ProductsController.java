@@ -51,6 +51,8 @@ public class Page_Products_ProductsController implements Initializable {
     @FXML
     private TableColumn<Product, String> brakColumn;
     @FXML
+    private TableColumn<Product, String> avaibleColumn;
+    @FXML
     private TableColumn<Product, Date> dateColumn;
     @FXML
     private ComboBox<ProductType> prType;
@@ -133,7 +135,17 @@ public class Page_Products_ProductsController implements Initializable {
                 }
             }
         });
+        avaibleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                if (param.getValue().getIsAvailable()) {
+                    return new SimpleObjectProperty<>("Да");
 
+                } else {
+                    return new SimpleObjectProperty<>("Не");
+                }
+            }
+        });
         dateColumn.setCellValueFactory(new PropertyValueFactory<Product, Date>("dateCreated"));
     }
 

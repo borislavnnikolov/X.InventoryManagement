@@ -5,13 +5,16 @@
  */
 package bg.sit.ui.controllers;
 
+import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.Amortization;
 import bg.sit.business.enums.RoleType;
 import bg.sit.business.services.AmortizationService;
 import bg.sit.session.SessionHelper;
+import bg.sit.ui.MessagesUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.validation.ConstraintViolation;
 
 public class Page_Products_AmortizationController implements Initializable {
 
@@ -76,10 +80,29 @@ public class Page_Products_AmortizationController implements Initializable {
     }
 
     public void ADD(ActionEvent event) {
-        clearForm();
-        amortizationService = new AmortizationService();
-        amortizationService.addAmortization(txtName.getText(), Double.parseDouble(txtDecPrice.getText()), Integer.parseInt(txtPerDay.getText()), Integer.parseInt(txtRL.getText()));
-        setTable();
+        Amortization amort = new Amortization();
+
+        try {
+            amort.setPrice(Double.parseDouble(txtDecPrice.getText()));
+            amort.setRepeatLimit(Integer.parseInt(txtRL.getText()));
+            amort.setDays(Integer.parseInt(txtPerDay.getText()));
+            amort.setName(txtName.getText());
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<Amortization>> validations = ValidationUtil.getValidator().validate(amort);
+
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
+        } else {
+
+            clearForm();
+            amortizationService = new AmortizationService();
+            amortizationService.addAmortization(txtName.getText(), Double.parseDouble(txtDecPrice.getText()), Integer.parseInt(txtPerDay.getText()), Integer.parseInt(txtRL.getText()));
+            setTable();
+        }
     }
 
     public void EDIT(ActionEvent event) throws IOException {
