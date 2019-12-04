@@ -4,6 +4,7 @@ import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.User;
 import bg.sit.business.services.UserService;
 import bg.sit.business.tasks.DiscardProductTask;
+import bg.sit.business.tasks.UpdateProductPricesForArmotizationsTask;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
 import java.net.URL;
@@ -70,12 +71,19 @@ public class LoginPageController implements Initializable {
     }
 
     private void startTasks() {
-        TimerTask timerTask = new DiscardProductTask();
+        TimerTask timerDiscardProductTask = new DiscardProductTask();
         //running timer task as daemon thread
-        Timer timer = new Timer(true);
+        Timer timerDiscardProduct = new Timer(true);
 
         // Repeat 
-        timer.scheduleAtFixedRate(timerTask, 0, 2 * 60 * 1000);
+        timerDiscardProduct.scheduleAtFixedRate(timerDiscardProductTask, 0, 2 * 60 * 1000);
+
+        TimerTask timerUpdateProductPricesForArmotizationsTask = new UpdateProductPricesForArmotizationsTask();
+        //running timer task as daemon thread
+        Timer timerUpdateProductPricesForArmotizations = new Timer(true);
+
+        // Repeat 
+        timerUpdateProductPricesForArmotizations.scheduleAtFixedRate(timerUpdateProductPricesForArmotizationsTask, 0, 2 * 60 * 1000);
     }
 
 }

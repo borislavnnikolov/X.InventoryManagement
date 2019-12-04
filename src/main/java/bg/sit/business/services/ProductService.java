@@ -14,10 +14,10 @@ import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -304,19 +304,21 @@ public class ProductService extends BaseService {
         return products;
     }
 
-    public void updateProductPricesForAmortizations() {
+    public List<Product> updateProductPricesForAmortizations() {
         Session session = null;
         Transaction transaction = null;
+        List<Product> maProducts = new ArrayList<Product>();
+
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             List<Product> products = null;
 
-            products = session.createQuery("SELECT p FROM Product AS p INNER JOIN p.discardedProduct AS dp RIGHT JOIN p.amortization AS pa WHERE p.isDeleted = false AND dp IS NULL AND pa IS NOT NULL AND p.isDMA = true AND p.amortizationRepeatedTimes < pa.repeatLimit", Product.class).list();
+            products = session.createQuery("SELECT p FROM Product AS p LEFT JOIN p.discardedProduct AS pdp RIGHT JOIN p.amortization AS pa WHERE p.isDeleted = false AND p.isDMA = true AND pdp IS NULL AND pa IS NOT NULL AND p.amortizationRepeatedTimes < pa.repeatLimit", Product.class).list();
 
             if (products == null || products.isEmpty()) {
                 // TODO: Add log for empty items
-                return;
+                return maProducts;
             }
 
             for (Product product : products) {
@@ -337,6 +339,7 @@ public class ProductService extends BaseService {
                     if (product.getPrice() < SessionHelper.getMaLimit()) {
                         product.setIsDMA(false);
                         product.setAmortization(null);
+                        maProducts.add(product);
                     }
                 }
 
@@ -351,6 +354,7 @@ public class ProductService extends BaseService {
         } finally {
             session.close();
         }
+
+        return maProducts;
     }
-    private static final Logger LOG = Logger.getLogger(ProductService.class.getName());
 }
