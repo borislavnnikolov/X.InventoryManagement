@@ -1,25 +1,23 @@
 package bg.sit.ui.controllers;
 
-import bg.sit.business.entities.Product;
-import bg.sit.business.entities.ProductType;
-import bg.sit.business.services.ProductService;
-import bg.sit.business.services.ProductTypeService;
-import java.awt.Color;
-import java.util.Date;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.Amortization;
+import bg.sit.business.entities.Product;
+import bg.sit.business.entities.ProductType;
 import bg.sit.business.enums.RoleType;
 import bg.sit.business.services.AmortizationService;
+import bg.sit.business.services.ProductService;
+import bg.sit.business.services.ProductTypeService;
 import bg.sit.session.SessionHelper;
 import bg.sit.ui.MessagesUtil;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +28,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import javax.validation.ConstraintViolation;
 
 public class Page_Products_ProductsController implements Initializable {
@@ -200,21 +200,6 @@ public class Page_Products_ProductsController implements Initializable {
             setTable();
 
         }
-        /*clearForm();
-        productService = new ProductService();
-        if (prType.getValue() != null && prAmortization.getValue() != null) {
-            int product = prType.getSelectionModel().getSelectedItem().getId();
-            int amortization = prAmortization.getSelectionModel().getSelectedItem().getId();
-            productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
-            
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете продукт и амортизация..");
-            alert.showAndWait();
-        }
-
-        setTable();*/
     }
 
     public void DELETE(ActionEvent event) throws IOException {

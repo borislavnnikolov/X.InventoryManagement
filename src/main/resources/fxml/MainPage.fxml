@@ -108,9 +108,9 @@
                   <Image url="@../../../../../../../Desktop/products.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="264.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="45.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Desktop/Clients.png" />
+                  <Image url="@../../../../../../../Desktop/card.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="257.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
@@ -118,9 +118,9 @@
                   <Image url="@../../../../../../../Desktop/users.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="45.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="54.0" focusTraversable="true" layoutX="264.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Desktop/card.png" />
+                  <Image url="@../../../../../../../Desktop/Clients.png" />
                </image>
             </ImageView>
          </children>

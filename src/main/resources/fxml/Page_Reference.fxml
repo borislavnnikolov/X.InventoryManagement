@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -10,7 +13,7 @@
    <children>
       <VBox alignment="CENTER" layoutY="-2.0" prefHeight="405.0" prefWidth="150.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoBack" prefWidth="133.0" text="Обратно">
+            <Button alignment="CENTER" onAction="#GoBack" prefWidth="133.0" text="Обратно">
                <font>
                   <Font size="18.0" />
                </font>
@@ -20,6 +23,38 @@
             </Button>
          </children>
       </VBox>
-      <AnchorPane layoutX="150.0" prefHeight="405.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="150.0" prefHeight="405.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="btn" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка брак" />
+            <ComboBox fx:id="CustomerComboBox" layoutX="196.0" layoutY="130.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери клиент---" />
+            <Button fx:id="btnProducts" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setProductTable" prefHeight="25.0" prefWidth="150.0" text="Справка продукти" />
+            <TableView fx:id="productTable" layoutX="6.0" layoutY="45.0" prefHeight="70.0" prefWidth="440.0">
+               <columns>
+                  <TableColumn fx:id="numColumn" prefWidth="37.0" text="№" />
+                  <TableColumn fx:id="nameColumn" prefWidth="52.0" text="Име" />
+                  <TableColumn fx:id="colorColumn" prefWidth="46.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumn" prefWidth="39.0" text="Цена" />
+                  <TableColumn fx:id="typeColumn" prefWidth="30.0" text="Тип" />
+                  <TableColumn fx:id="amortizationColumn" prefWidth="70.0" text="Армортизация" />
+                  <TableColumn fx:id="brakColumn" prefWidth="42.0" text="Бракуван" />
+                  <TableColumn fx:id="avaibleColumn" prefWidth="57.0" text="Наличност" />
+                  <TableColumn fx:id="dateColumn" prefWidth="66.0" text="Добавен на" />
+               </columns>
+            </TableView>
+            <ComboBox fx:id="wasteComboBox" layoutX="196.0" layoutY="175.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери брак---" />
+            <ComboBox fx:id="availabilityComboBox" layoutX="196.0" layoutY="223.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери наличност---" />
+            <ComboBox fx:id="degreeComboBox" layoutX="196.0" layoutY="271.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери степен---" />
+            <Button fx:id="btnCard" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка картони" />
+            <Button fx:id="btnAvailability" layoutX="14.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка наличност" />
+            <Button fx:id="btnDegree" layoutX="14.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка степен" />
+            <TableView fx:id="cardsTable" layoutX="7.0" layoutY="305.0" prefHeight="70.0" prefWidth="440.0">
+              <columns>
+                <TableColumn prefWidth="99.0" text="№" />
+                <TableColumn prefWidth="104.0" text="Име" />
+                  <TableColumn prefWidth="134.0" text="Цвят" />
+                  <TableColumn prefWidth="102.0" text="Цена" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

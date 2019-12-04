@@ -1,6 +1,7 @@
 package bg.sit.ui.controllers;
 
 import bg.sit.business.enums.RoleType;
+import bg.sit.business.services.ReportService;
 import bg.sit.business.services.UserService;
 import bg.sit.session.SessionHelper;
 import java.io.IOException;
@@ -17,12 +18,11 @@ import javafx.scene.layout.AnchorPane;
 public class MainPageController implements Initializable {
 
     UserService userService;
+    ReportService reportService;
     @FXML
     private AnchorPane rootPane;
     @FXML
     private AnchorPane rootPaneAll;
-    @FXML
-    private Label UserName;
     @FXML
     private Label N_Products;
     @FXML
@@ -36,6 +36,19 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        getCurrentUser();
+        setCount();
+    }
+
+    public void setCount() {
+        reportService = new ReportService();
+        N_Products.setText(" " + reportService.countProducts());
+        N_Clients.setText(String.valueOf(reportService.countClients()));
+        N_Users.setText(String.valueOf(reportService.countUsers()));
+        N_Cards.setText(String.valueOf(reportService.countCustomerCards()));
+    }
+
+    public void getCurrentUser() {
         userService = new UserService();
         SessionHelper.getCurrentUser();
         if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
