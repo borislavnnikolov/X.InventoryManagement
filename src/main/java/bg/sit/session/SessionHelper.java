@@ -14,7 +14,7 @@ public class SessionHelper {
     private static User currentUser;
 
     // This is the limit which a product can be material active type
-    private static double maLimit;
+    private static double maLimit = 500;
 
     // This is the current date, can be changed for testing purposes
     private static Date currentDate = new Date();
