@@ -106,6 +106,20 @@ public class Page_Products_AmortizationController implements Initializable {
     }
 
     public void EDIT(ActionEvent event) throws IOException {
+        Amortization amort = new Amortization();
+
+        try {
+            amort.setPrice(Double.parseDouble(txtDecPrice.getText()));
+            amort.setRepeatLimit(Integer.parseInt(txtRL.getText()));
+            amort.setDays(Integer.parseInt(txtPerDay.getText()));
+            amort.setName(txtName.getText());
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<Amortization>> validations = ValidationUtil.getValidator().validate(amort);
+
         Amortization amortization = table.getSelectionModel().getSelectedItem();
         if (amortization != null) {
             amortizationService = new AmortizationService();

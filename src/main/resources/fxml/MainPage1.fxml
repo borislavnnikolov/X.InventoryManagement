@@ -16,5 +16,6 @@
       </Label>
       <Button layoutX="523.0" layoutY="6.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="27.0" prefWidth="71.0" text="Излез" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="523.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0" />
       <AnchorPane fx:id="rootPane" layoutY="38.0" prefHeight="397.0" prefWidth="600.0" />
+      <Button layoutX="442.0" layoutY="7.0" mnemonicParsing="false" onAction="#Settings" prefHeight="25.0" prefWidth="71.0" text="Опции" />
    </children>
 </AnchorPane>

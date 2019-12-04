@@ -1,20 +1,25 @@
 package bg.sit.ui.controllers;
 
-import bg.sit.business.entities.Amortization;
 import bg.sit.business.entities.Product;
 import bg.sit.business.entities.ProductType;
-import bg.sit.business.enums.RoleType;
-import bg.sit.business.services.AmortizationService;
 import bg.sit.business.services.ProductService;
 import bg.sit.business.services.ProductTypeService;
-import bg.sit.session.SessionHelper;
 import java.awt.Color;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
-import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import bg.sit.business.ValidationUtil;
+import bg.sit.business.entities.Amortization;
+import bg.sit.business.enums.RoleType;
+import bg.sit.business.services.AmortizationService;
+import bg.sit.session.SessionHelper;
+import bg.sit.ui.MessagesUtil;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,8 +30,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
+import javax.validation.ConstraintViolation;
 
 public class Page_Products_ProductsController implements Initializable {
 
@@ -165,19 +169,44 @@ public class Page_Products_ProductsController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        clearForm();
+        Product productValidation = new Product();
+
+        try {
+            productValidation.setPrice(Double.parseDouble(txtPrice.getText()));
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<Product>> validations = ValidationUtil.getValidator().validate(productValidation);
+
+        if (!validations.isEmpty()) {
+            ValidationUtil.ShowErrors(validations);
+        } else {
+            clearForm();
+            productService = new ProductService();
+            if (prType.getValue() != null && prAmortization.getValue() != null) {
+                int product = prType.getSelectionModel().getSelectedItem().getId();
+                int amortization = prAmortization.getSelectionModel().getSelectedItem().getId();
+                productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Опс...");
+                alert.setHeaderText("Моля, посочете продукт и амортизация..");
+                alert.showAndWait();
+            }
+
+            setTable();
+
+        }
+        /*clearForm();
         productService = new ProductService();
         if (prType.getValue() != null && prAmortization.getValue() != null) {
             int product = prType.getSelectionModel().getSelectedItem().getId();
             int amortization = prAmortization.getSelectionModel().getSelectedItem().getId();
-            if (txtPrice.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Опс...");
-                alert.setHeaderText("Моля, напишете цена ...");
-                alert.showAndWait();
-            } else {
-                productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
-            }
+            productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
+            
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");
@@ -185,7 +214,7 @@ public class Page_Products_ProductsController implements Initializable {
             alert.showAndWait();
         }
 
-        setTable();
+        setTable();*/
     }
 
     public void DELETE(ActionEvent event) throws IOException {

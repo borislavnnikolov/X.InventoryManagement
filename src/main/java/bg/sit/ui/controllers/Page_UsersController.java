@@ -4,6 +4,7 @@ import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.User;
 import bg.sit.business.enums.RoleType;
 import bg.sit.business.services.UserService;
+import bg.sit.ui.MessagesUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -148,11 +149,19 @@ public class Page_UsersController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
+        User userValidation = new User();
 
-        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validateValue(User.class, "username", txtUserName.getText());
-        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "password", txtPassword.getText()));
-        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "name", txtName.getText()));
-        //validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "roleType", ComboBoxRoleType.getValue()));
+        try {
+            userValidation.setName(txtName.getText());
+            userValidation.setUsername(txtUserName.getText());
+            userValidation.setPassword(txtPassword.getText());
+
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validate(userValidation);
 
         if (!validations.isEmpty()) {
             ValidationUtil.ShowErrors(validations);
@@ -171,10 +180,18 @@ public class Page_UsersController implements Initializable {
     }
 
     public void EDIT(ActionEvent event) throws IOException {
-        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validateValue(User.class, "username", txtUserName.getText());
-        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "password", txtPassword.getText()));
-        validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "name", txtName.getText()));
-        //validations.addAll(ValidationUtil.getValidator().validateValue(User.class, "roleType", ComboBoxRoleType.getValue()));
+        User userValidation = new User();
+
+        try {
+            userValidation.setName(txtName.getText());
+            userValidation.setUsername(txtUserName.getText());
+            userValidation.setPassword(txtPassword.getText());
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validate(userValidation);
 
         if (!validations.isEmpty()) {
             ValidationUtil.ShowErrors(validations);

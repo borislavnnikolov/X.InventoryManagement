@@ -4,6 +4,7 @@ import bg.sit.business.ValidationUtil;
 import bg.sit.business.entities.Customer;
 import bg.sit.business.services.CustomerService;
 import bg.sit.session.SessionHelper;
+import bg.sit.ui.MessagesUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -139,9 +140,18 @@ public class Page_ClientsController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validateValue(Customer.class, "name", txtName.getText());
-        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "location", txtLocation.getText()));
-        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "phone", txtPhone.getText()));
+        Customer customerValidation = new Customer();
+
+        try {
+            customerValidation.setName(txtName.getText());
+            customerValidation.setLocation(txtLocation.getText());
+            customerValidation.setPhone(txtPhone.getText());
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validate(customerValidation);
         if (!validations.isEmpty()) {
             ValidationUtil.ShowErrors(validations);
         } else {
@@ -153,9 +163,18 @@ public class Page_ClientsController implements Initializable {
     }
 
     public void EDIT(ActionEvent event) throws IOException {
-        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validateValue(Customer.class, "name", txtName.getText());
-        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "location", txtLocation.getText()));
-        validations.addAll(ValidationUtil.getValidator().validateValue(Customer.class, "phone", txtPhone.getText()));
+        Customer customerValidation = new Customer();
+
+        try {
+            customerValidation.setName(txtName.getText());
+            customerValidation.setLocation(txtLocation.getText());
+            customerValidation.setPhone(txtPhone.getText());
+        } catch (Exception e) {
+            MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Set<ConstraintViolation<Customer>> validations = ValidationUtil.getValidator().validate(customerValidation);
         if (!validations.isEmpty()) {
             ValidationUtil.ShowErrors(validations);
         } else {
