@@ -149,17 +149,15 @@ public class Page_UsersController implements Initializable {
     }
 
     public void ADD(ActionEvent event) throws IOException {
-        User userValidation = new User();
-
-        try {
-            userValidation.setName(txtName.getText());
-            userValidation.setUsername(txtUserName.getText());
-            userValidation.setPassword(txtPassword.getText());
-
-        } catch (Exception e) {
+        if (txtName.getText().isEmpty() || txtUserName.getText().isEmpty() || txtPassword.getText().isEmpty()) {
             MessagesUtil.showMessage("Невалидни или празни дании!", Alert.AlertType.ERROR);
             return;
         }
+        User userValidation = new User();
+
+        userValidation.setName(txtName.getText());
+        userValidation.setUsername(txtUserName.getText());
+        userValidation.setPassword(txtPassword.getText());
 
         Set<ConstraintViolation<User>> validations = ValidationUtil.getValidator().validate(userValidation);
 
