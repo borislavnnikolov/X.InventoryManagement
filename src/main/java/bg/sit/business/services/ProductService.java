@@ -280,15 +280,15 @@ public class ProductService extends BaseService {
         try {
             session = sessionFactory.openSession();
 
-            String hql = "FROM Product AS p WHERE p.isDeleted = false";
+            String hql = "SELECT p FROM Product p, CustomerCard cc LEFT JOIN p.discardedProduct dp WHERE p.isDeleted = false AND dp IS NULL AND cc in elements(p.customerCards)";
             if (customerID > 0) {
-                hql += "AND ";
+                hql += " AND ";
 
                 if (inverted) {
                     hql += "NOT ";
                 }
 
-                hql += "p.customer.id = " + customerID;
+                hql += "cc.customer.id = " + customerID;
             }
 
             products = session.createQuery(hql, Product.class).list();
