@@ -14,7 +14,10 @@ import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -252,7 +255,7 @@ public class ProductService extends BaseService {
             session = sessionFactory.openSession();
 
             long time = SessionHelper.getCurrentDate().getTime() - Duration.ofDays(365 * SessionHelper.getYearsBeforeDiscard()).toMillis();
-            productForDiscard = (Product) session.createQuery("FROM Product AS p WHERE p.isDeleted = false AND p.discardedProduct IS NOT NULL AND p.dateCreated <= :time")
+            productForDiscard = (Product) session.createQuery("SELECT p FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND dp IS NULL AND p.dateCreated <= :time")
                     .setParameter("time", new Timestamp(time))
                     .setMaxResults(1)
                     .getSingleResult();
@@ -300,4 +303,54 @@ public class ProductService extends BaseService {
 
         return products;
     }
+
+    public void updateProductPricesForAmortizations() {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            List<Product> products = null;
+
+            products = session.createQuery("SELECT p FROM Product AS p INNER JOIN p.discardedProduct AS dp RIGHT JOIN p.amortization AS pa WHERE p.isDeleted = false AND dp IS NULL AND pa IS NOT NULL AND p.isDMA = true AND p.amortizationRepeatedTimes < pa.repeatLimit", Product.class).list();
+
+            if (products == null || products.isEmpty()) {
+                // TODO: Add log for empty items
+                return;
+            }
+
+            for (Product product : products) {
+                Amortization amortization = product.getAmortization();
+
+                Date pDate = product.getDateCreated();
+                long daysAfterCreated = TimeUnit.DAYS.convert(SessionHelper.getCurrentDate().getTime() - pDate.getTime(), TimeUnit.MILLISECONDS);
+                int daysToCheck = amortization.getDays();
+
+                if (product.getAmortizationRepeatedTimes() > 0) {
+                    daysToCheck *= product.getAmortizationRepeatedTimes();
+                }
+
+                if (daysAfterCreated >= daysToCheck) {
+                    product.setPrice(product.getPrice() - amortization.getPrice());
+                    product.setAmortizationRepeatedTimes(product.getAmortizationRepeatedTimes() + 1);
+
+                    if (product.getPrice() < SessionHelper.getMaLimit()) {
+                        product.setIsDMA(false);
+                        product.setAmortization(null);
+                    }
+                }
+
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
+    private static final Logger LOG = Logger.getLogger(ProductService.class.getName());
 }
