@@ -8,6 +8,7 @@ package bg.sit.business.services;
 import bg.sit.business.entities.Customer;
 import bg.sit.business.entities.CustomerCard;
 import bg.sit.business.entities.Product;
+import bg.sit.business.entities.ProductCustomerUserID;
 import bg.sit.business.entities.User;
 import bg.sit.session.SessionHelper;
 import java.util.List;
@@ -44,7 +45,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return newCustomer;
     }
 
@@ -55,20 +56,20 @@ public class CustomerService extends BaseService {
         List<Customer> customers = null;
         try {
             session = sessionFactory.openSession();
-
+            
             String hql = "FROM Customer AS c WHERE c.isDeleted = false";
             if (userID > 0) {
                 hql = "SELECT c FROM Customer as c INNER JOIN c.user AS u WHERE c.isDeleted = false AND u.id = :userID";
             }
-
+            
             Query q = session.createQuery(hql, Customer.class);
-
+            
             if (userID > 0) {
                 q.setParameter("userID", userID);
             }
-
+            
             customers = q.list();
-
+            
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if (transaction != null) {
@@ -77,7 +78,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return customers;
     }
 
@@ -94,25 +95,25 @@ public class CustomerService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-
+            
             editCustomer = (Customer) session.createQuery("FROM Customer AS c WHERE c.isDeleted = false AND c.id = :customerID").setParameter("customerID", customerID).getSingleResult();
-
+            
             if (editCustomer == null) {
                 throw new Exception("editCustomer is null! (CustomersService -> updateCustomer)");
             }
-
+            
             if (name != null && !name.equals("")) {
                 editCustomer.setName(name);
             }
-
+            
             if (location != null && !location.equals("")) {
                 editCustomer.setLocation(location);
             }
-
+            
             if (phone != null && !phone.equals("")) {
                 editCustomer.setPhone(phone);
             }
-
+            
             session.saveOrUpdate(editCustomer);
             transaction.commit();
         } catch (Exception e) {
@@ -123,7 +124,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return editCustomer;
     }
 
@@ -132,7 +133,7 @@ public class CustomerService extends BaseService {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
-
+        
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -149,7 +150,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return isSuccessfull;
     }
 
@@ -158,7 +159,7 @@ public class CustomerService extends BaseService {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
-
+        
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -174,7 +175,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return isSuccessfull;
     }
 
@@ -187,25 +188,33 @@ public class CustomerService extends BaseService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             newCustomerCard = new CustomerCard();
-
+            
             Product chosenProduct = session.get(Product.class, productID);
-
+            
             if (chosenProduct == null) {
                 throw new Exception("chosenProduct is null. (CustomerService => addCustomerCard)");
             }
-
-            newCustomerCard.setProduct(chosenProduct);
-
+            
+            chosenProduct.addCustomerCard(newCustomerCard);
+            
             Customer chosenCustomer = session.get(Customer.class, customerID);
-
+            
             if (chosenCustomer == null) {
                 throw new Exception("chosenCustomer is null. (CustomerService => addCustomerCard)");
             }
-
-            newCustomerCard.setCustomer(chosenCustomer);
-
+            
+            chosenCustomer.addCustomerCard(newCustomerCard);
+            
+            User chosenUser = session.get(User.class, SessionHelper.getCurrentUser().getId());
+            
+            if (chosenUser == null) {
+                throw new Exception("chosenUser is null. (CustomerService => addCustomerCard)");
+            }
+            
+            chosenUser.addCustomerCard(newCustomerCard);
+            
             newCustomerCard.setDateBorrowed(SessionHelper.getCurrentDate());
-            newCustomerCard.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            newCustomerCard.setId(new ProductCustomerUserID(chosenProduct.getId(), chosenCustomer.getId(), chosenUser.getId()));
             session.save(newCustomerCard);
             transaction.commit();
         } catch (Exception e) {
@@ -216,7 +225,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return newCustomerCard;
     }
 
@@ -225,7 +234,7 @@ public class CustomerService extends BaseService {
         Session session = null;
         Transaction transaction = null;
         boolean isSuccessfull = false;
-
+        
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -242,7 +251,7 @@ public class CustomerService extends BaseService {
         } finally {
             session.close();
         }
-
+        
         return isSuccessfull;
     }
 }

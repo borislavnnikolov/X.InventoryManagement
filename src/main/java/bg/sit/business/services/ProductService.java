@@ -280,7 +280,7 @@ public class ProductService extends BaseService {
         try {
             session = sessionFactory.openSession();
 
-            String hql = "SELECT p FROM Product p, CustomerCard cc LEFT JOIN p.discardedProduct dp WHERE p.isDeleted = false AND dp IS NULL AND cc in elements(p.customerCards)";
+            String hql = "SELECT p FROM Product p, CustomerCard cc LEFT JOIN p.discardedProduct dp WHERE cc.isDeleted = false AND p.isDeleted = false AND dp IS NULL AND cc in elements(p.customerCards)";
             if (customerID > 0) {
                 hql += " AND ";
 
