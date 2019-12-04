@@ -16,20 +16,20 @@ import org.hibernate.query.Query;
  */
 public class ReportService extends BaseService {
 
-    public int countProducts() {
+    public long countProducts() {
         Session session = null;
-        int productsCount = 0;
+        long productsCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(*) FROM Product WHERE isDeleted = false";
+            String hql = "SELECT COUNT(p) FROM Product AS p WHERE p.isDeleted = false";
 
             if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
-                hql += " AND user.id = " + SessionHelper.getCurrentUser().getId();
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
             }
 
-            Query query = session.createQuery(hql, Integer.class);
-            productsCount = (int) query.getSingleResult();
+            Query query = session.createQuery(hql, Long.class);
+            productsCount = (long) query.getSingleResult();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
@@ -39,20 +39,20 @@ public class ReportService extends BaseService {
         return productsCount;
     }
 
-    public int countClients() {
+    public long countClients() {
         Session session = null;
-        int clientsCount = 0;
+        long clientsCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(*) FROM Client WHERE isDeleted = false";
+            String hql = "SELECT COUNT(c) FROM Customer AS c WHERE c.isDeleted = false";
 
             if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
-                hql += " AND user.id = " + SessionHelper.getCurrentUser().getId();
+                hql += " AND c.user.id = " + SessionHelper.getCurrentUser().getId();
             }
 
-            Query query = session.createQuery(hql, Integer.class);
-            clientsCount = (int) query.getSingleResult();
+            Query query = session.createQuery(hql, Long.class);
+            clientsCount = (long) query.getSingleResult();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
@@ -62,20 +62,20 @@ public class ReportService extends BaseService {
         return clientsCount;
     }
 
-    public int countCustomerCards() {
+    public long countCustomerCards() {
         Session session = null;
-        int customerCardsCount = 0;
+        long customerCardsCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(*) FROM CustomerCard WHERE isDeleted = false";
+            String hql = "SELECT COUNT(cc) FROM CustomerCard AS cc WHERE cc.isDeleted = false";
 
             if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
-                hql += " AND user.id = " + SessionHelper.getCurrentUser().getId();
+                hql += " AND cc.user.id = " + SessionHelper.getCurrentUser().getId();
             }
 
-            Query query = session.createQuery(hql, Integer.class);
-            customerCardsCount = (int) query.getSingleResult();
+            Query query = session.createQuery(hql, Long.class);
+            customerCardsCount = (long) query.getSingleResult();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
@@ -85,15 +85,15 @@ public class ReportService extends BaseService {
         return customerCardsCount;
     }
 
-    public int countUsers() {
+    public long countUsers() {
         Session session = null;
-        int usersCount = 0;
+        long usersCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(*) FROM User WHERE isDeleted = false";
-            Query query = session.createQuery(hql, Integer.class);
-            usersCount = (int) query.getSingleResult();
+            String hql = "SELECT COUNT(u) FROM User AS u WHERE u.isDeleted = false";
+            Query query = session.createQuery(hql, Long.class);
+            usersCount = (long) query.getSingleResult();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
