@@ -12,22 +12,22 @@
       <TableView fx:id="table" layoutX="3.0" layoutY="218.0" prefHeight="178.0" prefWidth="443.0">
          <columns>
             <TableColumn fx:id="numColumn" prefWidth="37.0" text="№" />
-            <TableColumn fx:id="nameColumn" prefWidth="84.0" text="Име" />
-            <TableColumn fx:id="colorColumn" prefWidth="44.0" text="Цвят" />
-            <TableColumn fx:id="priceColumn" prefWidth="58.0" text="Цена" />
-            <TableColumn fx:id="typeColumn" prefWidth="35.0" text="Тип" />
-            <TableColumn fx:id="amortizationColumn" prefWidth="69.0" text="Армортизация" />
-            <TableColumn fx:id="brakColumn" prefWidth="59.0" text="Наличност" />
-            <TableColumn fx:id="dateColumn" prefWidth="56.0" text="Закупен на" />
+            <TableColumn fx:id="nameColumn" prefWidth="52.0" text="Име" />
+            <TableColumn fx:id="colorColumn" prefWidth="46.0" text="Цвят" />
+            <TableColumn fx:id="priceColumn" prefWidth="39.0" text="Цена" />
+            <TableColumn fx:id="typeColumn" prefWidth="30.0" text="Тип" />
+            <TableColumn fx:id="amortizationColumn" prefWidth="70.0" text="Армортизация" />
+            <TableColumn fx:id="brakColumn" prefWidth="34.0" text="Бракуван" />
+            <TableColumn fx:id="avaibleColumn" prefWidth="65.0" text="Наличност" />
+            <TableColumn fx:id="dateColumn" prefWidth="144.0" text="Закупен на" />
          </columns>
       </TableView>
       <ComboBox fx:id="prType" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="204.0" promptText="---Избери Продукт---" />
       <ComboBox fx:id="prAmortization" layoutX="232.0" layoutY="14.0" prefHeight="25.0" prefWidth="204.0" promptText="---Избери Армортизация---" />
-      <TextField fx:id="txtPrice" alignment="CENTER" layoutX="232.0" layoutY="56.0" prefHeight="25.0" prefWidth="204.0" promptText="Cena" />
+      <TextField fx:id="txtPrice" alignment="CENTER" layoutX="232.0" layoutY="56.0" prefHeight="25.0" prefWidth="204.0" promptText="Цена" />
       <Button layoutX="14.0" layoutY="56.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="95.0" text="Добавяне" />
       <Button layoutX="14.0" layoutY="137.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="95.0" text="Изтриване" />
       <ComboBox fx:id="CBDelete" layoutX="232.0" layoutY="137.0" prefHeight="25.0" prefWidth="204.0" promptText="---Избери изтриване---" />
-      <ComboBox layoutX="232.0" layoutY="97.0" prefHeight="25.0" prefWidth="204.0" promptText="---Наличност---" />
       <Button layoutX="14.0" layoutY="97.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Наличност" />
    </children>
 </AnchorPane>
