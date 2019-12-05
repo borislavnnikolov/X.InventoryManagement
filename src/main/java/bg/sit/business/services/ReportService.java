@@ -5,9 +5,12 @@
  */
 package bg.sit.business.services;
 
+import bg.sit.business.entities.Product;
 import bg.sit.business.enums.RoleType;
 import bg.sit.session.SessionHelper;
+import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 /**
@@ -101,5 +104,89 @@ public class ReportService extends BaseService {
         }
 
         return usersCount;
+    }
+
+    // Get all discarded products, inverted products all that are not discarded
+    public List<Product> getDiscardedProducts(boolean inverted) {
+        Session session = null;
+        Transaction transaction = null;
+        List<Product> products = null;
+        try {
+            session = sessionFactory.openSession();
+
+            String hql = "FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND ";
+            if (inverted) {
+                hql += "dp IS NULL";
+            } else {
+                hql += "dp IS NOT NULL";
+            }
+
+            products = session.createQuery(hql, Product.class).list();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return products;
+    }
+
+    // Get all avaliable products, inverted products all that are not avaliable
+    public List<Product> getAvaliableProducts(boolean inverted) {
+        Session session = null;
+        Transaction transaction = null;
+        List<Product> products = null;
+        try {
+            session = sessionFactory.openSession();
+
+            String hql = "FROM Product AS p WHERE p.isDeleted = false AND ";
+            if (inverted) {
+                hql += "p.isAvailable = false";
+            } else {
+                hql += "p.isAvailable = true";
+            }
+
+            products = session.createQuery(hql, Product.class).list();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return products;
+    }
+
+    // Get all DMA products, if false products all that are MA
+    public List<Product> getAllProductsByDMAorMA(boolean isDMA) {
+        Session session = null;
+        Transaction transaction = null;
+        List<Product> products = null;
+        try {
+            session = sessionFactory.openSession();
+
+            String hql = "FROM Product AS p WHERE p.isDeleted = false AND ";
+            if (isDMA) {
+                hql += "p.isDMA = true";
+            } else {
+                hql += "p.isDMA = false";
+            }
+
+            products = session.createQuery(hql, Product.class).list();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        return products;
     }
 }
