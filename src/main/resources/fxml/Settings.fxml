@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="316.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="bg.sit.ui.controllers.SettingsController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.sit.ui.controllers.SettingsController">
    <children>
       <Text layoutX="130.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Опции">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField alignment="CENTER" layoutX="71.0" layoutY="90.0" prefHeight="30.0" prefWidth="175.0" promptText="Смени дата">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
       <TextField alignment="CENTER" layoutX="71.0" layoutY="185.0" prefHeight="30.0" prefWidth="175.0" promptText="Лимит на МА">
          <font>
             <Font size="14.0" />
@@ -44,5 +39,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <DatePicker layoutX="72.0" layoutY="91.0" prefHeight="30.0" prefWidth="175.0" />
    </children>
 </AnchorPane>

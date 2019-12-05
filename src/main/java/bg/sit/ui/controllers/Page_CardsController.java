@@ -39,11 +39,21 @@ public class Page_CardsController implements Initializable {
     @FXML
     private TableView<Product> productTable;
     @FXML
-    private TableView<Product> productTableA;
-    @FXML
     private TableColumn<Product, String> nameColumn;
     @FXML
     private TableColumn<Product, Double> priceColumn;
+    @FXML
+    private TableView<Product> productTableA;
+    @FXML
+    private TableColumn<Product, String> nameColumnA;
+    @FXML
+    private TableColumn<Product, Double> priceColumnA;
+    @FXML
+    private TableView<Product> productTableB;
+    @FXML
+    private TableColumn<Product, String> nameColumnB;
+    @FXML
+    private TableColumn<Product, Double> priceColumnB;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,7 +90,7 @@ public class Page_CardsController implements Initializable {
         }
     }
 
-    private void initProductTable() {
+    private void initProductTable() {//vsichki produkti
         nameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
@@ -102,8 +112,28 @@ public class Page_CardsController implements Initializable {
         }
     }
 
+    private void clearFormA() {
+        productTableA.getItems().clear();
+    }
+
+    private void clearFormB() {
+        productTableB.getItems().clear();
+    }
+
+    private void initProductTableA() {//produktite na klienta
+        nameColumnA.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
+
+            }
+        });
+        priceColumnA.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+    }
+
     public void setTableClient(ActionEvent event) throws IOException {//products of the client
-        initProductTable();
+        clearFormA();
+        initProductTableA();
         SessionHelper.getCurrentUser();
         productService = new ProductService();
         if (CustomerComboBox.getValue() != null) {
@@ -118,14 +148,26 @@ public class Page_CardsController implements Initializable {
         }
     }
 
-    public void availableProducts(ActionEvent event) throws IOException {//all available products
-        initProductTable();
+    private void initProductTableB() {//produktite koito moje da vzeme
+        nameColumnB.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
+
+            }
+        });
+        priceColumnB.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+    }
+
+    public void availableProducts(ActionEvent event) throws IOException {//produktite koito moje da vzeme
+        clearFormB();
+        initProductTableB();
         SessionHelper.getCurrentUser();
         productService = new ProductService();
 
         if (CustomerComboBox.getValue() != null) {
             int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
-            productTable.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, true)));
+            productTableB.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, true)));
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

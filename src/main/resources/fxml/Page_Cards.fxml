@@ -29,7 +29,7 @@
             <Button layoutX="197.0" layoutY="19.0" mnemonicParsing="false" onAction="#availableProducts" text="available" />
             <Button layoutX="298.0" layoutY="19.0" mnemonicParsing="false" onAction="#addToClient" text="ADD" />
             <Button layoutX="369.0" layoutY="19.0" mnemonicParsing="false" onAction="#setTableClient" prefHeight="32.0" prefWidth="78.0" text="ClientProducts" />
-            <TableView fx:id="productTable" layoutX="14.0" layoutY="62.0" prefHeight="126.0" prefWidth="200.0">
+            <TableView fx:id="productTable" layoutX="239.0" layoutY="68.0" prefHeight="245.0" prefWidth="200.0">
                <columns>
                   <TableColumn fx:id="nameColumn" prefWidth="95.0" text="C1" />
                   <TableColumn fx:id="priceColumn" prefWidth="104.0" text="C2" />
@@ -39,16 +39,16 @@
             <Button layoutX="313.0" layoutY="340.0" mnemonicParsing="false" text="Премести" />
             <Button layoutX="214.0" layoutY="340.0" mnemonicParsing="false" text="Покажи" />
             <Button layoutX="114.0" layoutY="340.0" mnemonicParsing="false" text="Обратно" />
-            <TableView fx:id="productTableA" layoutX="229.0" layoutY="72.0" prefHeight="247.0" prefWidth="200.0">
+            <TableView fx:id="productTableA" layoutX="14.0" layoutY="66.0" prefHeight="105.0" prefWidth="200.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="nameColumnA" prefWidth="101.0" text="C1" />
+                  <TableColumn fx:id="priceColumnA" prefWidth="98.0" text="C2" />
                </columns>
             </TableView>
-            <TableView layoutX="14.0" layoutY="208.0" prefHeight="105.0" prefWidth="200.0">
+            <TableView fx:id="productTableB" layoutX="14.0" layoutY="208.0" prefHeight="105.0" prefWidth="200.0">
                <columns>
-                  <TableColumn prefWidth="87.0" text="C1" />
-                  <TableColumn prefWidth="112.0" text="C2" />
+                  <TableColumn fx:id="nameColumnB" prefWidth="100.0" text="C1" />
+                  <TableColumn fx:id="priceColumnB" prefWidth="99.0" text="C2" />
                </columns>
             </TableView>
          </children>
