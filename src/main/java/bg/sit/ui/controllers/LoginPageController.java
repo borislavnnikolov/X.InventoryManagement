@@ -76,14 +76,14 @@ public class LoginPageController implements Initializable {
         Timer timerDiscardProduct = new Timer(true);
 
         // Repeat 
-        timerDiscardProduct.scheduleAtFixedRate(timerDiscardProductTask, 0, 2 * 60 * 1000);
+        timerDiscardProduct.scheduleAtFixedRate(timerDiscardProductTask, 2 * 60 * 1000, 10 * 60 * 1000);
 
         TimerTask timerUpdateProductPricesForArmotizationsTask = new UpdateProductPricesForArmotizationsTask();
         //running timer task as daemon thread
         Timer timerUpdateProductPricesForArmotizations = new Timer(true);
 
         // Repeat 
-        timerUpdateProductPricesForArmotizations.scheduleAtFixedRate(timerUpdateProductPricesForArmotizationsTask, 0, 2 * 60 * 1000);
+        timerUpdateProductPricesForArmotizations.scheduleAtFixedRate(timerUpdateProductPricesForArmotizationsTask, 2 * 60 * 1000, 10 * 60 * 1000);
     }
 
 }
