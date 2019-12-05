@@ -196,6 +196,7 @@ public class CustomerService extends BaseService {
             }
             
             chosenProduct.addCustomerCard(newCustomerCard);
+            chosenProduct.setIsAvailable(false);
             
             Customer chosenCustomer = session.get(Customer.class, customerID);
             
@@ -239,8 +240,7 @@ public class CustomerService extends BaseService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             CustomerCard customer = session.createQuery("FROM CustomerCard WHERE isDeleted = false AND product.id = " + productID + " AND customer.id = " + customerID, CustomerCard.class).getSingleResult();
-            customer.setIsDeleted(true);
-            session.save(customer);
+            session.delete(customer);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
