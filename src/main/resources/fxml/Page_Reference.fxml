@@ -21,38 +21,104 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Button>
+            <Button alignment="CENTER" onAction="#showProducts" prefWidth="133.0" text="Продукти">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnShowCard" alignment="CENTER" onAction="#showCard" prefWidth="133.0" text="Картони">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnShowBrak" alignment="CENTER" onAction="#showBrak" prefWidth="133.0" text="Брак">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnShowAvailable" alignment="CENTER" onAction="#showAvailable" prefWidth="133.0" text="Наличност">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnShowType" alignment="CENTER" onAction="#showType" prefWidth="133.0" text="Тип">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
       <AnchorPane layoutX="150.0" prefHeight="405.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="btn" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка брак" />
-            <ComboBox fx:id="CustomerComboBox" layoutX="196.0" layoutY="130.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери клиент---" />
-            <Button fx:id="btnProducts" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setProductTable" prefHeight="25.0" prefWidth="150.0" text="Справка продукти" />
-            <TableView fx:id="productTable" layoutX="6.0" layoutY="45.0" prefHeight="70.0" prefWidth="440.0">
+            <Button fx:id="btnRefBrak" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setBrak" prefHeight="25.0" prefWidth="150.0" text="Справка брак" />
+            <ComboBox fx:id="CustomerComboBox" layoutX="164.0" layoutY="14.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери клиент---" />
+            <Button fx:id="btnRefProducts" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setProductTable" prefHeight="25.0" prefWidth="150.0" text="Справка продукти" />
+            <TableView fx:id="productTable" layoutX="7.0" layoutY="56.0" prefHeight="289.0" prefWidth="440.0">
                <columns>
-                  <TableColumn fx:id="numColumn" prefWidth="37.0" text="№" />
-                  <TableColumn fx:id="nameColumn" prefWidth="52.0" text="Име" />
-                  <TableColumn fx:id="colorColumn" prefWidth="46.0" text="Цвят" />
-                  <TableColumn fx:id="priceColumn" prefWidth="39.0" text="Цена" />
-                  <TableColumn fx:id="typeColumn" prefWidth="30.0" text="Тип" />
-                  <TableColumn fx:id="amortizationColumn" prefWidth="70.0" text="Армортизация" />
-                  <TableColumn fx:id="brakColumn" prefWidth="42.0" text="Бракуван" />
-                  <TableColumn fx:id="avaibleColumn" prefWidth="57.0" text="Наличност" />
-                  <TableColumn fx:id="dateColumn" prefWidth="66.0" text="Добавен на" />
+                  <TableColumn fx:id="numColumn" prefWidth="99.0" text="№" />
+                  <TableColumn fx:id="nameColumn" prefWidth="104.0" text="Име" />
+                  <TableColumn fx:id="colorColumn" prefWidth="134.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumn" prefWidth="102.0" text="Цена" />
                </columns>
             </TableView>
-            <ComboBox fx:id="wasteComboBox" layoutX="196.0" layoutY="175.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери брак---" />
-            <ComboBox fx:id="availabilityComboBox" layoutX="196.0" layoutY="223.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери наличност---" />
-            <ComboBox fx:id="degreeComboBox" layoutX="196.0" layoutY="271.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери степен---" />
-            <Button fx:id="btnCard" layoutX="14.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка картони" />
-            <Button fx:id="btnAvailability" layoutX="14.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка наличност" />
-            <Button fx:id="btnDegree" layoutX="14.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Справка степен" />
-            <TableView fx:id="cardsTable" layoutX="7.0" layoutY="305.0" prefHeight="70.0" prefWidth="440.0">
+            <ComboBox fx:id="wasteComboBox" layoutX="164.0" layoutY="14.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери брак---" />
+            <ComboBox fx:id="availabilityComboBox" layoutX="164.0" layoutY="14.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери наличност---" />
+            <ComboBox fx:id="degreeComboBox" layoutX="164.0" layoutY="14.0" prefHeight="25.0" prefWidth="176.0" promptText="---Избери ДМА/МА---" />
+            <Button fx:id="btnRefCard" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setClientProducts" prefHeight="25.0" prefWidth="150.0" text="Справка картони" />
+            <Button fx:id="btnRefAvailable" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setAvailable" prefHeight="25.0" prefWidth="150.0" text="Справка наличност" />
+            <Button fx:id="btnRefDegree" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" onAction="#setDegree" prefHeight="25.0" prefWidth="150.0" text="Справка ДМА/МА" />
+            <TableView fx:id="productTableClient" layoutX="7.0" layoutY="57.0" prefHeight="336.0" prefWidth="440.0">
               <columns>
-                <TableColumn prefWidth="99.0" text="№" />
-                <TableColumn prefWidth="104.0" text="Име" />
-                  <TableColumn prefWidth="134.0" text="Цвят" />
-                  <TableColumn prefWidth="102.0" text="Цена" />
+                <TableColumn fx:id="numColumnClient" prefWidth="99.0" text="№" />
+                <TableColumn fx:id="nameColumnClient" prefWidth="104.0" text="Име" />
+                  <TableColumn fx:id="colorColumnClient" prefWidth="134.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumnClient" prefWidth="102.0" text="Цена" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnRefreshCard" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#RefreshCard" prefHeight="25.0" prefWidth="82.0" text="Рефреш" />
+            <TableView fx:id="productTableBrak" layoutX="7.0" layoutY="57.0" prefHeight="336.0" prefWidth="440.0">
+               <columns>
+                  <TableColumn fx:id="numColumnBrak" prefWidth="81.0" text="№" />
+                  <TableColumn fx:id="nameColumnBrak" prefWidth="97.0" text="Име" />
+                  <TableColumn fx:id="colorColumnBrak" prefWidth="102.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumnBrak" prefWidth="75.0" text="Цена" />
+                  <TableColumn fx:id="brakColumn" prefWidth="84.0" text="Бракуван" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnRefreshBrak" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#RefreshBrak" prefHeight="25.0" prefWidth="82.0" text="Рефреш" />
+            <Button fx:id="btnRefreshAvailable" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#RefreshAvailable" prefHeight="25.0" prefWidth="82.0" text="Рефреш" />
+            <TableView fx:id="productTableAvailable" layoutX="7.0" layoutY="56.0" prefHeight="336.0" prefWidth="440.0">
+               <columns>
+                  <TableColumn fx:id="numColumnAvailable" prefWidth="81.0" text="№" />
+                  <TableColumn fx:id="nameColumnAvailable" prefWidth="97.0" text="Име" />
+                  <TableColumn fx:id="colorColumnAvailable" prefWidth="102.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumnAvailable" prefWidth="75.0" text="Цена" />
+                  <TableColumn fx:id="avaibleColumn" prefWidth="84.0" text="Наличност" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnRefreshDegree" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#RefreshDegree" prefHeight="25.0" prefWidth="82.0" text="Рефреш" />
+            <TableView fx:id="productTableDegree" layoutX="7.0" layoutY="57.0" prefHeight="336.0" prefWidth="440.0">
+              <columns>
+                <TableColumn fx:id="numColumnDegree" prefWidth="82.0" text="№" />
+                <TableColumn fx:id="nameColumnDegree" prefWidth="95.0" text="Име" />
+                  <TableColumn fx:id="colorColumnDegree" prefWidth="104.0" text="Цвят" />
+                  <TableColumn fx:id="priceColumnDegree" prefWidth="73.0" text="Цена" />
+                  <TableColumn fx:id="degreeColumn" prefWidth="85.0" text="Тип" />
               </columns>
             </TableView>
          </children></AnchorPane>

@@ -17,8 +17,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,32 +35,34 @@ public class Page_CardsController implements Initializable {
     @FXML
     private ComboBox<Customer> CustomerComboBox;
     @FXML
-    private ListView<String> productList;
+    private TableView<Product> productTableAvailable;
     @FXML
-    private TableView<Product> productTable;
+    private TableColumn<Product, String> nameColumnAvailable;
     @FXML
-    private TableColumn<Product, String> nameColumn;
+    private TableColumn<Product, Double> priceColumnAvailable;
     @FXML
-    private TableColumn<Product, Double> priceColumn;
+    private TableView<Product> productTableClient;
     @FXML
-    private TableView<Product> productTableA;
+    private TableColumn<Product, String> nameColumnClient;
     @FXML
-    private TableColumn<Product, String> nameColumnA;
+    private TableColumn<Product, Double> priceColumnClient;
     @FXML
-    private TableColumn<Product, Double> priceColumnA;
+    private Button btnActon;
     @FXML
-    private TableView<Product> productTableB;
+    private Button btnAddToCard;
     @FXML
-    private TableColumn<Product, String> nameColumnB;
+    private Button btnRemoveFromCard;
     @FXML
-    private TableColumn<Product, Double> priceColumnB;
+    private Button btnBack;
+    @FXML
+    private Button btnRefresh;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         customerService = new CustomerService();
         productService = new ProductService();
         initClientComboBox();
-        setTable();
+        setVisability();
     }
 
     private void initClientComboBox() {
@@ -90,85 +92,33 @@ public class Page_CardsController implements Initializable {
         }
     }
 
-    private void initProductTable() {//vsichki produkti
-        nameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+    private void clearTableAvailable() {
+        productTableAvailable.getItems().clear();
+    }
+
+    private void initProductTableAvailable() {
+        nameColumnAvailable.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
                 return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
 
             }
         });
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        priceColumnAvailable.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
     }
 
-    private void setTable() {//table with all products
-        initProductTable();
+    private void setAvailableProducts() {
+        initProductTableAvailable();
         SessionHelper.getCurrentUser();
         productService = new ProductService();
-        if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-            productTable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
-        } else {
-            productTable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
-        }
-    }
-
-    private void clearFormA() {
-        productTableA.getItems().clear();
-    }
-
-    private void clearFormB() {
-        productTableB.getItems().clear();
-    }
-
-    private void initProductTableA() {//produktite na klienta
-        nameColumnA.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
-                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
-
-            }
-        });
-        priceColumnA.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
-    }
-
-    public void setTableClient(ActionEvent event) throws IOException {//products of the client
-        clearFormA();
-        initProductTableA();
-        SessionHelper.getCurrentUser();
-        productService = new ProductService();
-        if (CustomerComboBox.getValue() != null) {
-            int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
-            productTableA.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, false)));
-
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете клиент ...");
-            alert.showAndWait();
-        }
-    }
-
-    private void initProductTableB() {//produktite koito moje da vzeme
-        nameColumnB.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
-                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
-
-            }
-        });
-        priceColumnB.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
+        productTableAvailable.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, true)));
     }
 
     public void availableProducts(ActionEvent event) throws IOException {//produktite koito moje da vzeme
-        clearFormB();
-        initProductTableB();
-        SessionHelper.getCurrentUser();
-        productService = new ProductService();
-
+        clearTableAvailable();
         if (CustomerComboBox.getValue() != null) {
-            int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
-            productTableB.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, true)));
-
+            setAvailableProducts();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");
@@ -177,29 +127,115 @@ public class Page_CardsController implements Initializable {
         }
     }
 
-    public void addToClient(ActionEvent event) throws IOException {//add products to the customer card
-        initProductTable();
+    private void clearTableClient() {
+        productTableClient.getItems().clear();
+    }
+
+    private void initProductTableClient() {
+        nameColumnClient.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Product, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Product, String> param) {
+                return new SimpleObjectProperty<>(param.getValue().getProductType().getName());
+
+            }
+        });
+        priceColumnClient.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+    }
+
+    private void setClientProducts() {
+        initProductTableClient();
         SessionHelper.getCurrentUser();
         productService = new ProductService();
-        customerService = new CustomerService();
-        Product product = productTable.getSelectionModel().getSelectedItem();
-        if (product != null) {
-            if (CustomerComboBox.getValue() != null) {
-                int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
-                customerService.addCustomerCard(customerID, product.getId());
+        int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
+        productTableClient.getItems().addAll(FXCollections.observableArrayList(productService.getProductsByCustomer(customerID, false)));
+    }
 
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Опс...");
-                alert.setHeaderText("Моля, посочете клиент ...");
-                alert.showAndWait();
-            }
+    public void Refresh(ActionEvent event) throws IOException {//produktite koito moje da vzeme
+        clearTableClient();
+        setClientProducts();
+        clearTableAvailable();
+        setAvailableProducts();
+    }
+
+    public void addProductToClientCard(ActionEvent event) throws IOException {
+        productService = new ProductService();
+        customerService = new CustomerService();
+        Product product = productTableAvailable.getSelectionModel().getSelectedItem();
+        if (product != null) {
+            int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
+            customerService.addCustomerCard(customerID, product.getId());
+            clearTableAvailable();
+            setAvailableProducts();
+            clearTableClient();
+            setClientProducts();
+        } else {
+            clearTableAvailable();
+            setAvailableProducts();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Опс...");
+            alert.setHeaderText("Моля, посочете продукт ...");
+            alert.showAndWait();
+        }
+    }
+
+    public void removeProductFromClientCard(ActionEvent event) throws IOException {
+        productService = new ProductService();
+        customerService = new CustomerService();
+        Product product = productTableClient.getSelectionModel().getSelectedItem();
+        if (product != null) {
+            int customerID = CustomerComboBox.getSelectionModel().getSelectedItem().getId();
+            customerService.removeCustomerCard(customerID, product.getId());
+            clearTableAvailable();
+            setAvailableProducts();
+            clearTableClient();
+            setClientProducts();
+        } else {
+            clearTableClient();
+            setClientProducts();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Опс...");
+            alert.setHeaderText("Моля, посочете продукт ...");
+            alert.showAndWait();
+        }
+    }
+
+    public void Action(ActionEvent event) throws IOException {
+
+        if (CustomerComboBox.getValue() != null) {
+            clearTableClient();
+            setClientProducts();
+            setAvailableProducts();
+            btnAddToCard.setVisible(true);
+            btnRemoveFromCard.setVisible(true);
+            productTableAvailable.setVisible(true);
+            productTableClient.setVisible(true);
+            btnBack.setVisible(true);
+            btnActon.setVisible(false);
+            btnRefresh.setVisible(true);
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Опс...");
-            alert.setHeaderText("Моля, посочете продукт...");
+            alert.setHeaderText("Моля, посочете клиент...");
             alert.showAndWait();
         }
+    }
+
+    public void setVisability() {
+        btnActon.setVisible(true);
+        btnAddToCard.setVisible(false);
+        btnRemoveFromCard.setVisible(false);
+        productTableAvailable.setVisible(false);
+        productTableClient.setVisible(false);
+        btnBack.setVisible(false);
+        btnRefresh.setVisible(false);
+    }
+
+    public void Back(ActionEvent event) throws IOException {
+        setVisability();
+        clearTableAvailable();
+        clearTableClient();
+        CustomerComboBox.valueProperty().set(null);
     }
 
     public void GoBack(ActionEvent event) throws IOException {

@@ -36,9 +36,9 @@
             </TableView>
             <TextField fx:id="txtPassword" alignment="CENTER" layoutX="31.0" layoutY="55.0" promptText="Парола" />
             <Button fx:id="btnAdd1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="71.0" text="Добави" />
-            <Button fx:id="btnDelete1" layoutX="150.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Изтрий" />
+            <Button fx:id="btnDelete1" layoutX="122.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Истрий" />
             <ComboBox fx:id="ComboBoxRoleType" layoutX="271.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери Роля---" />
-            <ComboBox fx:id="ComboBoxDelete" layoutX="152.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери---" />
+            <ComboBox fx:id="ComboBoxDelete" layoutX="122.0" layoutY="55.0" prefHeight="25.0" prefWidth="199.0" promptText="---Избери изтриване---" />
             <Button fx:id="btnBackEdit" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
             <Button fx:id="ADD" layoutX="31.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="103.0" text="Добави">
                <font>
@@ -50,14 +50,14 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="DELETE" layoutX="310.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="103.0" text="Изтрий">
+            <Button fx:id="DELETE" layoutX="310.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="103.0" text="Истрий">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
             <TextField fx:id="txtUserName" alignment="CENTER" layoutX="271.0" layoutY="14.0" promptText="Потребителско име" />
             <TextField fx:id="txtName" alignment="CENTER" layoutX="31.0" layoutY="14.0" promptText="Име" />
-            <Button fx:id="btnBackDel" layoutX="227.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
+            <Button fx:id="btnBackDel" layoutX="250.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
             <Button fx:id="btnEdit1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="71.0" text="Промени" />
             <Button fx:id="btnBackAdd" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
          </children>

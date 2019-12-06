@@ -129,6 +129,11 @@ public class Page_UsersController implements Initializable {
         btnBackDel.setVisible(false);
         ComboBoxRoleType.setVisible(false);
         ComboBoxDelete.setVisible(false);
+        txtName.clear();
+        txtUserName.clear();
+        txtPassword.clear();
+        ComboBoxDelete.valueProperty().set(null);
+        ComboBoxRoleType.valueProperty().set(null);
     }
 
     private void initTable() {

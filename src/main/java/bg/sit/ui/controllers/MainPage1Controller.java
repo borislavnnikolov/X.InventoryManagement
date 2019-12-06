@@ -39,7 +39,7 @@ public class MainPage1Controller implements Initializable {
     }
 
     public void LogOut(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/LoginPage1.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/fxml/LoginPage.fxml"));
         rootPaneAll.getChildren().setAll(pane);
     }
 

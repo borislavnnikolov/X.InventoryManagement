@@ -23,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,6 +67,16 @@ public class Page_Products_ProductsController implements Initializable {
     private TextField txtPrice;
     @FXML
     private ComboBox<String> CBDelete;
+    @FXML
+    private Button btnBack;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private Button btnDel;
+    @FXML
+    private Button btnDelete;
+    @FXML
+    private Button btnADD;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,6 +87,7 @@ public class Page_Products_ProductsController implements Initializable {
         initProductTypeCombobox();
         initAmortizationCombobox();
         CBDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
+        setVisablility();
     }
 
     private void initTable() {
@@ -275,5 +287,46 @@ public class Page_Products_ProductsController implements Initializable {
         } else {
             prAmortization.setItems(FXCollections.observableArrayList(amortizationService.getAmortizations(SessionHelper.getCurrentUser().getId())));
         }
+    }
+
+    public void setVisablility() {
+        CBDelete.setVisible(false);
+        CBDelete.valueProperty().set(null);
+        prAmortization.setVisible(false);
+        prAmortization.valueProperty().set(null);
+        prType.setVisible(false);
+        prType.valueProperty().set(null);
+        txtPrice.setVisible(false);
+        btnBack.setVisible(false);
+        btnAdd.setVisible(true);
+        btnDel.setVisible(true);
+        btnDelete.setVisible(false);
+        btnADD.setVisible(false);
+
+    }
+
+    public void ShowAdd(ActionEvent event) throws IOException {
+        setVisablility();
+        prAmortization.setVisible(true);
+        prType.setVisible(true);
+        txtPrice.setVisible(true);
+        btnBack.setVisible(true);
+        btnADD.setVisible(true);
+        btnAdd.setVisible(false);
+        btnDel.setVisible(false);
+
+    }
+
+    public void ShowDel(ActionEvent event) throws IOException {
+        setVisablility();
+        CBDelete.setVisible(true);
+        btnBack.setVisible(true);
+        btnDelete.setVisible(true);
+        btnAdd.setVisible(false);
+        btnDel.setVisible(false);
+    }
+
+    public void Back(ActionEvent event) throws IOException {
+        setVisablility();
     }
 }

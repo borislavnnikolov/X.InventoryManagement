@@ -86,6 +86,11 @@ public class Page_ClientsController implements Initializable {
         btnBackEDIT.setVisible(false);
         btnBackDEL.setVisible(false);
         ComboBoxDel.setVisible(false);
+        txtName.clear();
+        txtLocation.clear();
+        txtPhone.clear();
+        ComboBoxDel.valueProperty().set(null);
+
     }
 
     public void btnADD(ActionEvent event) throws IOException {
