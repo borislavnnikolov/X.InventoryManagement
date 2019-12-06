@@ -42,6 +42,7 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnLogin.setDefaultButton(true);
+        SessionHelper.initDefaults();
     }
 
     public void btnLogin(ActionEvent event) throws IOException {

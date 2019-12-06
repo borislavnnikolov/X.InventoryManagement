@@ -6,7 +6,6 @@
 package bg.sit.session;
 
 import bg.sit.business.entities.User;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class SessionHelper {
@@ -15,12 +14,12 @@ public class SessionHelper {
     private static User currentUser;
 
     // This is the limit which a product can be material active type
-    private static double maLimit = 500;
+    private static double maLimit;
 
     // This is the current date, can be changed for testing purposes
     private static Date currentDate = new Date();
 
-    private static int yearsBeforeDiscard = 5;
+    private static int yearsBeforeDiscard;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -54,11 +53,9 @@ public class SessionHelper {
         SessionHelper.yearsBeforeDiscard = yearsBeforeDiscard;
     }
 
-    public static void setMALimit(double parseDouble) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static void setCurrentDate(LocalDate DP) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void initDefaults() {
+        SessionHelper.setCurrentDate(new Date());
+        SessionHelper.setMaLimit(500);
+        SessionHelper.setYearsBeforeDiscard(5);
     }
 }
