@@ -141,7 +141,7 @@ public class Page_ReferenceController implements Initializable {
         customerService = new CustomerService();
         initClientComboBox();
         wasteComboBox.setItems(FXCollections.observableArrayList("Бракуван", "Не бракуван"));
-        availabilityComboBox.setItems(FXCollections.observableArrayList("В наличност", "Изчерпан"));
+        availabilityComboBox.setItems(FXCollections.observableArrayList("Изчерпан", "Наличен"));
         degreeComboBox.setItems(FXCollections.observableArrayList("ДМА", "МА"));
         setVisablility();
     }
@@ -312,17 +312,11 @@ public class Page_ReferenceController implements Initializable {
         if (wasteComboBox.getValue() != null) {
             int waste = wasteComboBox.getSelectionModel().getSelectedIndex();
             if (waste == 0) {//selectiranoto e brakuvan
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(true)));
-                } else {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(true)));
-                }
-            } else {//selectiranoto e nebrakuvan
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(false)));
-                } else {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(false)));
-                }
+                productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(false)));
+
+            } else//selectiranoto e nebrakuvan
+            {
+                productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(true)));
             }
 
         } else {
@@ -386,18 +380,12 @@ public class Page_ReferenceController implements Initializable {
         productService = new ProductService();
         if (availabilityComboBox.getValue() != null) {
             int available = availabilityComboBox.getSelectionModel().getSelectedIndex();
-            if (available == 0) {//selectiranoto e nalichnost
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(true)));
-                } else {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(true)));
-                }
-            } else {//selectiranoto e ne nalichnost
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(false)));
-                } else {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(false)));
-                }
+            if (available == 0) {//selectiranoto ne e v nalichnost
+                productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(true)));
+
+            } else//selectiranoto e v nalichnost
+            {
+                productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(false)));
             }
 
         } else {
@@ -461,17 +449,10 @@ public class Page_ReferenceController implements Initializable {
         if (degreeComboBox.getValue() != null) {
             int degree = degreeComboBox.getSelectionModel().getSelectedIndex();
             if (degree == 0) {//selectiranoto e DMA
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
-                } else {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
-                }
-            } else {//selectiranoto e ne MA
-                if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
-                } else {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(false)));
-                }
+                productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
+            } else//selectiranoto e MA
+            {
+                productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(false)));
             }
 
         } else {
