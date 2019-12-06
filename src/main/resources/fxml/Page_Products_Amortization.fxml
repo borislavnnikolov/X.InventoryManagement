@@ -20,8 +20,8 @@
       <TextField fx:id="txtName" alignment="CENTER" layoutX="49.0" layoutY="14.0" promptText="Степен (име)" />
       <Button layoutX="49.0" layoutY="175.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="90.0" text="Добави" />
       <Button layoutX="180.0" layoutY="175.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="90.0" text="Промени" />
-      <Button layoutX="317.0" layoutY="175.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="90.0" text="Истрий" />
-      <ComboBox fx:id="CBDelete" layoutX="139.0" layoutY="121.0" prefHeight="25.0" prefWidth="173.0" promptText="---Избери истриване---" />
+      <Button layoutX="317.0" layoutY="175.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="90.0" text="Изтрий" />
+      <ComboBox fx:id="CBDelete" layoutX="139.0" layoutY="121.0" prefHeight="25.0" prefWidth="173.0" promptText="---Избери изтриване---" />
       <TextField fx:id="txtPerDay" alignment="CENTER" layoutX="258.0" layoutY="14.0" promptText="На всеки дни" />
       <TextField fx:id="txtDecPrice" alignment="CENTER" layoutX="49.0" layoutY="69.0" promptText="Цена на намаляне" />
       <TextField fx:id="txtRL" alignment="CENTER" layoutX="258.0" layoutY="69.0" promptText="Брой повторения" />

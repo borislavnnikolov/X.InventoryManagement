@@ -36,7 +36,7 @@
             </TableView>
             <TextField fx:id="txtPassword" alignment="CENTER" layoutX="31.0" layoutY="55.0" promptText="Парола" />
             <Button fx:id="btnAdd1" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="71.0" text="Добави" />
-            <Button fx:id="btnDelete1" layoutX="122.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Истрий" />
+            <Button fx:id="btnDelete1" layoutX="122.0" layoutY="98.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="71.0" text="Изтрий" />
             <ComboBox fx:id="ComboBoxRoleType" layoutX="271.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" promptText="---Избери Роля---" />
             <ComboBox fx:id="ComboBoxDelete" layoutX="122.0" layoutY="55.0" prefHeight="25.0" prefWidth="199.0" promptText="---Избери изтриване---" />
             <Button fx:id="btnBackEdit" layoutX="310.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="71.0" text="Назад" />
@@ -50,7 +50,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="DELETE" layoutX="310.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="103.0" text="Истрий">
+            <Button fx:id="DELETE" layoutX="310.0" layoutY="48.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="103.0" text="Изтрий">
                <font>
                   <Font size="18.0" />
                </font>

@@ -20,7 +20,7 @@
       <ColorPicker fx:id="CPBox" layoutX="258.0" layoutY="51.0" prefHeight="25.0" prefWidth="149.0" />
       <Button layoutX="49.0" layoutY="163.0" mnemonicParsing="false" onAction="#ADD" prefHeight="25.0" prefWidth="90.0" text="Добави" />
       <Button layoutX="180.0" layoutY="163.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="90.0" text="Промени" />
-      <Button layoutX="317.0" layoutY="163.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="90.0" text="Истрий" />
-      <ComboBox fx:id="CBDelete" layoutX="136.0" layoutY="100.0" prefHeight="25.0" prefWidth="178.0" promptText="---Избери истриване---" />
+      <Button layoutX="317.0" layoutY="163.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="90.0" text="Изтрий" />
+      <ComboBox fx:id="CBDelete" layoutX="136.0" layoutY="100.0" prefHeight="25.0" prefWidth="178.0" promptText="---Избери изтриване---" />
    </children>
 </AnchorPane>

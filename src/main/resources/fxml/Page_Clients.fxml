@@ -40,8 +40,8 @@
             <Button fx:id="btnBackEDIT" layoutX="265.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="77.0" text="Назад" />
             <Button fx:id="btnEDIT1" layoutX="116.0" layoutY="126.0" mnemonicParsing="false" onAction="#EDIT" prefHeight="25.0" prefWidth="70.0" text="Промяна" />
             <Button fx:id="btnBackDEL" layoutX="246.0" layoutY="126.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="25.0" prefWidth="70.0" text="Назад" />
-            <Button fx:id="btnDELETE1" layoutX="137.0" layoutY="126.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="77.0" text="Истриване" />
-            <ComboBox fx:id="ComboBoxDel" layoutX="135.0" layoutY="76.0" prefHeight="25.0" prefWidth="180.0" promptText="---Избери истриване---" />
+            <Button fx:id="btnDELETE1" layoutX="137.0" layoutY="126.0" mnemonicParsing="false" onAction="#DELETE" prefHeight="25.0" prefWidth="77.0" text="Изтриване" />
+            <ComboBox fx:id="ComboBoxDel" layoutX="135.0" layoutY="76.0" prefHeight="25.0" prefWidth="180.0" promptText="---Избери изтриване---" />
             <Button fx:id="btnADD" layoutX="25.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnADD" prefHeight="39.0" prefWidth="115.0" text="Добавяне">
                <font>
                   <Font size="18.0" />
@@ -52,7 +52,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnDELETE" layoutX="315.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="115.0" text="Истриване">
+            <Button fx:id="btnDELETE" layoutX="315.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnDELETE" prefHeight="39.0" prefWidth="115.0" text="Изтриване">
                <font>
                   <Font size="18.0" />
                </font>
