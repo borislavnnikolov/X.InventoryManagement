@@ -7,6 +7,7 @@ import bg.sit.business.services.AmortizationService;
 import bg.sit.business.services.CustomerService;
 import bg.sit.business.services.ProductService;
 import bg.sit.business.services.ProductTypeService;
+import bg.sit.business.services.ReportService;
 import bg.sit.session.SessionHelper;
 import java.awt.Color;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class Page_ReferenceController implements Initializable {
     ProductService productService;
     ProductTypeService productTypeService;
     AmortizationService amortizationService;
+    ReportService reportService;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -306,20 +308,20 @@ public class Page_ReferenceController implements Initializable {
     public void setTableBrak() {
         initTableBrak();
         SessionHelper.getCurrentUser();
-        productService = new ProductService();
+        reportService = new ReportService();
         if (wasteComboBox.getValue() != null) {
             int waste = wasteComboBox.getSelectionModel().getSelectedIndex();
             if (waste == 0) {//selectiranoto e brakuvan
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(true)));
                 } else {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(true)));
                 }
             } else {//selectiranoto e nebrakuvan
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(false)));
                 } else {
-                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableBrak.getItems().addAll(FXCollections.observableArrayList(reportService.getDiscardedProducts(false)));
                 }
             }
 
@@ -386,15 +388,15 @@ public class Page_ReferenceController implements Initializable {
             int available = availabilityComboBox.getSelectionModel().getSelectedIndex();
             if (available == 0) {//selectiranoto e nalichnost
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(true)));
                 } else {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(true)));
                 }
             } else {//selectiranoto e ne nalichnost
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(false)));
                 } else {
-                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableAvailable.getItems().addAll(FXCollections.observableArrayList(reportService.getAvaliableProducts(false)));
                 }
             }
 
@@ -460,15 +462,15 @@ public class Page_ReferenceController implements Initializable {
             int degree = degreeComboBox.getSelectionModel().getSelectedIndex();
             if (degree == 0) {//selectiranoto e DMA
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
                 } else {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
                 }
             } else {//selectiranoto e ne MA
                 if (SessionHelper.getCurrentUser().getRoleType() == RoleType.ADMIN) {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(productService.getProducts()));
+                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(true)));
                 } else {
-                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(productService.getProducts(SessionHelper.getCurrentUser().getId())));
+                    productTableDegree.getItems().addAll(FXCollections.observableArrayList(reportService.getAllProductsByDMAorMA(false)));
                 }
             }
 
