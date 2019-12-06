@@ -44,7 +44,7 @@ public class MainPageController implements Initializable {
         reportService = new ReportService();
         N_Products.setText(String.valueOf(reportService.countProducts()));
         N_Clients.setText(String.valueOf(reportService.countClients()));
-        N_ProductType.setText(String.valueOf(reportService.countUsers()));
+        N_ProductType.setText(String.valueOf(reportService.countProductTypes()));
         N_Cards.setText(String.valueOf(reportService.countCustomerCards()));
     }
 

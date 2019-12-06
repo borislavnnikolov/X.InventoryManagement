@@ -88,13 +88,18 @@ public class ReportService extends BaseService {
         return customerCardsCount;
     }
 
-    public long countUsers() {
+    public long countProductTypes() {
         Session session = null;
         long usersCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(u) FROM User AS u WHERE u.isDeleted = false";
+            String hql = "SELECT COUNT(pt) FROM ProductType AS pt WHERE pt.isDeleted = false";
+
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND pt.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             Query query = session.createQuery(hql, Long.class);
             usersCount = (long) query.getSingleResult();
         } catch (Exception e) {
@@ -114,11 +119,15 @@ public class ReportService extends BaseService {
         try {
             session = sessionFactory.openSession();
 
-            String hql = "FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND ";
+            String hql = "SELECT p FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND ";
             if (inverted) {
                 hql += "dp IS NULL";
             } else {
                 hql += "dp IS NOT NULL";
+            }
+
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
             }
 
             products = session.createQuery(hql, Product.class).list();
@@ -149,6 +158,10 @@ public class ReportService extends BaseService {
                 hql += "p.isAvailable = true";
             }
 
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -175,6 +188,10 @@ public class ReportService extends BaseService {
                 hql += "p.isDMA = true";
             } else {
                 hql += "p.isDMA = false";
+            }
+
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
             }
 
             products = session.createQuery(hql, Product.class).list();
