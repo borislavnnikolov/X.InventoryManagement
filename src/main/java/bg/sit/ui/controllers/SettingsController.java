@@ -2,7 +2,10 @@ package bg.sit.ui.controllers;
 
 import bg.sit.session.SessionHelper;
 import java.net.URL;
+import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,22 +24,31 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        getData();
     }
 
     public void setLimitMA(ActionEvent event) {
-        SessionHelper.setMALimit(Double.parseDouble(limitMA.getText()));
-        limitMA.clear();
+        SessionHelper.setMaLimit(Double.parseDouble(limitMA.getText()));
+        getData();
     }
 
     public void setYearBeofreDiscard(ActionEvent event) {
         SessionHelper.setYearsBeforeDiscard(Integer.parseInt(year.getText()));
-        year.clear();
+        getData();
     }
 
     public void setDate(ActionEvent event) {
         LocalDate DP = date.getValue();
-        SessionHelper.setCurrentDate(DP);
-        date.setValue(null);
+        SessionHelper.setCurrentDate(Date.valueOf(DP));
+        getData();
+    }
+
+    public void getData() {
+        limitMA.setText(String.valueOf(SessionHelper.getMaLimit()));
+        year.setText(String.valueOf(SessionHelper.getYearsBeforeDiscard()));
+        LocalDate localCurrentDate = Instant.ofEpochMilli(SessionHelper.getCurrentDate().getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        date.setValue(localCurrentDate);
     }
 }
