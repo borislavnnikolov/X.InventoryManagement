@@ -200,7 +200,7 @@ public class Page_Products_ProductsController implements Initializable {
             if (prType.getValue() != null && prAmortization.getValue() != null) {
                 int product = prType.getSelectionModel().getSelectedItem().getId();
                 int amortization = prAmortization.getSelectionModel().getSelectedItem().getId();
-                productService.addProduct(product, true, Double.parseDouble(txtPrice.getText()), amortization);
+                productService.addProduct(product, Double.parseDouble(txtPrice.getText()), amortization);
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
