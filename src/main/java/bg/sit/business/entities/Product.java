@@ -37,7 +37,7 @@ public class Product {
 
     @OneToMany(
             mappedBy = "product",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.PERSIST
     )
     private Collection<CustomerCard> customerCards = new ArrayList<>();
 

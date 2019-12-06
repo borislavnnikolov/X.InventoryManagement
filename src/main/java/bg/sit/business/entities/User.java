@@ -71,8 +71,7 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.PERSIST
     )
     private Collection<CustomerCard> customerCards = new ArrayList<>();
 

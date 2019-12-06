@@ -28,7 +28,7 @@ import org.hibernate.Transaction;
 public class ProductService extends BaseService {
 
 // Add product to the database
-    public Product addProduct(int productTypeID, boolean isAvailable, double price, int amortizationID) {
+    public Product addProduct(int productTypeID, double price, int amortizationID) {
         Session session = null;
         Transaction transaction = null;
         Product newProduct = null;
@@ -60,7 +60,7 @@ public class ProductService extends BaseService {
                 chosenAmortization.addProduct(newProduct);
             }
 
-            newProduct.setIsAvailable(isAvailable);
+            newProduct.setIsAvailable(true);
             newProduct.setPrice(price);
             newProduct.setDateCreated(SessionHelper.getCurrentDate());
             newProduct.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
@@ -112,7 +112,7 @@ public class ProductService extends BaseService {
     }
 
     // Update product by productID
-    public Product updateProduct(int productID, Boolean isAvailable, double price, int amortizationID) {
+    public Product updateProduct(int productID, double price, int amortizationID) {
         Session session = null;
         Transaction transaction = null;
         Product editProduct = null;
@@ -124,10 +124,6 @@ public class ProductService extends BaseService {
 
             if (editProduct == null) {
                 throw new Exception("editProduct is null! (ProductService -> updateProduct)");
-            }
-
-            if (isAvailable != null) {
-                editProduct.setIsAvailable(isAvailable);
             }
 
             if (price > 0) {
@@ -228,6 +224,7 @@ public class ProductService extends BaseService {
                 throw new Exception("Could not find product with ID " + productID);
             }
 
+            chosenProduct.setIsAvailable(false);
             newDiscardedProduct.setProduct(chosenProduct);
             newDiscardedProduct.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
             newDiscardedProduct.setDateDiscarded(SessionHelper.getCurrentDate());
