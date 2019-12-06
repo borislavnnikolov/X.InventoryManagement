@@ -73,7 +73,7 @@ public class Page_UsersController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setTable();
         setVisability();
-        ComboBoxRoleType.setItems(FXCollections.observableArrayList("ADMIN", "MOL", "NONE"));
+        ComboBoxRoleType.setItems(FXCollections.observableArrayList("Админ", "МОЛ"));
         ComboBoxDelete.setItems(FXCollections.observableArrayList("Деактивиране", "Принудително изтриване"));
     }
 
@@ -173,10 +173,14 @@ public class Page_UsersController implements Initializable {
             clearForm();
             userService = new UserService();
             User user = table.getSelectionModel().getSelectedItem();
-            if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
-                userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
+            if (ComboBoxRoleType.getValue() != null) {
+                int roleType = ComboBoxRoleType.getSelectionModel().getSelectedIndex();
+                if (roleType == 0) {
+                    userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
+                } else {
+                    userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
+                }
             } else {
-                userService.addUser(txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
             }
             setTable();
         }
@@ -202,13 +206,20 @@ public class Page_UsersController implements Initializable {
             User user = table.getSelectionModel().getSelectedItem();
             if (user != null) {
                 userService = new UserService();
-                if (ComboBoxRoleType.getValue() == RoleType.ADMIN.toString()) {
-                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
-                } else if (ComboBoxRoleType.getValue() == RoleType.MOL.toString()) {
-                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
+                if (ComboBoxRoleType.getValue() != null) {
+                    int roleType = ComboBoxRoleType.getSelectionModel().getSelectedIndex();
+                    if (roleType == 0) {
+                        userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.ADMIN);
+                    } else {
+                        userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.MOL);
+                    }
                 } else {
-                    userService.updateUser(user.getId(), txtName.getText(), txtUserName.getText(), txtPassword.getText(), RoleType.NONE);
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Опс...");
+                    alert.setHeaderText("Моля, посочете тип потребител.");
+                    alert.showAndWait();
                 }
+
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Опс...");

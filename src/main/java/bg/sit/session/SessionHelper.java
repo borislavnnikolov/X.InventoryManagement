@@ -6,6 +6,7 @@
 package bg.sit.session;
 
 import bg.sit.business.entities.User;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SessionHelper {
@@ -51,5 +52,13 @@ public class SessionHelper {
 
     public static void setYearsBeforeDiscard(int yearsBeforeDiscard) {
         SessionHelper.yearsBeforeDiscard = yearsBeforeDiscard;
+    }
+
+    public static void setMALimit(double parseDouble) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static void setCurrentDate(LocalDate DP) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

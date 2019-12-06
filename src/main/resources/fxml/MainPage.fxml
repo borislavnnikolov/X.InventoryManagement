@@ -78,7 +78,7 @@
                </font>
             </Text>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="86.0" layoutX="241.0" layoutY="241.0" stroke="BLACK" strokeType="INSIDE" width="194.0" />
-            <Text layoutX="250.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо потребители" wrappingWidth="162.0">
+            <Text layoutX="241.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общо типове продукти" wrappingWidth="194.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -93,7 +93,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="N_Users" layoutX="323.0" layoutY="283.0" prefWidth="70.0">
+            <Label fx:id="N_ProductType" layoutX="323.0" layoutY="283.0" prefWidth="70.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -113,7 +113,7 @@
                   <Image url="@../../../../../../../Desktop/card.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="257.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="248.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../Desktop/users.png" />
                </image>
