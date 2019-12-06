@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 public class SettingsController implements Initializable {
 
     @FXML
-    private TextField year;
+    private TextField years;
     @FXML
     private TextField limitMA;
     @FXML
@@ -24,6 +24,7 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         getData();
     }
 
@@ -33,7 +34,7 @@ public class SettingsController implements Initializable {
     }
 
     public void setYearBeofreDiscard(ActionEvent event) {
-        SessionHelper.setYearsBeforeDiscard(Integer.parseInt(year.getText()));
+        SessionHelper.setYearsBeforeDiscard(Integer.parseInt(years.getText()));
         getData();
     }
 
@@ -45,10 +46,10 @@ public class SettingsController implements Initializable {
 
     public void getData() {
         limitMA.setText(String.valueOf(SessionHelper.getMaLimit()));
-        year.setText(String.valueOf(SessionHelper.getYearsBeforeDiscard()));
         LocalDate localCurrentDate = Instant.ofEpochMilli(SessionHelper.getCurrentDate().getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
         date.setValue(localCurrentDate);
+        years.setText(String.valueOf(SessionHelper.getYearsBeforeDiscard()));
     }
 }
