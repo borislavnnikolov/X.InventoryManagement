@@ -29,11 +29,12 @@ public class UserService extends BaseService {
         Session session = null;
         List<User> users = null;
         try {
+            LOGGER.info("Getting users.");
             session = sessionFactory.openSession();
             String hql = "SELECT u FROM User u WHERE u.isDeleted = false";
             users = session.createQuery(hql).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting users was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -48,6 +49,7 @@ public class UserService extends BaseService {
 
         try {
             session = sessionFactory.openSession();
+            LOGGER.info("Checking if user credentials are right.");
             String hql = "SELECT CASE WHEN (COUNT(*) > 0) THEN TRUE ELSE FALSE END FROM User AS u WHERE LOWER(u.username) = :username AND u.password = :password AND u.isDeleted = false";
             Query query = session.createQuery(hql, Boolean.class);
             query.setParameter("username", username.toLowerCase());
@@ -55,7 +57,7 @@ public class UserService extends BaseService {
             isLoginSuccessfull = (boolean) query.getSingleResult();
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Checking for user credentials was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -71,6 +73,7 @@ public class UserService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Adding new user.");
 
             newUser = new User();
             newUser.setName(name);
@@ -94,7 +97,7 @@ public class UserService extends BaseService {
             session.save(newUser);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Adding user was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -115,7 +118,7 @@ public class UserService extends BaseService {
             foundUser = session.get(User.class, userID);
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting user by ID: " + userID + " was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -139,7 +142,7 @@ public class UserService extends BaseService {
             }
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting user by username " + username + "was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -155,6 +158,7 @@ public class UserService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Updating user with ID: " + userID);
             user = session.get(User.class, userID);
 
             if (name != null && !name.equals("")) {
@@ -173,10 +177,11 @@ public class UserService extends BaseService {
                 user.setRoleType(roleType);
             }
 
+            LOGGER.info("Saving and commiting update of product.");
             session.saveOrUpdate(user);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating user with ID " + userID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -198,11 +203,12 @@ public class UserService extends BaseService {
             transaction = session.beginTransaction();
             User user = session.find(User.class, userID);
             user.setIsDeleted(true);
+            LOGGER.info("Saving and commiting soft delete of user.");
             session.save(user);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Soft deleting user with ID: " + userID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -223,11 +229,12 @@ public class UserService extends BaseService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             User user = session.find(User.class, userID);
+            LOGGER.info("Saving and commiting force delete of user.");
             session.delete(user);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Force deleting user with ID: " + userID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

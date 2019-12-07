@@ -34,7 +34,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             productsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of products was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -57,7 +57,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             clientsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of clients was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -80,7 +80,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             customerCardsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of customer cards was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -103,7 +103,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             usersCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of products types was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -132,7 +132,7 @@ public class ReportService extends BaseService {
 
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting discarded products was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -164,7 +164,7 @@ public class ReportService extends BaseService {
 
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting avaliable products was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -196,7 +196,7 @@ public class ReportService extends BaseService {
 
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting products by DMA or MA was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

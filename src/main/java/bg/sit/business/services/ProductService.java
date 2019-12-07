@@ -35,6 +35,7 @@ public class ProductService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Adding new product.");
             Integer lastID;
             lastID = (Integer) (session.createQuery("SELECT p.id FROM Product AS p ORDER BY p.id DESC").setMaxResults(1).uniqueResult());
             if (lastID == null) {
@@ -45,6 +46,7 @@ public class ProductService extends BaseService {
             ProductType chosenProductType = session.get(ProductType.class, productTypeID);
 
             if (chosenProductType == null) {
+                LOGGER.warning("Coludn't find product type with ID: " + productTypeID);
                 throw new Exception("Could not find product type with ID " + productTypeID);
             }
 
@@ -54,6 +56,7 @@ public class ProductService extends BaseService {
                 newProduct.setIsDMA(true);
                 Amortization chosenAmortization = session.get(Amortization.class, amortizationID);
                 if (chosenAmortization == null) {
+                    LOGGER.warning("Coludn't find amortization with ID: " + amortizationID);
                     throw new Exception("Could not find amortization with ID " + amortizationID);
                 }
 
@@ -66,10 +69,11 @@ public class ProductService extends BaseService {
             newProduct.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
 
             newProduct.setInventoryNumber("U" + newProduct.getUser().getId() + "-PT" + newProduct.getProductType().getId() + "-" + (lastID + 1));
+            LOGGER.info("Saving and commiting adding product.");
             session.save(newProduct);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Adding product was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -87,6 +91,7 @@ public class ProductService extends BaseService {
         List<Product> products = null;
         try {
             session = sessionFactory.openSession();
+            LOGGER.info("Getting products.");
 
             String hql = "FROM Product AS p WHERE p.isDeleted = false";
             if (userID > 0) {
@@ -94,8 +99,9 @@ public class ProductService extends BaseService {
             }
 
             products = session.createQuery(hql, Product.class).list();
+            LOGGER.info("Successfull gotten products.");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting products was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -119,10 +125,12 @@ public class ProductService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Updating product with ID: " + productID);
 
             editProduct = (Product) session.createQuery("FROM Product AS p WHERE p.isDeleted = false AND p.id = :productID").setParameter("productID", productID).getSingleResult();
 
             if (editProduct == null) {
+                LOGGER.warning("Coludn't find product with ID: " + productID);
                 throw new Exception("editProduct is null! (ProductService -> updateProduct)");
             }
 
@@ -135,6 +143,7 @@ public class ProductService extends BaseService {
                 Amortization newAmortization = session.get(Amortization.class, amortizationID);
 
                 if (oldAmortization == null || newAmortization == null) {
+                    LOGGER.warning("oldAmortization or newAmortization is null!");
                     throw new Exception("oldAmortization or newAmortization is null! (ProductService -> updateProduct)");
                 }
 
@@ -147,7 +156,7 @@ public class ProductService extends BaseService {
             session.update(editProduct);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating product with ID " + productID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -169,11 +178,12 @@ public class ProductService extends BaseService {
             transaction = session.beginTransaction();
             Product product = session.find(Product.class, productID);
             product.setIsDeleted(true);
+            LOGGER.info("Saving and commiting soft delete of product.");
             session.save(product);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Soft deleting product with ID: " + productID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -194,11 +204,12 @@ public class ProductService extends BaseService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             Product product = session.find(Product.class, productID);
+            LOGGER.info("Saving and commiting force delete of product.");
             session.delete(product);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Force deleting product with ID: " + productID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -221,6 +232,7 @@ public class ProductService extends BaseService {
             Product chosenProduct = session.get(Product.class, productID);
 
             if (chosenProduct == null) {
+                LOGGER.warning("Coludn't find product with ID: " + productID);
                 throw new Exception("Could not find product with ID " + productID);
             }
 
@@ -229,11 +241,11 @@ public class ProductService extends BaseService {
             newDiscardedProduct.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
             newDiscardedProduct.setDateDiscarded(SessionHelper.getCurrentDate());
             newDiscardedProduct.setReason(reason);
-
+            LOGGER.info("Saving and commiting discard of product.");
             session.save(newDiscardedProduct);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Discarding product with ID: " + productID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -261,7 +273,7 @@ public class ProductService extends BaseService {
                 throw new Exception("productForDiscard is null! (ProductService -> getProductForDiscard)");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting product with for discard was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -285,7 +297,7 @@ public class ProductService extends BaseService {
 
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting products for customer with ID: " + customerID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -309,7 +321,7 @@ public class ProductService extends BaseService {
             products = session.createQuery("SELECT p FROM Product AS p LEFT JOIN p.discardedProduct AS pdp RIGHT JOIN p.amortization AS pa WHERE p.isDeleted = false AND p.isDMA = true AND pdp IS NULL AND pa IS NOT NULL AND p.amortizationRepeatedTimes < pa.repeatLimit", Product.class).list();
 
             if (products == null || products.isEmpty()) {
-                // TODO: Add log for empty items
+                LOGGER.info("Products for amortization prices updates are empty.");
                 return maProducts;
             }
 
@@ -339,7 +351,7 @@ public class ProductService extends BaseService {
 
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating products prices by amortization settings was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

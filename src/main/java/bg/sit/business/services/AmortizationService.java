@@ -24,6 +24,7 @@ public class AmortizationService extends BaseService {
         Transaction transaction = null;
         Amortization newAmortization = null;
         try {
+            LOGGER.info("Adding new amortization.");
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             newAmortization = new Amortization();
@@ -33,9 +34,10 @@ public class AmortizationService extends BaseService {
             newAmortization.setRepeatLimit(repeatLimit);
             newAmortization.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
             session.save(newAmortization);
+            LOGGER.info("Saving and commiting new amortization.");
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Adding new amortization was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -53,6 +55,7 @@ public class AmortizationService extends BaseService {
         List<Amortization> amortizations = null;
         try {
             session = sessionFactory.openSession();
+            LOGGER.info("Getting amortizations.");
 
             String hql = "FROM Amortization AS a WHERE a.isDeleted = false";
             if (userID > 0) {
@@ -60,9 +63,11 @@ public class AmortizationService extends BaseService {
             }
 
             amortizations = session.createQuery(hql, Amortization.class).list();
+            LOGGER.info("Successfull gotten amortizations.");
         } catch (Exception e) {
             System.err.println(e.getMessage());
             if (transaction != null) {
+                LOGGER.warning("Getting amortizations was unsuccessfull:\n" + e.getStackTrace());
                 transaction.rollback();
             }
         } finally {
@@ -85,10 +90,12 @@ public class AmortizationService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Updating amortization with ID: " + amortizationID);
 
             editAmortization = (Amortization) session.createQuery("FROM Amortization AS a WHERE a.isDeleted = false AND a.id = :amortizationID").setParameter("amortizationID", amortizationID).getSingleResult();
 
             if (editAmortization == null) {
+                LOGGER.warning("Coludn't find amortization with ID: " + amortizationID);
                 throw new Exception("editAmortization is null! (AmortizationService -> updateAmortization)");
             }
 
@@ -108,10 +115,11 @@ public class AmortizationService extends BaseService {
                 editAmortization.setRepeatLimit(repeatLimit);
             }
 
+            LOGGER.info("Saving and commiting new amortization.");
             session.saveOrUpdate(editAmortization);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating amortization with ID: " + amortizationID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -133,11 +141,12 @@ public class AmortizationService extends BaseService {
             transaction = session.beginTransaction();
             Amortization amortization = session.find(Amortization.class, amortizationID);
             amortization.setIsDeleted(true);
+            LOGGER.info("Saving and commiting soft delete of amortization.");
             session.save(amortization);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Soft deleting amortization with ID: " + amortizationID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -159,10 +168,11 @@ public class AmortizationService extends BaseService {
             transaction = session.beginTransaction();
             Amortization amortization = session.find(Amortization.class, amortizationID);
             session.delete(amortization);
+            LOGGER.info("Saving and commiting force delete of amortization.");
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Force deleting amortization with ID: " + amortizationID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

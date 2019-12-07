@@ -30,15 +30,17 @@ public class CustomerService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Adding new customer.");
             newCustomer = new Customer();
             newCustomer.setName(name);
             newCustomer.setLocation(location);
             newCustomer.setPhone(phone);
             newCustomer.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            LOGGER.info("Saving and commiting new customer.");
             session.save(newCustomer);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Adding new customer was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -56,6 +58,7 @@ public class CustomerService extends BaseService {
         List<Customer> customers = null;
         try {
             session = sessionFactory.openSession();
+            LOGGER.info("Getting customers.");
 
             String hql = "FROM Customer AS c WHERE c.isDeleted = false";
             if (userID > 0) {
@@ -69,9 +72,10 @@ public class CustomerService extends BaseService {
             }
 
             customers = q.list();
+            LOGGER.info("Successfull gotten customers.");
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting customers was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -95,10 +99,12 @@ public class CustomerService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Updating customer with ID: " + customerID);
 
             editCustomer = (Customer) session.createQuery("FROM Customer AS c WHERE c.isDeleted = false AND c.id = :customerID").setParameter("customerID", customerID).getSingleResult();
 
             if (editCustomer == null) {
+                LOGGER.warning("Coludn't find customer with ID: " + customerID);
                 throw new Exception("editCustomer is null! (CustomersService -> updateCustomer)");
             }
 
@@ -114,10 +120,11 @@ public class CustomerService extends BaseService {
                 editCustomer.setPhone(phone);
             }
 
+            LOGGER.info("Saving and commiting new customer.");
             session.saveOrUpdate(editCustomer);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating customer with ID: " + customerID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -140,10 +147,11 @@ public class CustomerService extends BaseService {
             Customer customer = session.find(Customer.class, customerID);
             customer.setIsDeleted(true);
             session.save(customer);
+            LOGGER.info("Saving and commiting soft delete of customer.");
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Soft deleting customer with ID: " + customerID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -165,10 +173,11 @@ public class CustomerService extends BaseService {
             transaction = session.beginTransaction();
             Customer customer = session.find(Customer.class, customerID);
             session.delete(customer);
+            LOGGER.info("Saving and commiting force delete of customer.");
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Force deleting customer with ID: " + customerID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -187,11 +196,13 @@ public class CustomerService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Adding customer card.");
             newCustomerCard = new CustomerCard();
 
             Product chosenProduct = session.get(Product.class, productID);
 
             if (chosenProduct == null) {
+                LOGGER.warning("Coludn't find product with ID: " + customerID);
                 throw new Exception("chosenProduct is null. (CustomerService => addCustomerCard)");
             }
 
@@ -201,6 +212,7 @@ public class CustomerService extends BaseService {
             Customer chosenCustomer = session.get(Customer.class, customerID);
 
             if (chosenCustomer == null) {
+                LOGGER.warning("Coludn't find customer with ID: " + customerID);
                 throw new Exception("chosenCustomer is null. (CustomerService => addCustomerCard)");
             }
 
@@ -209,6 +221,7 @@ public class CustomerService extends BaseService {
             User chosenUser = session.get(User.class, SessionHelper.getCurrentUser().getId());
 
             if (chosenUser == null) {
+                LOGGER.warning("Coludn't find user with ID: " + SessionHelper.getCurrentUser().getId());
                 throw new Exception("chosenUser is null. (CustomerService => addCustomerCard)");
             }
 
@@ -216,10 +229,11 @@ public class CustomerService extends BaseService {
 
             newCustomerCard.setDateBorrowed(SessionHelper.getCurrentDate());
             newCustomerCard.setId(new ProductCustomerUserID(chosenProduct.getId(), chosenCustomer.getId(), chosenUser.getId()));
+            LOGGER.info("Saving and commiting adding customer card.");
             session.persist(newCustomerCard);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Adding customer card was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -239,12 +253,14 @@ public class CustomerService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Removing customer card.");
             CustomerCard customer = session.createQuery("FROM CustomerCard WHERE isDeleted = false AND product.id = " + productID + " AND customer.id = " + customerID, CustomerCard.class).getSingleResult();
+            LOGGER.info("Saving and commiting removing customer card.");
             session.remove(customer);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Removing customer card was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
