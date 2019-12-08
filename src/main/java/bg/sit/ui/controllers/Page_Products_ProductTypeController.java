@@ -78,6 +78,7 @@ public class Page_Products_ProductTypeController implements Initializable {
             productTypeService.addProductType(txtName.getText(), awtColor);
             setTable();
         }
+        txtName.clear();
     }
 
     public void EDIT(ActionEvent event) throws IOException {
@@ -102,6 +103,7 @@ public class Page_Products_ProductTypeController implements Initializable {
             clearForm();
             setTable();
         }
+        txtName.clear();
     }
 
     public void DELETE(ActionEvent event) throws IOException {                      //TODO
@@ -121,5 +123,7 @@ public class Page_Products_ProductTypeController implements Initializable {
         }
         clearForm();
         setTable();
+        CBDelete.valueProperty().set(null);
     }
+
 }

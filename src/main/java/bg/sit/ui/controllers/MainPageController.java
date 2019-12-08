@@ -30,7 +30,7 @@ public class MainPageController implements Initializable {
     @FXML
     private Label N_Cards;
     @FXML
-    private Label N_Users;
+    private Label N_ProductType;
     @FXML
     private Button btnUser;
 
@@ -42,9 +42,9 @@ public class MainPageController implements Initializable {
 
     public void setCount() {
         reportService = new ReportService();
-        N_Products.setText(" " + reportService.countProducts());
+        N_Products.setText(String.valueOf(reportService.countProducts()));
         N_Clients.setText(String.valueOf(reportService.countClients()));
-        N_Users.setText(String.valueOf(reportService.countUsers()));
+        N_ProductType.setText(String.valueOf(reportService.countProductTypes()));
         N_Cards.setText(String.valueOf(reportService.countCustomerCards()));
     }
 

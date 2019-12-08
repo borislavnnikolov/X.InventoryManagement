@@ -103,6 +103,10 @@ public class Page_Products_AmortizationController implements Initializable {
             amortizationService.addAmortization(txtName.getText(), Double.parseDouble(txtDecPrice.getText()), Integer.parseInt(txtPerDay.getText()), Integer.parseInt(txtRL.getText()));
             setTable();
         }
+        txtName.clear();
+        txtDecPrice.clear();
+        txtPerDay.clear();
+        txtRL.clear();
     }
 
     public void EDIT(ActionEvent event) throws IOException {
@@ -133,6 +137,10 @@ public class Page_Products_AmortizationController implements Initializable {
         }
         clearForm();
         setTable();
+        txtName.clear();
+        txtDecPrice.clear();
+        txtPerDay.clear();
+        txtRL.clear();
     }
 
     public void DELETE(ActionEvent event) throws IOException {
@@ -153,5 +161,6 @@ public class Page_Products_AmortizationController implements Initializable {
         }
         clearForm();
         setTable();
+        CBDelete.valueProperty().set(null);
     }
 }

@@ -26,31 +26,23 @@
       <AnchorPane layoutX="150.0" prefHeight="415.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ComboBox fx:id="CustomerComboBox" layoutX="14.0" layoutY="21.0" prefHeight="29.0" prefWidth="170.0" promptText="---Избери клиент---" />
-            <Button layoutX="197.0" layoutY="19.0" mnemonicParsing="false" onAction="#availableProducts" text="available" />
-            <Button layoutX="298.0" layoutY="19.0" mnemonicParsing="false" onAction="#addToClient" text="ADD" />
-            <Button layoutX="369.0" layoutY="19.0" mnemonicParsing="false" onAction="#setTableClient" prefHeight="32.0" prefWidth="78.0" text="ClientProducts" />
-            <TableView fx:id="productTable" layoutX="239.0" layoutY="68.0" prefHeight="245.0" prefWidth="200.0">
+            <Button fx:id="btnAddToCard" layoutX="209.0" layoutY="188.0" mnemonicParsing="false" onAction="#addProductToClientCard" text="&gt;&gt;" />
+            <Button fx:id="btnRefresh" layoutX="190.0" layoutY="23.0" mnemonicParsing="false" onAction="#Refresh" prefHeight="25.0" prefWidth="94.0" text="Рефреш" />
+            <Button fx:id="btnActon" layoutX="202.0" layoutY="23.0" mnemonicParsing="false" onAction="#Action" text="Работа с картони" />
+            <Button fx:id="btnBack" layoutX="330.0" layoutY="23.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="94.0" text="Обратно" />
+            <TableView fx:id="productTableAvailable" layoutX="14.0" layoutY="66.0" prefHeight="327.0" prefWidth="170.0">
                <columns>
-                  <TableColumn fx:id="nameColumn" prefWidth="95.0" text="C1" />
-                  <TableColumn fx:id="priceColumn" prefWidth="104.0" text="C2" />
+                  <TableColumn fx:id="nameColumnAvailable" prefWidth="84.0" text="Име" />
+                  <TableColumn fx:id="priceColumnAvailable" prefWidth="85.0" text="Цена" />
                </columns>
             </TableView>
-            <Button layoutX="24.0" layoutY="340.0" mnemonicParsing="false" text="Изтрий" />
-            <Button layoutX="313.0" layoutY="340.0" mnemonicParsing="false" text="Премести" />
-            <Button layoutX="214.0" layoutY="340.0" mnemonicParsing="false" text="Покажи" />
-            <Button layoutX="114.0" layoutY="340.0" mnemonicParsing="false" text="Обратно" />
-            <TableView fx:id="productTableA" layoutX="14.0" layoutY="66.0" prefHeight="105.0" prefWidth="200.0">
+            <TableView fx:id="productTableClient" layoutX="269.0" layoutY="66.0" prefHeight="327.0" prefWidth="170.0">
                <columns>
-                  <TableColumn fx:id="nameColumnA" prefWidth="101.0" text="C1" />
-                  <TableColumn fx:id="priceColumnA" prefWidth="98.0" text="C2" />
+                  <TableColumn fx:id="nameColumnClient" prefWidth="84.0" text="Име" />
+                  <TableColumn fx:id="priceColumnClient" prefWidth="85.0" text="Цена" />
                </columns>
             </TableView>
-            <TableView fx:id="productTableB" layoutX="14.0" layoutY="208.0" prefHeight="105.0" prefWidth="200.0">
-               <columns>
-                  <TableColumn fx:id="nameColumnB" prefWidth="100.0" text="C1" />
-                  <TableColumn fx:id="priceColumnB" prefWidth="99.0" text="C2" />
-               </columns>
-            </TableView>
+            <Button fx:id="btnRemoveFromCard" layoutX="209.0" layoutY="237.0" mnemonicParsing="false" onAction="#removeProductFromClientCard" text="&lt;&lt;" />
          </children>
       </AnchorPane>
    </children>

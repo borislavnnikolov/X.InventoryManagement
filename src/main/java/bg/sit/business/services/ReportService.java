@@ -34,7 +34,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             productsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of products was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -57,7 +57,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             clientsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of clients was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -80,7 +80,7 @@ public class ReportService extends BaseService {
             Query query = session.createQuery(hql, Long.class);
             customerCardsCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of customer cards was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -88,17 +88,22 @@ public class ReportService extends BaseService {
         return customerCardsCount;
     }
 
-    public long countUsers() {
+    public long countProductTypes() {
         Session session = null;
         long usersCount = 0;
 
         try {
             session = sessionFactory.openSession();
-            String hql = "SELECT COUNT(u) FROM User AS u WHERE u.isDeleted = false";
+            String hql = "SELECT COUNT(pt) FROM ProductType AS pt WHERE pt.isDeleted = false";
+
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND pt.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             Query query = session.createQuery(hql, Long.class);
             usersCount = (long) query.getSingleResult();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting count of products types was unsuccessfull:\n" + e.getStackTrace());
         } finally {
             session.close();
         }
@@ -114,16 +119,20 @@ public class ReportService extends BaseService {
         try {
             session = sessionFactory.openSession();
 
-            String hql = "FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND ";
+            String hql = "SELECT p FROM Product AS p LEFT JOIN p.discardedProduct AS dp WHERE p.isDeleted = false AND ";
             if (inverted) {
                 hql += "dp IS NULL";
             } else {
                 hql += "dp IS NOT NULL";
             }
 
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting discarded products was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -149,9 +158,13 @@ public class ReportService extends BaseService {
                 hql += "p.isAvailable = true";
             }
 
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting avaliable products was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -177,9 +190,13 @@ public class ReportService extends BaseService {
                 hql += "p.isDMA = false";
             }
 
+            if (SessionHelper.getCurrentUser().getRoleType() == RoleType.MOL) {
+                hql += " AND p.user.id = " + SessionHelper.getCurrentUser().getId();
+            }
+
             products = session.createQuery(hql, Product.class).list();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting products by DMA or MA was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

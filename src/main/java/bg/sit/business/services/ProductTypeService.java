@@ -27,10 +27,12 @@ public class ProductTypeService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Adding new product type.");
             newProductType = new ProductType();
             newProductType.setName(name);
             newProductType.setColor(color);
             newProductType.setUser(session.get(User.class, SessionHelper.getCurrentUser().getId()));
+            LOGGER.info("Saving and commiting adding product type.");
             session.save(newProductType);
             transaction.commit();
         } catch (Exception e) {
@@ -52,6 +54,7 @@ public class ProductTypeService extends BaseService {
         List<ProductType> productTypes = null;
         try {
             session = sessionFactory.openSession();
+            LOGGER.info("Getting products types.");
 
             String hql = "FROM ProductType AS pt WHERE pt.isDeleted = false";
             if (userID > 0) {
@@ -59,8 +62,9 @@ public class ProductTypeService extends BaseService {
             }
 
             productTypes = session.createQuery(hql, ProductType.class).list();
+            LOGGER.info("Successfull gotten products types.");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Getting products types was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -84,6 +88,7 @@ public class ProductTypeService extends BaseService {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
+            LOGGER.info("Updating product type with ID: " + productTypeID);
 
             editProductType = (ProductType) session.createQuery("FROM ProductType AS pt WHERE pt.isDeleted = false AND pt.id = :productTypeID").setParameter("productTypeID", productTypeID).getSingleResult();
 
@@ -102,7 +107,7 @@ public class ProductTypeService extends BaseService {
             session.saveOrUpdate(editProductType);
             transaction.commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Updating product type with ID " + productTypeID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -124,11 +129,12 @@ public class ProductTypeService extends BaseService {
             transaction = session.beginTransaction();
             ProductType productType = session.find(ProductType.class, productTypeID);
             productType.setIsDeleted(true);
+            LOGGER.info("Saving and commiting soft delete of product type.");
             session.save(productType);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Soft deleting product type with ID: " + productTypeID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -149,11 +155,12 @@ public class ProductTypeService extends BaseService {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             ProductType productType = session.find(ProductType.class, productTypeID);
+            LOGGER.info("Saving and commiting force delete of product type.");
             session.delete(productType);
             transaction.commit();
             isSuccessfull = true;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOGGER.warning("Force deleting product type with ID: " + productTypeID + " was unsuccessfull:\n" + e.getStackTrace());
             if (transaction != null) {
                 transaction.rollback();
             }

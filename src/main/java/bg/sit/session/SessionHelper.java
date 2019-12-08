@@ -14,12 +14,12 @@ public class SessionHelper {
     private static User currentUser;
 
     // This is the limit which a product can be material active type
-    private static double maLimit = 500;
+    private static double maLimit;
 
     // This is the current date, can be changed for testing purposes
     private static Date currentDate = new Date();
 
-    private static int yearsBeforeDiscard = 5;
+    private static int yearsBeforeDiscard;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -51,5 +51,11 @@ public class SessionHelper {
 
     public static void setYearsBeforeDiscard(int yearsBeforeDiscard) {
         SessionHelper.yearsBeforeDiscard = yearsBeforeDiscard;
+    }
+
+    public static void initDefaults() {
+        SessionHelper.setCurrentDate(new Date());
+        SessionHelper.setMaLimit(500);
+        SessionHelper.setYearsBeforeDiscard(5);
     }
 }
