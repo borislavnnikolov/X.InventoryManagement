@@ -12,4 +12,5 @@ package bg.sit.business.constants;
 public class Constants {
 
     public static final double DEFAULT_MA_LIMIT = 500;
+    
 }

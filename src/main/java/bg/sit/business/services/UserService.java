@@ -237,4 +237,14 @@ public class UserService extends BaseService {
 
         return isSuccessfull;
     }
+
+    public void addUser(String pesho, String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
+   
+
+    
 }
